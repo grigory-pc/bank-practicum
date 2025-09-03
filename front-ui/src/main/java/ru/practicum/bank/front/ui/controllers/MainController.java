@@ -12,6 +12,9 @@ import org.springframework.web.servlet.view.RedirectView;
 @Slf4j
 @Controller
 public class MainController {
+  public static final String MAIN = "main";
+
+
   /**
    * Перенаправление запросов с "/" на "/main".
    *
@@ -32,6 +35,6 @@ public class MainController {
   public String getMain(Model model) {
     log.info("Получен запрос на открытие главной страницы для аккаунта: ");
 
-    return "main";
+    return MAIN;
   }
 }
