@@ -1,0 +1,37 @@
+package ru.practicum.bank.front.ui.controllers;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.view.RedirectView;
+
+/**
+ * Контроллер обрабатывает запросы на странице банковского приложения.
+ */
+@Slf4j
+@Controller
+public class MainController {
+  /**
+   * Перенаправление запросов с "/" на "/main".
+   *
+   * @return redirect /main.
+   */
+  @GetMapping("/")
+  public RedirectView redirectToMain() {
+    return new RedirectView("/main");
+  }
+
+  /**
+   * Обрабатывает GET-запросы на открытие главной страницы сервиса.
+   *
+   * @param model - модель данных.
+   * @return главная страница.
+   */
+  @GetMapping("/main")
+  public String getMain(Model model) {
+    log.info("Получен запрос на открытие главной страницы для аккаунта: ");
+
+    return "main";
+  }
+}
