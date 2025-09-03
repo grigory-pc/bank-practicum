@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * Контроллер для обработки запросов для модификации аккаунта.
+ * Контроллер для обработки запросов на модификацию аккаунта.
  */
 @Slf4j
 @Controller
 @RequestMapping("/user/login")
 public class AccountController {
   public static final String REDIRECT_MAIN = "redirect:/main";
-
 
   /**
    * Обработка запросов на изменение пароля.
