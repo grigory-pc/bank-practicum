@@ -17,7 +17,7 @@ import ru.practicum.bank.exchange.generator.service.RateGeneratorService;
 public class ExchangeGeneratorController {
   private final RateGeneratorService rateGeneratorService;
 
-  @GetMapping("/api/rates")
+  @GetMapping("/rates")
   public List<Rate> redirectToGetRates() {
     log.info("получен запрос на получение курса валют");
 

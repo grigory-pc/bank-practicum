@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.clients.accounts;
+package ru.practicum.bank.front.ui.clients.cash;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,40 +9,37 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.practicum.bank.front.ui.dto.AccountDto;
+import ru.practicum.bank.front.ui.dto.CashDto;
 import ru.practicum.bank.front.ui.exceptions.WebClientHttpException;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AccountsClientImpl implements AccountsClient {
-  public static final String ACCOUNT_ERROR_MESSAGE = "Ошибка при запросе в микросервис Accounts";
-  public static final String REQUEST_ACCOUNTS_MESSAGE = "Отправлен запрос в микросервис Accounts";
+public class CashClientImpl implements CashClient {
+  public static final String CASH_ERROR_MESSAGE = "Ошибка при запросе в микросервис Cash";
+  public static final String REQUEST_CASH_MESSAGE = "Отправлен запрос в микросервис Cash";
 
-  @Qualifier("AccountsWebClient")
+  @Qualifier("CashWebClient")
   private final WebClient webClient;
 
   @Override
-  public Mono<Void> requestAccount(String path, AccountDto account) {
+  public Mono<Void> requestCash(CashDto cashDto) {
     try {
-      log.info(REQUEST_ACCOUNTS_MESSAGE);
+      log.info(REQUEST_CASH_MESSAGE);
 
       return webClient
           .post()
-          .uri(uriBuilder -> uriBuilder
-              .path(path)
-              .build())
           .contentType(MediaType.APPLICATION_JSON)
-          .body(BodyInserters.fromValue(account))
+          .body(BodyInserters.fromValue(cashDto))
           .retrieve()
           .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
               .bodyToMono(String.class)
               .flatMap(error -> Mono.error(new WebClientHttpException(error))))
           .bodyToMono(Void.class)
           .doOnSuccess(v -> log.info("Запрос обработан успешно"))
-          .doOnError(WebClientHttpException.class, ex -> log.error(ACCOUNT_ERROR_MESSAGE, ex));
+          .doOnError(WebClientHttpException.class, ex -> log.error(CASH_ERROR_MESSAGE, ex));
     } catch (WebClientHttpException e) {
-      log.error(ACCOUNT_ERROR_MESSAGE, e);
+      log.error(CASH_ERROR_MESSAGE, e);
       throw e;
     }
   }

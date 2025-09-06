@@ -38,9 +38,6 @@ public class ExchangeGeneratorClientImpl implements ExchangeGeneratorClient {
 //    } catch (ExchangeGeneratorHttpException e) {
 //      log.error("Ошибка при получении курсов валют", e);
 //      throw e;
-//    } catch (Exception e) {
-//      log.error("Непредвиденная ошибка при получении курсов валют", e);
-//      throw new RuntimeException(e);
 //    }
   }
 }

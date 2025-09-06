@@ -10,8 +10,16 @@ client:
     base-url: http://localhost:8081/accounts
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
+  cash:
+    base-url: http://localhost:8083/cash
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000
+  transfer:
+    base-url: http://localhost:8087/transfer
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000
   exchange-generator:
-    base-url: http://localhost:8085/api/rates
+    base-url: http://localhost:8085/rates
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
 

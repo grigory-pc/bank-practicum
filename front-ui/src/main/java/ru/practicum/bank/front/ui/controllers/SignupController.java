@@ -23,8 +23,6 @@ public class SignupController {
 
   public static final String SIGNUP_TEMPLATE = "signup";
   public static final String CREATE_ACCOUNT_PATH = "/create";
-  public static final String EDIT_ACCOUNT_PASSWORD = "/edit/password";
-  public static final String EDIT_ACCOUNT_DATA = "/edit/data";
 
   private final AccountsClient accountsClient;
 
