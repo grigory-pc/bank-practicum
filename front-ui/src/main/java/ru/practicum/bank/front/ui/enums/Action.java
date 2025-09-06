@@ -1,7 +1,11 @@
 package ru.practicum.bank.front.ui.enums;
 
-import ch.qos.logback.core.joran.spi.ActionException;
 
+import ru.practicum.bank.front.ui.exceptions.ActionException;
+
+/**
+ * Возможные действия с денежными средствами.
+ */
 public enum Action {
   GET,
   PUT;

@@ -1,17 +1,9 @@
 spring:
   application:
-    name: template-app
-  datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+    name: exchange-generator
 
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${SERVER_PORT:8085}
 
 management:
   endpoints:

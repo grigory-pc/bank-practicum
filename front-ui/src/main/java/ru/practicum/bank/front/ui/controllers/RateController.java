@@ -12,7 +12,7 @@ public class RateController {
 
   //ToDo расскомментировать после реализации
   /**
-   * Перенаправление запроса с main на "/api/rates".
+   * Обрабатывает запросы на получение курсов валют.
    */
   //  @GetMapping("/api/rates")
   //  public void redirectToGetRates() {
