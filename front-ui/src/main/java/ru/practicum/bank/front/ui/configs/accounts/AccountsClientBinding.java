@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.configs.exchange.generator;
+package ru.practicum.bank.front.ui.configs.accounts;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -9,11 +9,11 @@ import ru.practicum.bank.front.ui.exceptions.NegativeDurationException;
 
 @Configuration
 @RequiredArgsConstructor
-public class ExchangeGeneratorClientBinding {
-  private final ExchangeGeneratorClientProps props;
+public class AccountsClientBinding {
+  private final AccountsClientProps props;
 
-  @Bean("ExchangeGeneratorWebClient")
-  public WebClient getExchangeGeneratorWebClient() throws NegativeDurationException {
+  @Bean("AccountsWebClient")
+  public WebClient getAccountsWebClient() throws NegativeDurationException {
     return DefaultWebClientFactory.getClient(props.connectTimeoutMs(), props.responseTimeoutMs(),
                                              props.baseUrl());
   }

@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.bank.front.ui.clients.ExchangeGeneratorClient;
+import ru.practicum.bank.front.ui.clients.exchange.generator.ExchangeGeneratorClient;
 import ru.practicum.bank.front.ui.dto.Rate;
 
 /**

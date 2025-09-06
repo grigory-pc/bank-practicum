@@ -2,7 +2,6 @@ package ru.practicum.bank.front.ui.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @Slf4j
 @Controller
 public class MainController {
-  public static final String MAIN = "main";
+  public static final String MAIN_TEMPLATE = "main";
 
 
   /**
@@ -28,13 +27,12 @@ public class MainController {
   /**
    * Обрабатывает GET-запросы на открытие главной страницы сервиса.
    *
-   * @param model - модель данных.
    * @return главная страница.
    */
   @GetMapping("/main")
-  public String getMain(Model model) {
+  public String getMain() {
     log.info("Получен запрос на открытие главной страницы для аккаунта: ");
 
-    return MAIN;
+    return MAIN_TEMPLATE;
   }
 }

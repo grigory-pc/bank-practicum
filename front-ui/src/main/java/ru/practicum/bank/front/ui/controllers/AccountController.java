@@ -2,6 +2,7 @@ package ru.practicum.bank.front.ui.controllers;
 
 import jakarta.validation.constraints.NotBlank;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @Controller
 @RequestMapping("/user/login")
+@RequiredArgsConstructor
 public class AccountController {
   public static final String REDIRECT_MAIN = "redirect:/main";
 

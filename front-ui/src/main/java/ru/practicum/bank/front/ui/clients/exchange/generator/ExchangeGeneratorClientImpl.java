@@ -1,22 +1,18 @@
-package ru.practicum.bank.front.ui.clients;
+package ru.practicum.bank.front.ui.clients.exchange.generator;
 
-import java.time.Duration;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.bank.front.ui.dto.Rate;
-import ru.practicum.bank.front.ui.exceptions.ExchangeGeneratorHttpException;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ExchangeGeneratorClientImpl implements ExchangeGeneratorClient {
-  @Qualifier("paymentWebClient")
+  @Qualifier("ExchangeGeneratorWebClient")
   private final WebClient webClient;
 
   @Override

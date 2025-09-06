@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.services;
+package ru.practicum.bank.accounts.services;
 
 /**
  * Сервис для обработки запросов на модификацию аккаунта.

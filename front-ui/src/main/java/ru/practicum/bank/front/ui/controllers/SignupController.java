@@ -1,13 +1,16 @@
 package ru.practicum.bank.front.ui.controllers;
 
 import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.practicum.bank.front.ui.clients.accounts.AccountsClient;
+import ru.practicum.bank.front.ui.dto.AccountDto;
 
 /**
  * Контроллер обрабатывает запросы на регистрацию аккаунта в системе.
@@ -15,18 +18,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Slf4j
 @Controller
 @RequestMapping("/signup")
+@RequiredArgsConstructor
 public class SignupController {
+
+  public static final String SIGNUP_TEMPLATE = "signup";
+  public static final String CREATE_ACCOUNT_PATH = "/create";
+  public static final String EDIT_ACCOUNT_PASSWORD = "/edit/password";
+  public static final String EDIT_ACCOUNT_DATA = "/edit/data";
+
+  private final AccountsClient accountsClient;
+
   /**
    * Обрабатывает GET-запросы на открытие страницы регистрации аккаунта в системе.
    *
-   * @param model - модель данных.
    * @return страница регистрации аккаунта в системе.
    */
   @GetMapping()
-  public String getSignup(Model model) {
+  public String getSignup() {
     log.info("Получен запрос на регистрацию аккаунта");
 
-    return "signup";
+    return SIGNUP_TEMPLATE;
   }
 
   /**
@@ -37,7 +48,6 @@ public class SignupController {
    * @param confirmPassword - пароль пользователя второй раз.
    * @param name            - фамилия и имя пользователя.
    * @param birthdate       - дата рождения пользователя.
-   * @param model           - модель данных.
    * @return главная страница или станица регистрации в случае ошибки.
    */
   @PostMapping
@@ -46,13 +56,22 @@ public class SignupController {
                                    @RequestParam(value = "confirm_password")
                                    @NotBlank String confirmPassword,
                                    @RequestParam(value = "name") @NotBlank String name,
-                                   @RequestParam(value = "birthdate") @NotBlank String birthdate,
-                                   Model model) {
+                                   @RequestParam(value = "birthdate") @NotBlank LocalDate birthdate) {
 
     try {
+      var newAccount = AccountDto.builder()
+                                 .login(login)
+                                 .password(password)
+                                 .confirm_password(confirmPassword)
+                                 .name(name)
+                                 .birthdate(birthdate)
+                                 .build();
+
+      accountsClient.requestAccount(CREATE_ACCOUNT_PATH, newAccount).block();
+
       return "main";
     } catch (Exception e) {
-      return "signup";
+      return SIGNUP_TEMPLATE;
     }
   }
 }

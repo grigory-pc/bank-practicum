@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 /**
- * DTO корзины с товарами.
+ * DTO валюты.
  */
 @Builder
 public record Rate(@JsonProperty(value = "title", required = true) String title,

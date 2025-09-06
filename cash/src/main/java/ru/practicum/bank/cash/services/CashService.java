@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.services;
+package ru.practicum.bank.cash.services;
 
 /**
  * Сервис для обработки запросов на операции с деньгами на счете.
