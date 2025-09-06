@@ -3,8 +3,8 @@ package ru.practicum.bank.front.ui.controllers;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.bank.front.ui.clients.ExchangeGeneratorClient;
 import ru.practicum.bank.front.ui.dto.Rate;
 
@@ -12,7 +12,7 @@ import ru.practicum.bank.front.ui.dto.Rate;
  * Контроллер для запросов курса валюты.
  */
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class RateController {
 private final ExchangeGeneratorClient exchangeGeneratorClient;

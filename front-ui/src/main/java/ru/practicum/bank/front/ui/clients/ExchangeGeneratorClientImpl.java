@@ -21,29 +21,30 @@ public class ExchangeGeneratorClientImpl implements ExchangeGeneratorClient {
 
   @Override
   public List<Rate> getRates() {
-    try {
+//    try {
       log.info("Отправлен запрос в сервис ExchangeGenerator");
+      return List.of(new Rate("RUB", "Рубли", 80));
 
-      return webClient
-          .get()
-          .retrieve()
-          .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
-              .bodyToMono(String.class)
-              .map(ExchangeGeneratorHttpException::new))
-          .bodyToMono(new ParameterizedTypeReference<List<Rate>>() {
-          })
-          .doOnSuccess(response -> log.info("Получен ответ {}", response))
-          .doOnError(ExchangeGeneratorHttpException.class,
-                     ex -> log.error("Ошибка при получении курсов валют", ex))
-          .timeout(Duration.ofSeconds(10))
-          .blockOptional()
-          .orElseThrow(() -> new ExchangeGeneratorHttpException("Не удалось получить курсы валют"));
-    } catch (ExchangeGeneratorHttpException e) {
-      log.error("Ошибка при получении курсов валют", e);
-      throw e;
-    } catch (Exception e) {
-      log.error("Непредвиденная ошибка при получении курсов валют", e);
-      throw new RuntimeException(e);
-    }
+//      return webClient
+//          .get()
+//          .retrieve()
+//          .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
+//              .bodyToMono(String.class)
+//              .map(ExchangeGeneratorHttpException::new))
+//          .bodyToMono(new ParameterizedTypeReference<List<Rate>>() {
+//          })
+//          .doOnSuccess(response -> log.info("Получен ответ {}", response))
+//          .doOnError(ExchangeGeneratorHttpException.class,
+//                     ex -> log.error("Ошибка при получении курсов валют", ex))
+//          .timeout(Duration.ofSeconds(10))
+//          .blockOptional()
+//          .orElseThrow(() -> new ExchangeGeneratorHttpException("Не удалось получить курсы валют"));
+//    } catch (ExchangeGeneratorHttpException e) {
+//      log.error("Ошибка при получении курсов валют", e);
+//      throw e;
+//    } catch (Exception e) {
+//      log.error("Непредвиденная ошибка при получении курсов валют", e);
+//      throw new RuntimeException(e);
+//    }
   }
 }
