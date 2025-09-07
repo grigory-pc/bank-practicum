@@ -1,10 +1,13 @@
 package ru.practicum.bank.front.ui.controllers;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.practicum.bank.front.ui.clients.transfer.TransferClient;
+import ru.practicum.bank.front.ui.dto.TransferDto;
 
 /**
  * Контроллер для перевода денег между своими счетами и перевода денег на счет другого
@@ -12,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class TransferController {
   public static final String REDIRECT_MAIN = "redirect:/main";
+  private final TransferClient transferClient;
 
   /**
    * Метод для обработки запросов на перевод средств.
@@ -33,6 +38,16 @@ public class TransferController {
                         @RequestParam(value = "to_login") @NotBlank String toLogin) {
     log.info("получен запрос на перевод средств со счета: {} на счет: {}", fromCurrency,
              toCurrency);
+
+    var transferDto = TransferDto.builder()
+                                 .login(login)
+                                 .fromCurrency(fromCurrency)
+                                 .toCurrency(toCurrency)
+                                 .value(value)
+                                 .toLogin(toLogin)
+                                 .build();
+
+    transferClient.requestTransfer(transferDto).block();
 
     return REDIRECT_MAIN;
   }
