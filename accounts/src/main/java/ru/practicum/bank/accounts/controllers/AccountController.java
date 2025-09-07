@@ -1,0 +1,56 @@
+package ru.practicum.bank.accounts.controllers;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import ru.practicum.bank.accounts.dto.UserDto;
+import ru.practicum.bank.accounts.services.UserService;
+
+@Slf4j
+@RestController
+@RequestMapping("/accounts")
+@RequiredArgsConstructor
+public class AccountController {
+  private final UserService userService;
+
+  /**
+   * Создание пользователя.
+   *
+   * @param userDto - объект нового пользователя.
+   */
+  @PostMapping("/create")
+  public void addUser(@Valid @RequestBody UserDto userDto) {
+    log.info("Получен запрос на добавление нового пользователя");
+
+    userService.addUser(userDto);
+  }
+
+  /**
+   * Изменение пароля пользователя.
+   *
+   * @param userDto - объект пользователя.
+   */
+  @PatchMapping("/edit/password")
+  public void updateUserPassword(@Valid @RequestBody UserDto userDto) {
+    log.info("Получен запрос на изменение пароля  нового пользователя");
+
+    userService.updateUserPassword(userDto);
+  }
+
+  /**
+   * Обновление данных пользователя.
+   *
+   * @param userDto - объект нового пользователя.
+   */
+  @PatchMapping("/edit/data")
+  public void updateUserData(@Valid @RequestBody UserDto userDto) {
+    log.info("Получен запрос на обновление данных пользователя");
+
+    userService.updateUserData(userDto);
+  }
+}

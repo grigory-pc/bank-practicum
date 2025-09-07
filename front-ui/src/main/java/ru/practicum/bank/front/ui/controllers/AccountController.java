@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.practicum.bank.front.ui.clients.accounts.AccountsClient;
-import ru.practicum.bank.front.ui.dto.AccountDto;
+import ru.practicum.bank.front.ui.dto.UserDto;
 
 /**
  * Контроллер для обработки запросов на модификацию аккаунта.
@@ -21,8 +21,8 @@ import ru.practicum.bank.front.ui.dto.AccountDto;
 @RequiredArgsConstructor
 public class AccountController {
   public static final String REDIRECT_MAIN = "redirect:/main";
-  public static final String EDIT_ACCOUNT_PASSWORD = "/edit/password";
-  public static final String EDIT_ACCOUNT_DATA = "/edit/data";
+  public static final String EDIT_USER_PASSWORD = "/edit/password";
+  public static final String EDIT_USER_DATA = "/edit/data";
   private final AccountsClient accountsClient;
 
   /**
@@ -40,13 +40,13 @@ public class AccountController {
                                     @NotBlank String confirmPassword) {
     log.info("получен запрос на изменение пароля");
 
-    var account = AccountDto.builder()
-                            .login(login)
-                            .password(password)
-                            .confirm_password(confirmPassword)
-                            .build();
+    var account = UserDto.builder()
+                         .login(login)
+                         .password(password)
+                         .confirm_password(confirmPassword)
+                         .build();
 
-    accountsClient.requestAccount(EDIT_ACCOUNT_PASSWORD, account).block();
+    accountsClient.requestEditUser(EDIT_USER_PASSWORD, account).block();
 
     return REDIRECT_MAIN;
   }
@@ -65,13 +65,13 @@ public class AccountController {
                                  @RequestParam(value = "birthdate") @NotBlank LocalDate birthdate) {
     log.info("получен запрос на изменение данных пользователя");
 
-    var account = AccountDto.builder()
-                            .login(login)
-                            .name(name)
-                            .birthdate(birthdate)
-                            .build();
+    var account = UserDto.builder()
+                         .login(login)
+                         .name(name)
+                         .birthdate(birthdate)
+                         .build();
 
-    accountsClient.requestAccount(EDIT_ACCOUNT_DATA, account).block();
+    accountsClient.requestEditUser(EDIT_USER_DATA, account).block();
 
     return REDIRECT_MAIN;
   }

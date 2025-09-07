@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.practicum.bank.front.ui.clients.accounts.AccountsClient;
-import ru.practicum.bank.front.ui.dto.AccountDto;
+import ru.practicum.bank.front.ui.dto.UserDto;
 
 /**
  * Контроллер обрабатывает запросы на регистрацию аккаунта в системе.
@@ -22,7 +22,6 @@ import ru.practicum.bank.front.ui.dto.AccountDto;
 public class SignupController {
 
   public static final String SIGNUP_TEMPLATE = "signup";
-  public static final String CREATE_ACCOUNT_PATH = "/create";
 
   private final AccountsClient accountsClient;
 
@@ -54,18 +53,19 @@ public class SignupController {
                                    @RequestParam(value = "confirm_password")
                                    @NotBlank String confirmPassword,
                                    @RequestParam(value = "name") @NotBlank String name,
-                                   @RequestParam(value = "birthdate") @NotBlank LocalDate birthdate) {
+                                   @RequestParam(value = "birthdate")
+                                   @NotBlank LocalDate birthdate) {
 
     try {
-      var newAccount = AccountDto.builder()
-                                 .login(login)
-                                 .password(password)
-                                 .confirm_password(confirmPassword)
-                                 .name(name)
-                                 .birthdate(birthdate)
-                                 .build();
+      var newAccount = UserDto.builder()
+                              .login(login)
+                              .password(password)
+                              .confirm_password(confirmPassword)
+                              .name(name)
+                              .birthdate(birthdate)
+                              .build();
 
-      accountsClient.requestAccount(CREATE_ACCOUNT_PATH, newAccount).block();
+      accountsClient.requestCreateUser(newAccount).block();
 
       return "main";
     } catch (Exception e) {
