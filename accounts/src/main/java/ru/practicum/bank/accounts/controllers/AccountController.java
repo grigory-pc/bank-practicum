@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.bank.accounts.dto.UserDto;
+import ru.practicum.bank.accounts.exceptions.PasswordException;
 import ru.practicum.bank.accounts.services.UserService;
 
 @Slf4j
@@ -24,7 +25,7 @@ public class AccountController {
    * @param userDto - объект нового пользователя.
    */
   @PostMapping("/create")
-  public void addUser(@Valid @RequestBody UserDto userDto) {
+  public void addUser(@Valid @RequestBody UserDto userDto) throws PasswordException {
     log.info("Получен запрос на добавление нового пользователя");
 
     userService.addUser(userDto);
@@ -36,7 +37,7 @@ public class AccountController {
    * @param userDto - объект пользователя.
    */
   @PatchMapping("/edit/password")
-  public void updateUserPassword(@Valid @RequestBody UserDto userDto) {
+  public void updateUserPassword(@RequestBody UserDto userDto) throws PasswordException {
     log.info("Получен запрос на изменение пароля  нового пользователя");
 
     userService.updateUserPassword(userDto);
@@ -48,7 +49,7 @@ public class AccountController {
    * @param userDto - объект нового пользователя.
    */
   @PatchMapping("/edit/data")
-  public void updateUserData(@Valid @RequestBody UserDto userDto) {
+  public void updateUserData(@RequestBody UserDto userDto) {
     log.info("Получен запрос на обновление данных пользователя");
 
     userService.updateUserData(userDto);

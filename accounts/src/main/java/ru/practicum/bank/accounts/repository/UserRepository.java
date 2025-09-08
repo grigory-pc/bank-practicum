@@ -8,4 +8,5 @@ import ru.practicum.bank.accounts.entity.User;
  * Интерфейс для хранения объектов пользователей.
  */
 public interface UserRepository extends JpaRepository<User, Long>, CrudRepository<User, Long> {
+  User findByLogin(String login);
 }

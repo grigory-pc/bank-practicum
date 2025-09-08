@@ -1,6 +1,7 @@
 package ru.practicum.bank.accounts.services;
 
 import ru.practicum.bank.accounts.dto.UserDto;
+import ru.practicum.bank.accounts.exceptions.PasswordException;
 
 /**
  * Сервис для обработки запросов на создание и модификацию пользователя.
@@ -9,18 +10,23 @@ public interface UserService {
 
   /**
    * Метод для создания нового пользователя.
+   *
    * @param userDto - объект пользователя.
+   * @throws PasswordException - исключение в случае, если пароль не совпадает с повторным вводом.
    */
-  void addUser(UserDto userDto);
+  void addUser(UserDto userDto) throws PasswordException;
 
   /**
    * Метод для обновления пароля пользователя.
+   *
    * @param userDto - объект пользователя.
+   * @throws PasswordException - исключение в случае, если пароль не совпадает с повторным вводом.
    */
-  void updateUserPassword(UserDto userDto);
+  void updateUserPassword(UserDto userDto) throws PasswordException;
 
   /**
    * Метод для обновления данных пользователя.
+   *
    * @param userDto - объект пользователя.
    */
   void updateUserData(UserDto userDto);
