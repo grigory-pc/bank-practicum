@@ -2,7 +2,6 @@ package ru.practicum.bank.front.ui.clients.accounts;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ public class AccountsClientImpl implements AccountsClient {
   public static final String ACCOUNT_ERROR_MESSAGE = "Ошибка при запросе в микросервис Accounts";
   public static final String REQUEST_ACCOUNTS_MESSAGE = "Отправлен запрос в микросервис Accounts";
 
-  @Qualifier("AccountsWebClient")
   private final WebClient webClient;
 
   @Override

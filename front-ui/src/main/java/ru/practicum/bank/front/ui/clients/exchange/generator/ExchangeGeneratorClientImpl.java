@@ -3,7 +3,6 @@ package ru.practicum.bank.front.ui.clients.exchange.generator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.bank.front.ui.dto.Rate;
@@ -12,7 +11,6 @@ import ru.practicum.bank.front.ui.dto.Rate;
 @Service
 @RequiredArgsConstructor
 public class ExchangeGeneratorClientImpl implements ExchangeGeneratorClient {
-  @Qualifier("ExchangeGeneratorWebClient")
   private final WebClient webClient;
 
   @Override

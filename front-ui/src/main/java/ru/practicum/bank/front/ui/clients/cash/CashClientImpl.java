@@ -2,7 +2,6 @@ package ru.practicum.bank.front.ui.clients.cash;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ public class CashClientImpl implements CashClient {
   public static final String CASH_ERROR_MESSAGE = "Ошибка при запросе в микросервис Cash";
   public static final String REQUEST_CASH_MESSAGE = "Отправлен запрос в микросервис Cash";
 
-  @Qualifier("CashWebClient")
   private final WebClient webClient;
 
   @Override
