@@ -2,6 +2,7 @@ package ru.practicum.bank.accounts.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import lombok.Builder;
 
@@ -15,5 +16,5 @@ public record UserDto(@JsonProperty(value = "login", required = true) @NotBlank 
                                     required = true) @NotBlank String confirm_password,
                       @JsonProperty(value = "name", required = true) @NotBlank String name,
                       @JsonProperty(value = "birthdate",
-                                    required = true) @NotBlank LocalDate birthdate) {
+                                    required = true) @NotNull LocalDate birthdate) {
 }

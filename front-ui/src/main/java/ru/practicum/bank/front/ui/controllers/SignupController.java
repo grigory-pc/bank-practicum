@@ -1,6 +1,7 @@
 package ru.practicum.bank.front.ui.controllers;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +55,7 @@ public class SignupController {
                                    @NotBlank String confirmPassword,
                                    @RequestParam(value = "name") @NotBlank String name,
                                    @RequestParam(value = "birthdate")
-                                   @NotBlank LocalDate birthdate) {
+                                   @NotNull LocalDate birthdate) {
 
     try {
       var newAccount = UserDto.builder()

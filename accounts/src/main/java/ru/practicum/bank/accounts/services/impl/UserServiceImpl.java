@@ -20,7 +20,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void addUser(UserDto userDto) throws PasswordException {
-    if (checkService.checkPassword(userDto.password(), userDto.confirm_password())) {
+    if (Boolean.TRUE.equals(
+        checkService.checkPassword(userDto.password(), userDto.confirm_password()))) {
       log.info("Отправлен запрос в БД на добавление пользователя {}", userDto.login());
 
       userRepository.save(userMapper.toUser(userDto));
@@ -31,7 +32,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void updateUserPassword(UserDto userDto) throws PasswordException {
-    if (checkService.checkPassword(userDto.password(), userDto.confirm_password())) {
+    if (Boolean.TRUE.equals(
+        checkService.checkPassword(userDto.password(), userDto.confirm_password()))) {
       var user = userRepository.findByLogin(userDto.login());
       user.setPassword(userDto.password());
 

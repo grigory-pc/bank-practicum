@@ -9,5 +9,5 @@ import lombok.Builder;
 @Builder
 public record Rate(@JsonProperty(value = "title", required = true) String title,
                    @JsonProperty(value = "name", required = true) String name,
-                   @JsonProperty(value = "value", required = true) Integer value) {
+                   @JsonProperty(value = "value", required = true) Double value) {
 }

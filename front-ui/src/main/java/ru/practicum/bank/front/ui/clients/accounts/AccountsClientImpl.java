@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -12,7 +11,6 @@ import ru.practicum.bank.front.ui.dto.UserDto;
 import ru.practicum.bank.front.ui.exceptions.WebClientHttpException;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
 public class AccountsClientImpl implements AccountsClient {
   public static final String CREATE_ACCOUNT_PATH = "/create";

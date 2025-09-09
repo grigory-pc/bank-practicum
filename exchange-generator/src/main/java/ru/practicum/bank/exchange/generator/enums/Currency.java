@@ -6,9 +6,9 @@ import ru.practicum.bank.exchange.generator.exceptions.CurrencyException;
  * Поддерживаемые валюты сервисом.
  */
 public enum Currency {
-  RUB,
-  USD,
-  CNY;
+  RUB_USD,
+  RUB_CNY,
+  USD_CNY;
 
   public static Currency getValueOf(String currency) throws CurrencyException {
     for (Currency type : Currency.values()) {
