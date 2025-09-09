@@ -1,5 +1,4 @@
 rootProject.name = "bank-practicum"
-include("template-app")
 include("accounts")
 include("blocker")
 include("cash")
