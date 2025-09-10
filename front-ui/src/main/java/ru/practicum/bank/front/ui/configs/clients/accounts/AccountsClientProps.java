@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.configs.accounts;
+package ru.practicum.bank.front.ui.configs.clients.accounts;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

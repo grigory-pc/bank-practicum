@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.configs.transfer;
+package ru.practicum.bank.front.ui.configs.clients.transfer;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

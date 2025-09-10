@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.configs.accounts;
+package ru.practicum.bank.front.ui.configs.clients.accounts;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.bank.front.ui.clients.accounts.AccountsClient;
 import ru.practicum.bank.front.ui.clients.accounts.AccountsClientImpl;
-import ru.practicum.bank.front.ui.configs.DefaultWebClientFactory;
+import ru.practicum.bank.front.ui.configs.clients.DefaultWebClientFactory;
 import ru.practicum.bank.front.ui.exceptions.NegativeDurationException;
 
 @Configuration

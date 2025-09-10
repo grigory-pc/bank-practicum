@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.configs;
+package ru.practicum.bank.front.ui.configs.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.configs.exchange.generator;
+package ru.practicum.bank.front.ui.configs.clients.exchange.generator;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
