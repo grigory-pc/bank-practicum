@@ -1,6 +1,7 @@
 package ru.practicum.bank.accounts.services;
 
 import ru.practicum.bank.accounts.dto.UserDto;
+import ru.practicum.bank.accounts.dto.UserFullDto;
 import ru.practicum.bank.accounts.exceptions.PasswordException;
 
 /**
@@ -30,4 +31,11 @@ public interface UserService {
    * @param userDto - объект пользователя.
    */
   void updateUserData(UserDto userDto);
+
+  /**
+   * Метод для получения полной информации о пользователе.
+   *
+   * @param login - логин пользователя.
+   */
+  UserFullDto getUserFullByLogin(String login);
 }

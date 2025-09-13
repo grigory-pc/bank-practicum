@@ -1,15 +1,12 @@
 package ru.practicum.bank.accounts.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -18,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
- * Объект пользователя.
+ * Объект валюты.
  */
 @Entity
 @Builder
@@ -26,18 +23,15 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "currency")
 @RequiredArgsConstructor
-public class User {
+public class Currency {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-  private String login;
-  private String password;
+  private String title;
   private String name;
-  private LocalDate birthdate;
-  private String role;
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToOne
   @JoinColumn(name = "users_id")
-  private List<Account> accounts;
+  private Account account;
 }

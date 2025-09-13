@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.dto;
+package ru.practicum.bank.accounts.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;

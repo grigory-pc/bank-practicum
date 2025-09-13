@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.bank.accounts.dto.UserDto;
+import ru.practicum.bank.accounts.dto.UserFullDto;
 import ru.practicum.bank.accounts.exceptions.PasswordException;
 import ru.practicum.bank.accounts.mappers.UserMapper;
 import ru.practicum.bank.accounts.repository.UserRepository;
@@ -21,7 +22,9 @@ public class UserServiceImpl implements UserService {
   @Override
   public void addUser(UserDto userDto) throws PasswordException {
     if (Boolean.TRUE.equals(
-        checkService.checkPassword(userDto.password(), userDto.confirm_password()))) {
+        checkService.checkPassword(userDto.password(), userDto.confirm_password()))
+        && Boolean.TRUE.equals(checkService.checkBirthdate(userDto.birthdate()))) {
+
       log.info("Отправлен запрос в БД на добавление пользователя {}", userDto.login());
 
       userRepository.save(userMapper.toUser(userDto));
@@ -52,12 +55,19 @@ public class UserServiceImpl implements UserService {
     if (userDto.name() != null) {
       user.setName(userDto.name());
     }
-    if (userDto.birthdate() != null) {
+    if (userDto.birthdate() != null && Boolean.TRUE.equals(
+        checkService.checkBirthdate(userDto.birthdate()))) {
+
       user.setBirthdate(userDto.birthdate());
     }
 
     log.info("Отправлен запрос в БД на обновление данных пользователя {}", user.getLogin());
 
     userRepository.save(user);
+  }
+
+  @Override
+  public UserFullDto getUserFullByLogin(String login) {
+    return null;
   }
 }

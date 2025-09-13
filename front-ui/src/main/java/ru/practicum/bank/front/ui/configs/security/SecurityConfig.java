@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.practicum.bank.front.ui.clients.accounts.AccountsClient;
 
 @Configuration
 @EnableWebSecurity
@@ -31,5 +33,10 @@ public class SecurityConfig {
             .sessionFixation().migrateSession());
 
     return http.build();
+  }
+
+  @Bean
+  UserDetailsService userDetailsService(AccountsClient accountsClient) {
+    return new RemoteUserDetailsService(accountsClient);
   }
 }

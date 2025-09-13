@@ -1,9 +1,9 @@
-package ru.practicum.bank.exchange.generator.enums;
+package ru.practicum.bank.accounts.enums;
 
 /**
  * Поддерживаемые сервисом валюты.
  */
-public enum Currency {
+public enum CurrencyEnum {
   RUB_USD,
   RUB_CNY,
   USD_CNY

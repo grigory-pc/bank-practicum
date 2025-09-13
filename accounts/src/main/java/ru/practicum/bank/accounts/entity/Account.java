@@ -6,10 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.time.LocalDate;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -18,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
- * Объект пользователя.
+ * Объект счета пользователя.
  */
 @Entity
 @Builder
@@ -26,18 +25,17 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "accounts")
 @RequiredArgsConstructor
-public class User {
+public class Account {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
-  private String login;
-  private String password;
-  private String name;
-  private LocalDate birthdate;
-  private String role;
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private double value;
+  private Boolean exists;
+  @ManyToOne
   @JoinColumn(name = "users_id")
-  private List<Account> accounts;
+  private User user;
+  @OneToOne(mappedBy = "accounts", cascade = CascadeType.ALL)
+  private Currency currency;
 }

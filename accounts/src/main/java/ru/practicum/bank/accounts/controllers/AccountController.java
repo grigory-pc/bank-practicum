@@ -1,14 +1,17 @@
 package ru.practicum.bank.accounts.controllers;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.bank.accounts.dto.UserDto;
+import ru.practicum.bank.accounts.dto.UserFullDto;
 import ru.practicum.bank.accounts.exceptions.PasswordException;
 import ru.practicum.bank.accounts.services.UserService;
 
@@ -53,5 +56,17 @@ public class AccountController {
     log.info("Получен запрос на обновление данных пользователя");
 
     userService.updateUserData(userDto);
+  }
+
+  /**
+   * Получение полной информации о пользователе.
+   *
+   * @param login - логин пользователя.
+   */
+  @PatchMapping("/user/{login}")
+  public UserFullDto getUserFullData(@PathVariable @NotBlank String login) {
+    log.info("Получен запрос на получение полной информации о пользователе: {}", login);
+
+    return userService.getUserFullByLogin(login);
   }
 }
