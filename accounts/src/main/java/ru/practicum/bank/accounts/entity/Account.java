@@ -36,6 +36,6 @@ public class Account {
   @ManyToOne
   @JoinColumn(name = "users_id")
   private User user;
-  @OneToOne(mappedBy = "accounts", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
   private Currency currency;
 }

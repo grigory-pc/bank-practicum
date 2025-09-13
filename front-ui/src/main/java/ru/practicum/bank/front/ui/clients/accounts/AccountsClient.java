@@ -3,7 +3,7 @@ package ru.practicum.bank.front.ui.clients.accounts;
 import reactor.core.publisher.Mono;
 import ru.practicum.bank.front.ui.dto.UserDto;
 import ru.practicum.bank.front.ui.dto.UserFullDto;
-import ru.practicum.bank.front.ui.dto.UserLoginAuth;
+import ru.practicum.bank.front.ui.dto.UserAuthDto;
 
 /**
  * Класс для запросов в микросервис Accounts.
@@ -40,5 +40,5 @@ public interface AccountsClient {
    * @param login - логин пользователя.
    * @return объект mono UserLoginAuth.
    */
-  Mono<UserLoginAuth> requestGetAuthUser(String login);
+  Mono<UserAuthDto> requestGetAuthUser(String login);
 }

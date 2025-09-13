@@ -1,7 +1,7 @@
 package ru.practicum.bank.accounts.exceptions;
 
 /**
- * Исключение в случае некорректного типа действий с денежными средствами.
+ * Исключение в случае несовпадения паролей.
  */
 public class PasswordException extends RuntimeException {
   public PasswordException(String message) {

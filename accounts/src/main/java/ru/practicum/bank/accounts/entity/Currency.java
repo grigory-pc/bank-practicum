@@ -32,6 +32,6 @@ public class Currency {
   private String title;
   private String name;
   @OneToOne
-  @JoinColumn(name = "users_id")
+  @JoinColumn(name = "account_id")
   private Account account;
 }
