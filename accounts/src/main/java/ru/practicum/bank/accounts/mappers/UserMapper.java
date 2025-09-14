@@ -12,12 +12,11 @@ import ru.practicum.bank.accounts.entity.User;
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
+
   @Mapping(target = "role", constant = "USER")
   User toUser(UserDto dto);
 
-//  @Mapping(target = "confirm_password", ignore = true)
   UserDto toDto(User user);
 
-//  @Mapping(target = "confirm_password", ignore = true)
   UserAuthDto toAuthDto(User user);
 }

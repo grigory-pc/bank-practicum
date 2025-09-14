@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.practicum.bank.accounts.dto.UserAuthDto;
 import ru.practicum.bank.accounts.dto.UserDto;
 import ru.practicum.bank.accounts.dto.UserFullDto;
+import ru.practicum.bank.accounts.entity.User;
 import ru.practicum.bank.accounts.exceptions.AgeException;
 import ru.practicum.bank.accounts.exceptions.PasswordException;
 import ru.practicum.bank.accounts.mappers.UserMapper;
@@ -17,6 +18,7 @@ import ru.practicum.bank.accounts.services.UserService;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+  public static final String PASS_PREFIX = "{noop}";
   private final CheckService checkService;
   private final UserRepository userRepository;
   private final UserMapper userMapper;
@@ -33,7 +35,10 @@ public class UserServiceImpl implements UserService {
       }
       log.info("Отправлен запрос в БД на добавление пользователя {}", userDto.login());
 
-      userRepository.save(userMapper.toUser(userDto));
+      User user = userMapper.toUser(userDto);
+      user.setPassword(String.format("%s%s", PASS_PREFIX, user.getPassword()));
+
+      userRepository.save(user);
     }
   }
 
@@ -77,6 +82,9 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserAuthDto getUserByLogin(String login) {
+
+
+
     return userMapper.toAuthDto(userRepository.findByLogin(login));
   }
 }
