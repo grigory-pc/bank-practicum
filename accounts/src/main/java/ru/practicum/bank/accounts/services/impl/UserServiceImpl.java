@@ -35,10 +35,7 @@ public class UserServiceImpl implements UserService {
       }
       log.info("Отправлен запрос в БД на добавление пользователя {}", userDto.login());
 
-      User user = userMapper.toUser(userDto);
-      user.setPassword(String.format("%s%s", PASS_PREFIX, user.getPassword()));
-
-      userRepository.save(user);
+      userRepository.save(userMapper.toUser(userDto));
     }
   }
 
@@ -82,9 +79,9 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserAuthDto getUserByLogin(String login) {
+    User user = userRepository.findByLogin(login);
+    user.setPassword(String.format("%s%s", PASS_PREFIX, user.getPassword()));
 
-
-
-    return userMapper.toAuthDto(userRepository.findByLogin(login));
+    return userMapper.toAuthDto(user);
   }
 }
