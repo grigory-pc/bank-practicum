@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void addUser(UserDto userDto) throws PasswordException {
-    if (userRepository.findByLogin(userDto.login()) != null) {
+    if (userRepository.findByLogin(userDto.login()) == null) {
       if (Boolean.FALSE.equals(
           checkService.checkPassword(userDto.password(), userDto.confirm_password()))) {
         throw new PasswordException("Не совпадают пароли");
