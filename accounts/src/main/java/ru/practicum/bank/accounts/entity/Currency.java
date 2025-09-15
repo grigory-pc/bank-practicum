@@ -4,9 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -31,7 +31,6 @@ public class Currency {
   private long id;
   private String title;
   private String name;
-  @OneToOne
-  @JoinColumn(name = "account_id")
-  private Account account;
+  @OneToMany(mappedBy = "currency")
+  private List<Account> accounts;
 }

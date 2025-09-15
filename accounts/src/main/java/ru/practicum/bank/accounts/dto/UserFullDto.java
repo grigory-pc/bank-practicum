@@ -5,34 +5,55 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
  * DTO пользователя со всей информацией.
  */
+@Data
 @Builder
-public record UserFullDto(@JsonProperty(value = "login", required = true) @NotBlank String login,
-                          @JsonProperty(value = "password",
-                                        required = true) @NotBlank String password,
-                          @JsonProperty(value = "confirm_password",
-                                        required = true) @NotBlank String confirm_password,
-                          @JsonProperty(value = "name", required = true) @NotBlank String name,
-                          @JsonProperty(value = "birthdate",
-                                        required = true) @NotNull LocalDate birthdate,
-                          @JsonProperty(value = "accounts",
-                                        required = true) @NotNull List<AccountsDto> accounts,
-                          @JsonProperty(value = "currency",
-                                        required = true) @NotNull List<CurrencyDto> currency,
-                          @JsonProperty(value = "users",
-                                        required = true) @NotNull List<UserShortDto> users,
-                          @JsonProperty(value = "passwordErrors",
-                                        required = true) @NotNull List<String> passwordErrors,
-                          @JsonProperty(value = "userAccountsErrors",
-                                        required = true) @NotNull List<String> userAccountsErrors,
-                          @JsonProperty(value = "cashErrors",
-                                        required = true) @NotNull List<String> cashErrors,
-                          @JsonProperty(value = "transferErrors",
-                                        required = true) @NotNull List<String> transferErrors,
-                          @JsonProperty(value = "transferOtherErrors",
-                                        required = true) @NotNull List<String> transferOtherErrors) {
+@AllArgsConstructor
+@RequiredArgsConstructor
+public class UserFullDto {
+  @JsonProperty(value = "login", required = true)
+  @NotBlank
+  private String login;
+
+  @JsonProperty(value = "password", required = true)
+  @NotBlank
+  private String password;
+
+  @JsonProperty(value = "name", required = true)
+  @NotBlank String name;
+
+  @JsonProperty(value = "birthdate", required = true)
+  @NotNull
+  LocalDate birthdate;
+
+  @JsonProperty(value = "accounts", required = true)
+  List<AccountsDto> accounts;
+
+  @JsonProperty(value = "currency", required = true)
+  List<CurrencyDto> currency;
+
+  @JsonProperty(value = "users", required = true)
+  List<UserShortDto> users;
+
+  @JsonProperty(value = "passwordErrors", required = true)
+  List<String> passwordErrors;
+
+  @JsonProperty(value = "userAccountsErrors", required = true)
+  List<String> userAccountsErrors;
+
+  @JsonProperty(value = "cashErrors", required = true)
+  List<String> cashErrors;
+
+  @JsonProperty(value = "transferErrors", required = true)
+  List<String> transferErrors;
+
+  @JsonProperty(value = "transferOtherErrors", required = true)
+  List<String> transferOtherErrors;
 }

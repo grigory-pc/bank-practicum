@@ -1,13 +1,11 @@
 package ru.practicum.bank.accounts.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,8 +32,9 @@ public class Account {
   private double value;
   private Boolean exists;
   @ManyToOne
-  @JoinColumn(name = "users_id")
+  @JoinColumn(name = "user_id")
   private User user;
-  @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+  @ManyToOne
+  @JoinColumn(name = "currency_id")
   private Currency currency;
 }

@@ -1,15 +1,24 @@
 package ru.practicum.bank.accounts.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.bank.accounts.dto.AccountsDto;
+import ru.practicum.bank.accounts.dto.CurrencyDto;
 import ru.practicum.bank.accounts.dto.UserAuthDto;
 import ru.practicum.bank.accounts.dto.UserDto;
 import ru.practicum.bank.accounts.dto.UserFullDto;
+import ru.practicum.bank.accounts.dto.UserShortDto;
 import ru.practicum.bank.accounts.entity.User;
 import ru.practicum.bank.accounts.exceptions.AgeException;
 import ru.practicum.bank.accounts.exceptions.PasswordException;
+import ru.practicum.bank.accounts.mappers.AccountMapper;
+import ru.practicum.bank.accounts.mappers.CurrencyMapper;
 import ru.practicum.bank.accounts.mappers.UserMapper;
+import ru.practicum.bank.accounts.repository.AccountRepository;
+import ru.practicum.bank.accounts.repository.CurrencyRepository;
 import ru.practicum.bank.accounts.repository.UserRepository;
 import ru.practicum.bank.accounts.services.CheckService;
 import ru.practicum.bank.accounts.services.UserService;
@@ -22,6 +31,10 @@ public class UserServiceImpl implements UserService {
   private final CheckService checkService;
   private final UserRepository userRepository;
   private final UserMapper userMapper;
+  private final AccountRepository accountRepository;
+  private final AccountMapper accountMapper;
+  private final CurrencyRepository currencyRepository;
+  private final CurrencyMapper currencyMapper;
 
   @Override
   public void addUser(UserDto userDto) throws PasswordException {
@@ -74,7 +87,24 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserFullDto getUserFullByLogin(String login) {
-    return null;
+    User user = userRepository.findByLogin(login);
+
+    UserFullDto userFullDto = userMapper.toFullDto(user);
+
+    List<AccountsDto> accountsDtos = accountMapper.toDto(accountRepository.findAllByUser(user));
+    List<CurrencyDto> currencyDtos = currencyMapper.toDto(currencyRepository.findAll());
+    List<UserShortDto> userShortDtos = userMapper.toShortDto(userRepository.findAll());
+
+    userFullDto.setAccounts(accountsDtos);
+    userFullDto.setCurrency(currencyDtos);
+    userFullDto.setUsers(userShortDtos);
+    userFullDto.setPasswordErrors(new ArrayList<>());
+    userFullDto.setUserAccountsErrors(new ArrayList<>());
+    userFullDto.setCashErrors(new ArrayList<>());
+    userFullDto.setTransferErrors(new ArrayList<>());
+    userFullDto.setTransferOtherErrors(new ArrayList<>());
+
+    return userFullDto;
   }
 
   @Override

@@ -38,6 +38,6 @@ public class User {
   private LocalDate birthdate;
   private String role;
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "users_id")
+  @JoinColumn(name = "user_id")
   private List<Account> accounts;
 }

@@ -14,8 +14,6 @@ import lombok.Builder;
 public record UserFullDto(@JsonProperty(value = "login", required = true) @NotBlank String login,
                           @JsonProperty(value = "password",
                                         required = true) @NotBlank String password,
-                          @JsonProperty(value = "confirm_password",
-                                        required = true) @NotBlank String confirm_password,
                           @JsonProperty(value = "name", required = true) @NotBlank String name,
                           @JsonProperty(value = "birthdate",
                                         required = true) @NotNull LocalDate birthdate,
