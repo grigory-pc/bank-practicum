@@ -5,7 +5,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.practicum.bank.accounts.dto.AccountsDto;
 import ru.practicum.bank.accounts.dto.CurrencyDto;
 import ru.practicum.bank.accounts.dto.UserAuthDto;
 import ru.practicum.bank.accounts.dto.UserDto;
@@ -91,11 +90,11 @@ public class UserServiceImpl implements UserService {
 
     UserFullDto userFullDto = userMapper.toFullDto(user);
 
-    List<AccountsDto> accountsDtos = accountMapper.toDto(accountRepository.findAllByUser(user));
+//    List<AccountsDto> accountsDtos = accountMapper.toDto(accountRepository.findAllByUser(user));
     List<CurrencyDto> currencyDtos = currencyMapper.toDto(currencyRepository.findAll());
     List<UserShortDto> userShortDtos = userMapper.toShortDto(userRepository.findAll());
 
-    userFullDto.setAccounts(accountsDtos);
+//    userFullDto.setAccounts(accountsDtos);
     userFullDto.setCurrency(currencyDtos);
     userFullDto.setUsers(userShortDtos);
     userFullDto.setPasswordErrors(new ArrayList<>());

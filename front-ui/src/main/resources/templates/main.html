@@ -82,10 +82,10 @@
                 </td>
             </tr>
             <tr th:each="account : ${accounts}">
-                <td style="font-weight:bold;" th:text="${account.getCurrency().getTitle()}"/>
-                <td th:text="${account.isExists() ? (account.getValue()+' '+account.getCurrency().name()) : ''}"/>
+                <td style="font-weight:bold;" th:text="${account.currency().title()}"/>
+                <td th:text="${account.isExists() ? (account.value()+' '+account.currency().name()) : ''}"/>
                 <td style="text-align:right">
-                    <input name="account" type="checkbox" th:checked="${account.isExists()}" th:value="${account.getCurrency().name()}"/>
+                    <input name="account" type="checkbox" th:checked="${account.isExists()}" th:value="${account.currency().name()}"/>
                 </td>
             </tr>
             <tr>
@@ -107,7 +107,7 @@
                     <td>
                         Валюта
                         <select name="currency">
-                            <option th:each="eachCurrency : ${currency}" th:value="${eachCurrency.name()}" th:text="${eachCurrency.getTitle()}"/>
+                            <option th:each="eachCurrency : ${currency}" th:value="${eachCurrency.name()}" th:text="${eachCurrency.title()}"/>
                         </select>
                     </td>
                     <td>
@@ -133,13 +133,13 @@
                     <td>
                         Со счета
                         <select name="from_currency">
-                            <option th:each="eachCurrency : ${currency}" th:value="${eachCurrency.name()}" th:text="${eachCurrency.getTitle()}"/>
+                            <option th:each="eachCurrency : ${currency}" th:value="${eachCurrency.name()}" th:text="${eachCurrency.title()}"/>
                         </select>
                     </td>
                     <td>
                         На счет
                         <select name="to_currency">
-                            <option th:each="eachCurrency : ${currency}" th:value="${eachCurrency.name()}" th:text="${eachCurrency.getTitle()}"/>
+                            <option th:each="eachCurrency : ${currency}" th:value="${eachCurrency.name()}" th:text="${eachCurrency.title()}"/>
                         </select>
                     </td>
                     <td>
@@ -164,13 +164,13 @@
                     <td>
                         Со счета
                         <select name="from_currency">
-                            <option th:each="eachCurrency : ${currency}" th:value="${eachCurrency.name()}" th:text="${eachCurrency.getTitle()}"/>
+                            <option th:each="eachCurrency : ${currency}" th:value="${eachCurrency.name()}" th:text="${eachCurrency.title()}"/>
                         </select>
                     </td>
                     <td>
                         На счет
                         <select name="to_currency">
-                            <option th:each="eachCurrency : ${currency}" th:value="${eachCurrency.name()}" th:text="${eachCurrency.getTitle()}"/>
+                            <option th:each="eachCurrency : ${currency}" th:value="${eachCurrency.name()}" th:text="${eachCurrency.title()}"/>
                         </select>
                     </td>
                     <td>
@@ -179,7 +179,7 @@
                     <td>
                         Кому
                         <select name="to_login">
-                            <option th:each="user : ${users}" th:value="${user.getLogin()}" th:text="${user.getName()}"/>
+                            <option th:each="user : ${users}" th:value="${user.login()}" th:text="${user.name()}"/>
                         </select>
                     </td>
                     <td style="text-align:right">
