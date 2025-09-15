@@ -68,7 +68,7 @@ public class SignupController {
 
       accountsClient.requestCreateUser(newAccount).block();
 
-      return "main";
+      return "login";
     } catch (Exception e) {
       return SIGNUP_TEMPLATE;
     }

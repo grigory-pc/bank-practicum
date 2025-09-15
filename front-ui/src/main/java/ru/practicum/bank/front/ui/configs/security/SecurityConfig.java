@@ -22,7 +22,8 @@ public class SecurityConfig {
             .anyRequest().authenticated()
         )
         .formLogin(form -> form
-            .defaultSuccessUrl("/main")
+            .defaultSuccessUrl("/")
+            .successHandler((request, response, authentication) -> response.sendRedirect("/"))
             .failureHandler((request, response, exception) -> response.sendRedirect("/signup"))
             .permitAll()
         )
