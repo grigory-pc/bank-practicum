@@ -1,16 +1,12 @@
 package ru.practicum.bank.accounts.services.impl;
 
 import java.util.ArrayList;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.practicum.bank.accounts.dto.CurrencyDto;
 import ru.practicum.bank.accounts.dto.UserAuthDto;
 import ru.practicum.bank.accounts.dto.UserDto;
 import ru.practicum.bank.accounts.dto.UserFullDto;
-import ru.practicum.bank.accounts.dto.UserShortDto;
-import ru.practicum.bank.accounts.entity.User;
 import ru.practicum.bank.accounts.exceptions.AgeException;
 import ru.practicum.bank.accounts.exceptions.PasswordException;
 import ru.practicum.bank.accounts.mappers.AccountMapper;
@@ -86,17 +82,20 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserFullDto getUserFullByLogin(String login) {
-    User user = userRepository.findByLogin(login);
+    var user = userRepository.findByLogin(login);
 
-    UserFullDto userFullDto = userMapper.toFullDto(user);
+    var userFullDto = userMapper.toFullDto(user);
 
-//    List<AccountsDto> accountsDtos = accountMapper.toDto(accountRepository.findAllByUser(user));
-    List<CurrencyDto> currencyDtos = currencyMapper.toDto(currencyRepository.findAll());
-    List<UserShortDto> userShortDtos = userMapper.toShortDto(userRepository.findAll());
+    //    var accountsDtos = accountMapper.toDto(accountRepository.findAllByUser(user));
+    var currencyDtos = currencyMapper.toDto(currencyRepository.findAll());
+    var userShortDtos = userMapper.toShortDto(userRepository.findAll());
+    var updatedUserShortDtos = userShortDtos.stream()
+                                            .filter(userDto -> !userDto.login().equals(login))
+                                            .toList();
 
-//    userFullDto.setAccounts(accountsDtos);
+    //    userFullDto.setAccounts(accountsDtos);
     userFullDto.setCurrency(currencyDtos);
-    userFullDto.setUsers(userShortDtos);
+    userFullDto.setUsers(updatedUserShortDtos);
     userFullDto.setPasswordErrors(new ArrayList<>());
     userFullDto.setUserAccountsErrors(new ArrayList<>());
     userFullDto.setCashErrors(new ArrayList<>());
@@ -108,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserAuthDto getUserByLogin(String login) {
-    User user = userRepository.findByLogin(login);
+    var user = userRepository.findByLogin(login);
     user.setPassword(String.format("%s%s", PASS_PREFIX, user.getPassword()));
 
     return userMapper.toAuthDto(user);

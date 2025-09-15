@@ -14,8 +14,8 @@ public class CheckServiceImpl implements CheckService {
 
   @Override
   public Boolean checkBirthdate(LocalDate birthDate) {
-    LocalDate today = LocalDate.now();
-    Period period = Period.between(birthDate, today);
+    var today = LocalDate.now();
+    var period = Period.between(birthDate, today);
 
     return period.getYears() >= 18;
   }
