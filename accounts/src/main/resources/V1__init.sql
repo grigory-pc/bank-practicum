@@ -22,5 +22,10 @@ CREATE TABLE IF NOT EXISTS  "currency" (
 );
 
 ALTER TABLE "accounts" ADD FOREIGN KEY ("currency_id") REFERENCES "currency" ("id");
-
 ALTER TABLE "accounts" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+
+INSERT INTO currency (name, title)
+VALUES
+    ('Рубль', 'RUB'),
+    ('Доллар США', 'USD'),
+    ('Китайский юань', 'CNY');

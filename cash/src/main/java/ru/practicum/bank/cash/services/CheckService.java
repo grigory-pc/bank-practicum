@@ -10,7 +10,7 @@ public interface CheckService {
   /**
    * Метод для проверки и получения действия с балансом.
    *
-   * @param action        - действие с балансом.
+   * @param action - действие с балансом.
    * @return действие из запроса;
    */
   Action checkAndGetAction(String action);

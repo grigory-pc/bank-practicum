@@ -15,7 +15,7 @@ server:
 
 client:
   accounts:
-    base-url: http://localhost:8081/accounts
+    base-url: http://localhost:8081/accounts/cash
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
 

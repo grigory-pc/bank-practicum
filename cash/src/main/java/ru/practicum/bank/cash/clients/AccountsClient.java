@@ -10,7 +10,7 @@ public interface AccountsClient {
   /**
    * Запрос на снятие средств в микросервис Accounts.
    *
-   * @param requestDto - объект с данными дял изменения баланса.
+   * @param requestDto - объект с данными для изменения баланса.
    * @return объект mono.
    */
   Mono<Void> requestGetCash(CashChangeRequestDto requestDto);
@@ -18,7 +18,7 @@ public interface AccountsClient {
   /**
    * Запрос на пополнение средств в микросервис Accounts.
    *
-   * @param requestDto - объект с данными дял изменения баланса.
+   * @param requestDto - объект с данными для изменения баланса.
    * @return объект mono.
    */
   Mono<Void> requestPutCash(CashChangeRequestDto requestDto);

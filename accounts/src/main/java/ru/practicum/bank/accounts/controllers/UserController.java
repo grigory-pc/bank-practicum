@@ -21,7 +21,7 @@ import ru.practicum.bank.accounts.services.UserService;
 @RestController
 @RequestMapping("/accounts")
 @RequiredArgsConstructor
-public class AccountController {
+public class UserController {
   private final UserService userService;
 
   /**
