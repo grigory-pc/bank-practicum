@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.exceptions;
+package ru.practicum.bank.cash.exceptions;
 
 /**
  * Исключение в случае некорректного типа действий с денежными средствами.

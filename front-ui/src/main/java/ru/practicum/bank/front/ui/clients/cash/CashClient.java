@@ -11,5 +11,5 @@ public interface CashClient {
   /**
    * Запрос на изменение баланса на счете в микросервис Cash.
    */
-  Mono<Void> requestCash(CashDto cashDto);
+  Mono<Void> requestCashOperation(CashDto cashDto);
 }

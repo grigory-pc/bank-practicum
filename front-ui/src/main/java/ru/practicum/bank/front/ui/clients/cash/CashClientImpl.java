@@ -19,7 +19,7 @@ public class CashClientImpl implements CashClient {
   private final WebClient webClient;
 
   @Override
-  public Mono<Void> requestCash(CashDto cashDto) {
+  public Mono<Void> requestCashOperation(CashDto cashDto) {
     try {
       log.info(REQUEST_CASH_MESSAGE);
 
