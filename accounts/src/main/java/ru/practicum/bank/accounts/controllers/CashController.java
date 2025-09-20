@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,5 +31,19 @@ public class CashController {
              cashRequestDto.login());
 
     cashService.getCashFromAccount(cashRequestDto);
+  }
+
+  /**
+   * Пополнение баланса пользователя.
+   *
+   * @param cashRequestDto - объект с данными для изменения баланса.
+   */
+  @PutMapping
+  public void putCash(@Valid @RequestBody CashChangeRequestDto cashRequestDto)
+      throws PasswordException {
+    log.info("Получен запрос на снятие средств с баланса для пользователя: {}",
+             cashRequestDto.login());
+
+    cashService.putCashToAccount(cashRequestDto);
   }
 }

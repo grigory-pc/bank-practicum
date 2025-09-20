@@ -1,5 +1,6 @@
 package ru.practicum.bank.accounts.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,7 +31,8 @@ public class Account {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
   private double value;
-  private Boolean exists;
+  @Column(name = "is_exists")
+  private Boolean isExists;
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;

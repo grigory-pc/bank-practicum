@@ -11,7 +11,7 @@ spring:
     show-sql: true
 
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${SERVER_PORT:8082}
 
 management:
   endpoints:

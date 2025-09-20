@@ -30,7 +30,7 @@ public class CashController {
    *
    * @param cashDto - объект с данными дял изменения баланса.).
    */
-  @PostMapping("/сash")
+  @PostMapping
   public void requestCashOperation(@Valid @RequestBody CashDto cashDto) {
     log.info("получен запрос на операцию с наличными: {} для пользователя: {}", cashDto.action(),
              cashDto.login());

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.bank.accounts.dto.CashChangeRequestDto;
+import ru.practicum.bank.accounts.entity.Account;
 import ru.practicum.bank.accounts.exceptions.CurrencyException;
 import ru.practicum.bank.accounts.repository.AccountRepository;
 import ru.practicum.bank.accounts.repository.UserRepository;
@@ -20,6 +21,47 @@ public class CashServiceImpl implements CashService {
 
   @Override
   public void getCashFromAccount(CashChangeRequestDto cashRequestDto) throws CurrencyException {
+    var account = getAccount(cashRequestDto);
+
+    if (Boolean.TRUE.equals(account.getIsExists())) {
+      log.info("Счёт пользователя: {} для валюты: {} найден", cashRequestDto.currency(),
+               cashRequestDto.login());
+
+      if (account.getValue() > cashRequestDto.value()) {
+        account.setValue(account.getValue() - cashRequestDto.value());
+        accountRepository.save(account);
+      } else {
+        log.warn("На счёте недостаточно средств для снятия. На текущем счёте: {}",
+                 account.getValue());
+      }
+    } else {
+      log.warn("Аккаунт пользователя не активен");
+    }
+  }
+
+  @Override
+  public void putCashToAccount(CashChangeRequestDto cashRequestDto) {
+
+    var account = getAccount(cashRequestDto);
+
+    if (Boolean.TRUE.equals(account.getIsExists())) {
+      log.info("Счёт пользователя: {} для валюты: {} найден", cashRequestDto.currency(),
+               cashRequestDto.login());
+
+      account.setValue(account.getValue() + cashRequestDto.value());
+      accountRepository.save(account);
+
+    } else {
+      log.info("Аккаунт пользователя не активен. Производится активация и пополнение счета");
+
+      account.setValue(cashRequestDto.value());
+      account.setIsExists(true);
+
+      accountRepository.save(account);
+    }
+  }
+
+  private Account getAccount(CashChangeRequestDto cashRequestDto) {
     var currency = checkService.checkAndGetCurrency(cashRequestDto.currency());
 
     var user = userRepository.findByLogin(cashRequestDto.login());
@@ -27,27 +69,6 @@ public class CashServiceImpl implements CashService {
     log.info("Отправлен запрос на поиск валютного счёта: {} для пользователя: {}",
              currency.getTitle(), user.getLogin());
 
-    var account = accountRepository.findAllByUser(user).stream()
-                                   .filter(findedAccount -> findedAccount.getCurrency()
-                                                                         .equals(currency))
-                                   .findFirst();
-
-    if (account.isPresent()) {
-      log.info("Счёт пользователя: {} для валюты: {} найден", user.getLogin(), currency.getTitle());
-
-      var updatedAccount = account.get();
-
-      if (updatedAccount.getValue() > cashRequestDto.value()) {
-        updatedAccount.setValue(updatedAccount.getValue() - cashRequestDto.value());
-        accountRepository.save(updatedAccount);
-      } else {
-        log.warn("На счёте недостаточно средств для снятия. На текущем счёте ");
-      }
-    }
-  }
-
-  @Override
-  public void putCashToAccount(CashChangeRequestDto cashRequestDto) {
-
+    return accountRepository.findByCurrencyAndUser(currency, user).get();
   }
 }
