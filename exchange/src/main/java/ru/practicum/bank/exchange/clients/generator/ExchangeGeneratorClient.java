@@ -1,7 +1,7 @@
-package ru.practicum.bank.front.ui.clients.exchange.generator;
+package ru.practicum.bank.exchange.clients.generator;
 
 import java.util.List;
-import ru.practicum.bank.front.ui.dto.Rate;
+import ru.practicum.bank.exchange.dto.Rate;
 
 /**
  * Класс для запросов в микросервис ExchangeGenerator.

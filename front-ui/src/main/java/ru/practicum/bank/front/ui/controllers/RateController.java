@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.bank.front.ui.clients.exchange.generator.ExchangeGeneratorClient;
+import ru.practicum.bank.front.ui.clients.exchange.generator.ExchangeClient;
 import ru.practicum.bank.front.ui.dto.Rate;
 
 /**
@@ -15,7 +15,7 @@ import ru.practicum.bank.front.ui.dto.Rate;
 @RestController
 @RequiredArgsConstructor
 public class RateController {
-private final ExchangeGeneratorClient exchangeGeneratorClient;
+private final ExchangeClient exchangeClient;
   /**
    * Обрабатывает запросы на получение курсов валют.
    */
@@ -23,6 +23,6 @@ private final ExchangeGeneratorClient exchangeGeneratorClient;
     public List<Rate> getRates() {
       log.info("получен запрос на получение курса валют");
 
-      return exchangeGeneratorClient.getRates();
+      return exchangeClient.getRates();
     }
 }

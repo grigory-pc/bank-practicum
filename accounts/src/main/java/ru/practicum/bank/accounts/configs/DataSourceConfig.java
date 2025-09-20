@@ -34,7 +34,7 @@ public class DataSourceConfig {
 
   /**
    * После инициализации контекста создание таблиц в БД.
-   * "V1__init.sql" - Файл должен находиться в ресурсах
+   * "V1__init_scheme.sql" - Файл должен находиться в ресурсах
    *
    * @param event - событие после инициализации контекста.
    */
@@ -43,7 +43,9 @@ public class DataSourceConfig {
     DataSource dataSource = event.getApplicationContext().getBean(DataSource.class);
 
     ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-    populator.addScript(new ClassPathResource("V1__init.sql"));
+    populator.addScript(new ClassPathResource("V1__drop_tables.sql"));
+    populator.addScript(new ClassPathResource("V1__init_scheme.sql"));
+    populator.addScript(new ClassPathResource("V1__init_data.sql"));
     populator.execute(dataSource);
   }
 }

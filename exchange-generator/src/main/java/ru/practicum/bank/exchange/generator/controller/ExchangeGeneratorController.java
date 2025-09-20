@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.bank.exchange.generator.dto.Rate;
 import ru.practicum.bank.exchange.generator.service.RateGeneratorService;
@@ -13,13 +14,14 @@ import ru.practicum.bank.exchange.generator.service.RateGeneratorService;
  */
 @Slf4j
 @RestController
+@RequestMapping("exchange-generator")
 @RequiredArgsConstructor
 public class ExchangeGeneratorController {
   private final RateGeneratorService rateGeneratorService;
 
-  @GetMapping("/rates")
+  @GetMapping
   public List<Rate> redirectToGetRates() {
-    log.info("получен запрос на получение курса валют");
+    log.info("получен запрос на получение списка курсов валют");
 
     return rateGeneratorService.getAllCurrency();
   }

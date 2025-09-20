@@ -5,7 +5,7 @@ import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.bank.exchange.generator.dto.Rate;
-import ru.practicum.bank.exchange.generator.enums.Currency;
+import ru.practicum.bank.exchange.generator.enums.CurrencyExchange;
 
 @Slf4j
 @Service
@@ -26,16 +26,18 @@ public class RateGeneratorServiceImpl implements RateGeneratorService {
   }
 
   private Rate generateCurrencyRubUsd() {
-    var randomCurrencyUsd = random.nextDouble(RUB_USD_MAX - RUB_USD_MIN + STEP_FOR_RANDOM) + RUB_USD_MIN;
+    var randomCurrencyUsd = random.nextDouble(RUB_USD_MAX - RUB_USD_MIN + STEP_FOR_RANDOM)
+                            + RUB_USD_MIN;
     var roundedCurrencyUsd = Math.round(randomCurrencyUsd * ROUND_DOUBLE) / ROUND_DOUBLE;
 
-    return new Rate(Currency.RUB_USD.name(), RUB_USD, roundedCurrencyUsd);
+    return new Rate(CurrencyExchange.RUB_USD.name(), RUB_USD, roundedCurrencyUsd);
   }
 
   private Rate generateCurrencyRubCny() {
-    var randomCurrencyCny = random.nextDouble(RUB_CNY_MAX - RUB_CNY_MIN + STEP_FOR_RANDOM) + RUB_CNY_MIN;
+    var randomCurrencyCny = random.nextDouble(RUB_CNY_MAX - RUB_CNY_MIN + STEP_FOR_RANDOM)
+                            + RUB_CNY_MIN;
     var roundedCurrencyCny = Math.round(randomCurrencyCny * ROUND_DOUBLE) / ROUND_DOUBLE;
 
-    return new Rate(Currency.RUB_CNY.name(), RUB_CNY, roundedCurrencyCny);
+    return new Rate(CurrencyExchange.RUB_CNY.name(), RUB_CNY, roundedCurrencyCny);
   }
 }
