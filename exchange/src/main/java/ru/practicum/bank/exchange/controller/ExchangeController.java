@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.bank.exchange.clients.generator.ExchangeGeneratorClient;
+import ru.practicum.bank.exchange.clients.ExchangeGeneratorClient;
 import ru.practicum.bank.exchange.dto.Rate;
 
 /**

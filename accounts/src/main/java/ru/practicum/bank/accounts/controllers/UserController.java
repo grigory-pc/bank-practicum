@@ -17,6 +17,9 @@ import ru.practicum.bank.accounts.dto.UserFullDto;
 import ru.practicum.bank.accounts.exceptions.PasswordException;
 import ru.practicum.bank.accounts.services.UserService;
 
+/**
+ * Контроллер для обработки запросов на манипуляции с пользователями.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/accounts")

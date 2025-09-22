@@ -12,6 +12,9 @@ import ru.practicum.bank.accounts.dto.CashChangeRequestDto;
 import ru.practicum.bank.accounts.exceptions.PasswordException;
 import ru.practicum.bank.accounts.services.CashService;
 
+/**
+ * Контроллер для обработки запросов на манипуляции со счетом пользователя.
+ */
 @Slf4j
 @RestController
 @RequestMapping("/accounts/cash")

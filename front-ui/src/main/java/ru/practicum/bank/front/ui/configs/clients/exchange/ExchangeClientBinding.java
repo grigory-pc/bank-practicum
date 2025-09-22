@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.practicum.bank.front.ui.clients.exchange.generator.ExchangeClient;
-import ru.practicum.bank.front.ui.clients.exchange.generator.ExchangeClientImpl;
+import ru.practicum.bank.front.ui.clients.exchange.ExchangeClient;
+import ru.practicum.bank.front.ui.clients.exchange.ExchangeClientImpl;
 import ru.practicum.bank.front.ui.configs.clients.DefaultWebClientFactory;
 import ru.practicum.bank.front.ui.exceptions.NegativeDurationException;
 

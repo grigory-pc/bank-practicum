@@ -12,4 +12,8 @@ import ru.practicum.bank.accounts.entity.Account;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AccountMapper {
   List<AccountsDto> toDto(Iterable<Account> accounts);
+
+  AccountsDto toDto(Account account);
+
+  Account toAccount(AccountsDto accountDto);
 }

@@ -1,4 +1,4 @@
-package ru.practicum.bank.front.ui.clients.exchange.generator;
+package ru.practicum.bank.front.ui.clients.exchange;
 
 import java.time.Duration;
 import java.util.List;
