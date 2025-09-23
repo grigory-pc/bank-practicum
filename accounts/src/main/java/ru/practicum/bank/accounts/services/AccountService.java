@@ -1,6 +1,5 @@
 package ru.practicum.bank.accounts.services;
 
-import ru.practicum.bank.accounts.dto.AccountRequestDto;
 import ru.practicum.bank.accounts.dto.AccountsDto;
 
 /**
@@ -11,10 +10,11 @@ public interface AccountService {
   /**
    * Метод для получения объекта аккаунта.
    *
-   * @param accountRequest - данные с логином и валютой для запроса аккаунта.
+   * @param login - логин аккаунта.
+   * @param currency - валюта аккаунта.
    * @return объект аккаунта.
    */
-  AccountsDto getAccount(AccountRequestDto accountRequest);
+  AccountsDto getAccount(String login, String currency);
 
   /**
    * Метод для обновления объекта аккаунта.

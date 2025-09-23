@@ -1,7 +1,8 @@
 package ru.practicum.bank.transfer.clients.accounts;
 
+import java.util.List;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.practicum.bank.transfer.dto.AccountRequestDto;
 import ru.practicum.bank.transfer.dto.AccountsDto;
 
 /**
@@ -11,14 +12,15 @@ public interface AccountsClient {
 
   /**
    * Метод для запроса аккаунта.
-   * @param accountRequest - данные с логином и валютой для запроса аккаунта.
+   * @param login - логин аккаунта.
+   * @param currency - валюта аккаунта.
    * @return - объект аккаунта.
    */
-  Mono<AccountsDto> requestGetAccount(AccountRequestDto accountRequest);
+  Mono<AccountsDto> requestGetAccount(String login,  String currency);
 
   /**
    * Метод для обновления аккаунта.
-   * @param accountsDto - обновленные данные аккаунта.
+   * @param accountsDto - список обновленных аккаунтов.
    */
-  Mono<Void> updateAccount(AccountsDto accountsDto);
+  Flux<Void> updateAccount(List<AccountsDto> accountsDto);
 }

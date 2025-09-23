@@ -3,7 +3,6 @@ package ru.practicum.bank.accounts.services.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.practicum.bank.accounts.dto.AccountRequestDto;
 import ru.practicum.bank.accounts.dto.AccountsDto;
 import ru.practicum.bank.accounts.mappers.AccountMapper;
 import ru.practicum.bank.accounts.repository.AccountRepository;
@@ -21,11 +20,12 @@ public class AccountServiceImpl implements AccountService {
   private final AccountMapper accountMapper;
 
   @Override
-  public AccountsDto getAccount(AccountRequestDto accountRequest) {
-    var user = userRepository.findByLogin(accountRequest.login());
-    var currency = currencyRepository.findByName(accountRequest.currency());
+  public AccountsDto getAccount(String login, String currency) {
+    var findedUser = userRepository.findByLogin(login);
+    var findedCurrency = currencyRepository.findByName(currency);
 
-    return accountMapper.toDto(accountRepository.findByCurrencyAndUser(currency.get(), user).get());
+    return accountMapper.toDto(
+        accountRepository.findByCurrencyAndUser(findedCurrency.get(), findedUser).get());
   }
 
   @Override
