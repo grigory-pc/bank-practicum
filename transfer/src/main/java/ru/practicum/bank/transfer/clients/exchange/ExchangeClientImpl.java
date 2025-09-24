@@ -16,12 +16,15 @@ public class ExchangeClientImpl implements ExchangeClient {
   private final WebClient webClient;
 
   @Override
-  public List<Rate> getRates() {
+  public List<Rate> getTransferRates(String fromCurrency, String toCurrency) {
     try {
       log.info("Отправлен запрос в сервис Exchange для получения списка курсов валют");
 
       return webClient
           .get()
+          .uri(uriBuilder -> uriBuilder
+              .path("/" + fromCurrency + "/" + toCurrency)
+              .build())
           .retrieve()
           .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
               .bodyToMono(String.class)

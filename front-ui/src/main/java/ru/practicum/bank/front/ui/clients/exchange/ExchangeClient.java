@@ -4,13 +4,13 @@ import java.util.List;
 import ru.practicum.bank.front.ui.dto.Rate;
 
 /**
- * Класс для запросов в микросервис ExchangeGenerator.
+ * Класс для запросов в микросервис Exchange.
  */
 public interface ExchangeClient {
 
   /**
-   * Выполнение запросов в сервис ExchangeGenerator.
-   * @return курсы валют.
+   * Запрос списка курсов валют в микросервис Exchange.
+   * @return список курсов валют.
    */
   List<Rate> getRates();
 }

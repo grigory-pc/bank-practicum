@@ -9,8 +9,12 @@ import ru.practicum.bank.transfer.dto.Rate;
 public interface ExchangeClient {
 
   /**
-   * Выполнение запросов в сервис ExchangeGenerator.
-   * @return курсы валют.
+   *  Запрос курсов валют в микросервис Exchange.
+   *
+   * @param fromCurrency - валюта, с которой будет перевод.
+   * @param toCurrency - валюта, на которую будет перевод.
+   *
+   * @return список курсов валют.
    */
-  List<Rate> getRates();
+  List<Rate> getTransferRates(String fromCurrency, String toCurrency);
 }
