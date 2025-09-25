@@ -1,7 +1,7 @@
 services:
   user-service:
     build:
-      context: ./template-application
+      context: ./exchange-generator
       dockerfile: Dockerfile
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"

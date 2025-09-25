@@ -6,7 +6,7 @@ plugins {
 
 group = "ru.practicum"
 version = "0.0.1-SNAPSHOT"
-description = "template-app"
+description = "accounts"
 
 java {
     toolchain {

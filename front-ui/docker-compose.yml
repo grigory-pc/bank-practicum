@@ -1,7 +1,7 @@
 services:
   user-service:
     build:
-      context: ./template-application
+      context: ./front-ui
       dockerfile: Dockerfile
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"

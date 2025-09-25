@@ -9,14 +9,8 @@ import ru.practicum.bank.transfer.dto.TransferDto;
 public interface TransferService {
 
   /**
-   * Перевод средств на свой аккаунт.
-   * @param transferDto - объект с данными для перевода
-   */
-  void transferToSelfAccount(TransferDto transferDto);
-
-  /**
-   * Перевод средств на чужой аккаунт.
-   * @param transferDto - объект с данными для перевода
+   * Перевод средств на другой аккаунт.
+   * @param transferDto - объект с данными для перевода.
    */
   void transferToOtherAccount(TransferDto transferDto);
 }

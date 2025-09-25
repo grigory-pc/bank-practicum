@@ -22,20 +22,13 @@ public class TransferController {
 
   /**
    * Перевод средств.
+   *
    * @param transferDto - объект с данными для перевода
    */
   @GetMapping
   public void transferCash(@Valid @RequestBody TransferDto transferDto) {
     log.info("получен запрос на перевод средств");
 
-    if (transferDto.login().equals(transferDto.toLogin())) {
-      log.info("Получен запрос на перевод средств на свой аккаунт");
-
-      transferService.transferToSelfAccount(transferDto);
-    } else {
-      log.info("Получен запрос на перевод средств на чужой аккаунт");
-
-      transferService.transferToOtherAccount(transferDto);
-    }
+    transferService.transferToOtherAccount(transferDto);
   }
 }

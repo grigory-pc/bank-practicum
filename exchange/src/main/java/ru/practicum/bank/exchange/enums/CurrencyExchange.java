@@ -11,8 +11,11 @@ import ru.practicum.bank.exchange.exceptions.CurrencyException;
 @RequiredArgsConstructor
 public enum CurrencyExchange {
   RUB_USD("RUB_USD"),
+  USD_RUB("USD_RUB"),
   RUB_CNY("RUB_CNY"),
-  USD_CNY("USD_CNY");
+  CNY_RUB("CNY_RUB"),
+  USD_CNY("USD_CNY"),
+  CNY_USD("CNY_USD");
 
   @JsonValue
   public final String value;
