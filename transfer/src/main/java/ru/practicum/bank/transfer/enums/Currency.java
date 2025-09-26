@@ -10,9 +10,9 @@ import ru.practicum.bank.transfer.exceptions.CurrencyException;
  */
 @RequiredArgsConstructor
 public enum Currency {
-  RUB_USD("RUB"),
-  RUB_CNY("CNY"),
-  USD_CNY("USD");
+  RUB("RUB"),
+  CNY("CNY"),
+  USD("USD");
 
   @JsonValue
   public final String value;

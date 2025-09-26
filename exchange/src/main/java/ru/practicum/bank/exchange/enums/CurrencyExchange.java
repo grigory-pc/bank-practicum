@@ -21,10 +21,10 @@ public enum CurrencyExchange {
   public final String value;
 
   @JsonCreator
-  public static CurrencyExchange getValueOf(String action) throws CurrencyException {
-    for (CurrencyExchange type : CurrencyExchange.values()) {
-      if (type.value.equalsIgnoreCase(action)) {
-        return type;
+  public static CurrencyExchange getValueOf(String currencyExchange) throws CurrencyException {
+    for (CurrencyExchange currency : CurrencyExchange.values()) {
+      if (currency.value.equalsIgnoreCase(currencyExchange)) {
+        return currency;
       }
     }
     throw new CurrencyException("Некорректный тип действия с балансом");

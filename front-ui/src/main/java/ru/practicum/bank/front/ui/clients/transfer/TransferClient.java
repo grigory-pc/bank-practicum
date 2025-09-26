@@ -10,6 +10,8 @@ public interface TransferClient {
 
   /**
    * Запрос на перевод средств в микросервис transfer.
+   *
+   * @param transferDto - объект с данными для перевода.
    */
   Mono<Void> requestTransfer(TransferDto transferDto);
 }

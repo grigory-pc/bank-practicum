@@ -1,6 +1,7 @@
 package ru.practicum.bank.exchange.clients;
 
 import java.util.List;
+import reactor.core.publisher.Mono;
 import ru.practicum.bank.exchange.dto.Rate;
 
 /**
@@ -9,8 +10,16 @@ import ru.practicum.bank.exchange.dto.Rate;
 public interface ExchangeGeneratorClient {
 
   /**
-   * Выполнение запросов в сервис ExchangeGenerator.
+   * Получение списка курсов валют.
    * @return курсы валют.
    */
   List<Rate> getRates();
+
+  /**
+   * Получение курса валюты.
+   *
+   * @param currencyExchange - курс валюты.
+   * @return курс валюты.
+   */
+  Mono<Rate> getCurrencyRate(String currencyExchange);
 }

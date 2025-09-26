@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.practicum.bank.front.ui.clients.transfer.TransferClient;
@@ -30,8 +31,8 @@ public class TransferController {
    * @param toLogin      - логин пользователя, которому переводятся деньги.
    * @return редирект на "/main".
    */
-  @PostMapping("/user/login/transfer")
-  public String getCash(@RequestParam(value = "login") @NotBlank String login,
+  @PostMapping("/user/{login}/transfer")
+  public String getCash(@PathVariable(value = "login") @NotBlank String login,
                         @RequestParam(value = "from_currency") @NotBlank String fromCurrency,
                         @RequestParam(value = "to_currency") @NotBlank String toCurrency,
                         @RequestParam(value = "value") @NotBlank Integer value,

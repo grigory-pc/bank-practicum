@@ -12,4 +12,9 @@ public interface RateGeneratorService {
    * Метод для получения списка всех курсов валют
    */
   List<Rate> getAllCurrency();
+
+  /**
+   * Метод для получения курса валюты
+   */
+  Rate getCurrency(String currencyExchange);
 }

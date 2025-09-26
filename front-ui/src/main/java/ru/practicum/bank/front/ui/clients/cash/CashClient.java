@@ -9,7 +9,8 @@ import ru.practicum.bank.front.ui.dto.CashDto;
 public interface CashClient {
 
   /**
-   * Запрос на изменение баланса на счете в микросервис Cash.
+   *
+   * @param cashDto - объект с данными для перевода.
    */
   Mono<Void> requestCashOperation(CashDto cashDto);
 }
