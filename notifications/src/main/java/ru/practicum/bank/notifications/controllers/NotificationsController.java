@@ -25,7 +25,7 @@ public class NotificationsController {
    * Уведомление о переводе средств на другой счет.
    * @param transferDto - данные по переводу средств.
    */
-  @PostMapping
+  @PostMapping("/transfer")
   public void transferNotifications(@Valid @RequestBody TransferDto transferDto) {
     log.info("получен запрос на перевод средств");
 
@@ -36,7 +36,7 @@ public class NotificationsController {
    * Уведомление о действиях на счёте.
    * @param cashDto - данные по действиям на счёте.
    */
-  @PostMapping
+  @PostMapping("/cash")
   public void cashNotifications(@Valid @RequestBody CashDto cashDto) {
     log.info("получен запрос на перевод средств");
 

@@ -13,6 +13,8 @@ import ru.practicum.bank.transfer.exceptions.WebClientHttpException;
 @Slf4j
 @RequiredArgsConstructor
 public class NotificationsClientImpl implements NotificationsClient {
+  public static final String TRANSFER_PATH = "/transfer";
+
   public static final String NOTIFICATIONS_ERROR_MESSAGE
       = "Ошибка при запросе в микросервис Notifications";
   public static final String REQUEST_NOTIFICATIONS_MESSAGE
@@ -27,6 +29,9 @@ public class NotificationsClientImpl implements NotificationsClient {
 
       return webClient
           .post()
+          .uri(uriBuilder -> uriBuilder
+              .path(TRANSFER_PATH)
+              .build())
           .contentType(MediaType.APPLICATION_JSON)
           .body(BodyInserters.fromValue(transferDto))
           .retrieve()
