@@ -26,25 +26,23 @@ public class TransferServiceImpl implements TransferService {
     var fromCurrency = transferDto.fromCurrency();
     var toCurrency = transferDto.toCurrency();
 
+    if (transferDto.login().equals(transferDto.toLogin()) && fromCurrency.equals(
+        transferDto.toCurrency())) {
+      log.warn("Получен запрос на перевод средств на свой аккаунт в той же валюте: {}",
+               transferDto.fromCurrency());
+      return;
+    }
+
     var fromAccount = accountsClient.requestGetAccount(transferDto.login(),
                                                        fromCurrency).block();
+
     if (fromAccount.value() < transferDto.value()) {
       log.warn("На счёте недостаточно средств для снятия. На текущем счёте: {}",
                fromAccount.value());
       return;
     }
 
-    if (transferDto.login().equals(transferDto.toLogin())) {
-      log.info("Получен запрос на перевод средств на свой аккаунт");
-      if (fromCurrency.equals(transferDto.toCurrency())) {
-        return;
-      }
-      toAccount = accountsClient.requestGetAccount(transferDto.login(), toCurrency).block();
-    } else {
-      log.info("Получен запрос на перевод средств на чужой аккаунт");
-
-      toAccount = accountsClient.requestGetAccount(transferDto.toLogin(), toCurrency).block();
-    }
+    toAccount = getToAccount(transferDto, toCurrency);
 
     var updatedAccountFrom = AccountsDto.builder()
                                         .currency(fromAccount.currency())
@@ -52,23 +50,44 @@ public class TransferServiceImpl implements TransferService {
                                         .value(fromAccount.value() - transferDto.value())
                                         .build();
 
-    if (fromCurrency.equals(transferDto.toCurrency())) {
+    updatedAccountTo = updateToAccount(transferDto, toAccount);
+
+    accountsClient.updateAccount(List.of(updatedAccountFrom, updatedAccountTo)).subscribe();
+  }
+
+  private AccountsDto updateToAccount(TransferDto transferDto, AccountsDto toAccount) {
+    AccountsDto updatedAccountTo;
+    if (transferDto.fromCurrency().equals(transferDto.toCurrency())) {
       updatedAccountTo = AccountsDto.builder()
                                     .currency(toAccount.currency())
                                     .isExists(IS_EXISTS_TRUE)
                                     .value(toAccount.value() + transferDto.value())
                                     .build();
 
-    } else if (Currency.getValueOf(fromCurrency).equals(Currency.RUB) || Currency.getValueOf(
-        toCurrency).equals(Currency.RUB)) {
-      updatedAccountTo = getAccountsDtoOneOfCoupleRub(transferDto, fromCurrency, toCurrency,
-                                                      toAccount);
-    } else {
-      updatedAccountTo = getAccountsDtoNoRubInCouple(transferDto, fromCurrency, toCurrency,
-                                                     toAccount);
-    }
+    } else if (Currency.getValueOf(transferDto.fromCurrency()).equals(Currency.RUB)
+               || Currency.getValueOf(transferDto.toCurrency()).equals(Currency.RUB)) {
 
-    accountsClient.updateAccount(List.of(updatedAccountFrom, updatedAccountTo)).subscribe();
+      updatedAccountTo = getAccountsDtoOneOfCoupleRub(transferDto, transferDto.fromCurrency(),
+                                                      transferDto.toCurrency(), toAccount);
+    } else {
+      updatedAccountTo = getAccountsDtoNoRubInCouple(transferDto, transferDto.fromCurrency(),
+                                                     transferDto.toCurrency(), toAccount);
+    }
+    return updatedAccountTo;
+  }
+
+  private AccountsDto getToAccount(TransferDto transferDto, String toCurrency) {
+    AccountsDto toAccount;
+    if (transferDto.login().equals(transferDto.toLogin())) {
+      log.info("Получен запрос на перевод средств на свой аккаунт");
+
+      toAccount = accountsClient.requestGetAccount(transferDto.login(), toCurrency).block();
+    } else {
+      log.info("Получен запрос на перевод средств на чужой аккаунт");
+
+      toAccount = accountsClient.requestGetAccount(transferDto.toLogin(), toCurrency).block();
+    }
+    return toAccount;
   }
 
   private AccountsDto getAccountsDtoNoRubInCouple(TransferDto transferDto, String fromCurrency,

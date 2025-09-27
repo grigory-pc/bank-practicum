@@ -14,5 +14,4 @@ public interface CurrencyMapper {
   List<CurrencyDto> toDto(Iterable<Currency> currencies);
 
   CurrencyDto toDto(Currency currency);
-  Currency toCurrency(CurrencyDto currencyDto);
 }
