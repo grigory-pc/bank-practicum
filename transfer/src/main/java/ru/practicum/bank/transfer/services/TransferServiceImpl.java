@@ -23,10 +23,8 @@ public class TransferServiceImpl implements TransferService {
   public void transferToOtherAccount(TransferDto transferDto) {
     AccountsDto toAccount;
     AccountsDto updatedAccountTo;
-    var fromCurrency = transferDto.fromCurrency();
-    var toCurrency = transferDto.toCurrency();
 
-    if (transferDto.login().equals(transferDto.toLogin()) && fromCurrency.equals(
+    if (transferDto.login().equals(transferDto.toLogin()) && transferDto.fromCurrency().equals(
         transferDto.toCurrency())) {
       log.warn("Получен запрос на перевод средств на свой аккаунт в той же валюте: {}",
                transferDto.fromCurrency());
@@ -34,7 +32,7 @@ public class TransferServiceImpl implements TransferService {
     }
 
     var fromAccount = accountsClient.requestGetAccount(transferDto.login(),
-                                                       fromCurrency).block();
+                                                       transferDto.fromCurrency()).block();
 
     if (fromAccount.value() < transferDto.value()) {
       log.warn("На счёте недостаточно средств для снятия. На текущем счёте: {}",
@@ -42,9 +40,11 @@ public class TransferServiceImpl implements TransferService {
       return;
     }
 
-    toAccount = getToAccount(transferDto, toCurrency);
+    toAccount = getToAccount(transferDto, transferDto.toCurrency());
 
     var updatedAccountFrom = AccountsDto.builder()
+                                        .id(fromAccount.id())
+                                        .userId(fromAccount.userId())
                                         .currency(fromAccount.currency())
                                         .isExists(fromAccount.isExists())
                                         .value(fromAccount.value() - transferDto.value())
@@ -59,6 +59,8 @@ public class TransferServiceImpl implements TransferService {
     AccountsDto updatedAccountTo;
     if (transferDto.fromCurrency().equals(transferDto.toCurrency())) {
       updatedAccountTo = AccountsDto.builder()
+                                    .id(toAccount.id())
+                                    .userId(toAccount.userId())
                                     .currency(toAccount.currency())
                                     .isExists(IS_EXISTS_TRUE)
                                     .value(toAccount.value() + transferDto.value())
@@ -67,11 +69,9 @@ public class TransferServiceImpl implements TransferService {
     } else if (Currency.getValueOf(transferDto.fromCurrency()).equals(Currency.RUB)
                || Currency.getValueOf(transferDto.toCurrency()).equals(Currency.RUB)) {
 
-      updatedAccountTo = getAccountsDtoOneOfCoupleRub(transferDto, transferDto.fromCurrency(),
-                                                      transferDto.toCurrency(), toAccount);
+      updatedAccountTo = getAccountsDtoOneOfCoupleRub(transferDto, toAccount);
     } else {
-      updatedAccountTo = getAccountsDtoNoRubInCouple(transferDto, transferDto.fromCurrency(),
-                                                     transferDto.toCurrency(), toAccount);
+      updatedAccountTo = getAccountsDtoNoRubInCouple(transferDto, toAccount);
     }
     return updatedAccountTo;
   }
@@ -90,20 +90,21 @@ public class TransferServiceImpl implements TransferService {
     return toAccount;
   }
 
-  private AccountsDto getAccountsDtoNoRubInCouple(TransferDto transferDto, String fromCurrency,
-                                                  String toCurrency, AccountsDto toAccount) {
+  private AccountsDto getAccountsDtoNoRubInCouple(TransferDto transferDto, AccountsDto toAccount) {
     AccountsDto updatedAccountTo;
     var currencyExchangeFrom = CurrencyExchange.getValueOf(
-        String.format("%s_%s", fromCurrency.toUpperCase(), Currency.RUB.value));
+        String.format("%s_%s", transferDto.fromCurrency().toUpperCase(), Currency.RUB.value));
     var currencyExchangeTo = CurrencyExchange.getValueOf(
-        String.format("%s_%s", Currency.RUB.value, toCurrency.toUpperCase()));
+        String.format("%s_%s", Currency.RUB.value, transferDto.toCurrency().toUpperCase()));
 
     var rateFrom = exchangeClient.getTransferRate(currencyExchangeFrom);
     var rateTo = exchangeClient.getTransferRate(currencyExchangeTo);
 
-    var valueTo = transferDto.value() * rateFrom.value() / rateTo.value();
+    var valueTo = transferDto.value() * rateFrom.value() * rateTo.value();
 
     updatedAccountTo = AccountsDto.builder()
+                                  .id(toAccount.id())
+                                  .userId(toAccount.userId())
                                   .currency(toAccount.currency())
                                   .isExists(IS_EXISTS_TRUE)
                                   .value(toAccount.value() + valueTo)
@@ -111,17 +112,19 @@ public class TransferServiceImpl implements TransferService {
     return updatedAccountTo;
   }
 
-  private AccountsDto getAccountsDtoOneOfCoupleRub(TransferDto transferDto, String fromCurrency,
-                                                   String toCurrency, AccountsDto toAccount) {
+  private AccountsDto getAccountsDtoOneOfCoupleRub(TransferDto transferDto, AccountsDto toAccount) {
     AccountsDto updatedAccountTo;
     var currencyExchange = CurrencyExchange.getValueOf(
-        String.format("%s_%s", fromCurrency.toUpperCase(), toCurrency.toUpperCase()));
+        String.format("%s_%s", transferDto.fromCurrency().toUpperCase(),
+                      transferDto.toCurrency().toUpperCase()));
 
     var rate = exchangeClient.getTransferRate(currencyExchange);
 
-    var valueCurrencyTo = transferDto.value() / rate.value();
+    var valueCurrencyTo = transferDto.value() * rate.value();
 
     updatedAccountTo = AccountsDto.builder()
+                                  .id(toAccount.id())
+                                  .userId(toAccount.userId())
                                   .currency(toAccount.currency())
                                   .isExists(IS_EXISTS_TRUE)
                                   .value(toAccount.value() + valueCurrencyTo)

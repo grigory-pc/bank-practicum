@@ -34,7 +34,13 @@ public class AccountServiceImpl implements AccountService {
   public void updateAccount(AccountsDto accountsDto) {
     var account = accountMapper.toAccount(accountsDto);
 
-    currencyRepository.save(account.getCurrency());
+    var user = userRepository.findById(accountsDto.userId());
+    var existingCurrency = currencyRepository.findByName(account.getCurrency().getName())
+                                             .orElseThrow(
+                                                 () -> new RuntimeException("Валюта не найдена"));
+
+    account.setUser(user.get());
+    account.setCurrency(existingCurrency);
     accountRepository.save(account);
 
     log.info("Обновлен объект аккаунта");
