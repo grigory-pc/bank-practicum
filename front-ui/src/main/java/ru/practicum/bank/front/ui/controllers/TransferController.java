@@ -1,6 +1,7 @@
 package ru.practicum.bank.front.ui.controllers;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,10 +33,10 @@ public class TransferController {
    * @return редирект на "/main".
    */
   @PostMapping("/user/{login}/transfer")
-  public String getCash(@PathVariable(value = "login") @NotBlank String login,
+  public String getCash(@PathVariable(value = "login") String login,
                         @RequestParam(value = "from_currency") @NotBlank String fromCurrency,
                         @RequestParam(value = "to_currency") @NotBlank String toCurrency,
-                        @RequestParam(value = "value") @NotBlank Integer value,
+                        @RequestParam(value = "value") @NotNull Integer value,
                         @RequestParam(value = "to_login") @NotBlank String toLogin) {
     log.info("получен запрос на перевод средств со счета: {} на счет: {}", fromCurrency,
              toCurrency);

@@ -1,7 +1,6 @@
 package ru.practicum.bank.accounts.controllers;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,8 +30,8 @@ public class AccountController {
    * @param currency - валюта аккаунта.
    */
   @GetMapping("/{login}/{currency}")
-  public AccountsDto getAccount(@PathVariable @NotBlank String login,
-                                @PathVariable @NotBlank String currency) {
+  public AccountsDto getAccount(@PathVariable String login,
+                                @PathVariable String currency) {
     log.info("Получен запрос на получение аккаунта пользователя: {}", login);
 
     return accountService.getAccount(login, currency);

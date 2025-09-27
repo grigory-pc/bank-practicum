@@ -38,14 +38,14 @@ public class DataSourceConfig {
    *
    * @param event - событие после инициализации контекста.
    */
-  @EventListener
-  public void populate(ContextRefreshedEvent event) {
-    DataSource dataSource = event.getApplicationContext().getBean(DataSource.class);
-
-    ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-    populator.addScript(new ClassPathResource("V1__drop_tables.sql"));
-    populator.addScript(new ClassPathResource("V1__init_scheme.sql"));
-    populator.addScript(new ClassPathResource("V1__init_data.sql"));
-    populator.execute(dataSource);
-  }
+//  @EventListener
+//  public void populate(ContextRefreshedEvent event) {
+//    DataSource dataSource = event.getApplicationContext().getBean(DataSource.class);
+//
+//    ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+//    populator.addScript(new ClassPathResource("V1__drop_tables.sql"));
+//    populator.addScript(new ClassPathResource("V1__init_scheme.sql"));
+//    populator.addScript(new ClassPathResource("V1__init_data.sql"));
+//    populator.execute(dataSource);
+//  }
 }

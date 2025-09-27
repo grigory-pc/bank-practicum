@@ -51,7 +51,7 @@ public class AccountsClientImpl implements AccountsClient {
 
       return Flux.fromIterable(accountsDto)
                  .flatMap(account -> webClient
-                     .post()
+                     .patch()
                      .uri(uriBuilder -> uriBuilder
                          .path(ACCOUNT_PATH)
                          .build())

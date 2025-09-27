@@ -1,5 +1,6 @@
 package ru.practicum.bank.accounts.services.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,12 @@ public class AccountServiceImpl implements AccountService {
   }
 
   @Override
+  @Transactional
   public void updateAccount(AccountsDto accountsDto) {
-    accountRepository.save(accountMapper.toAccount(accountsDto));
+    var account = accountMapper.toAccount(accountsDto);
+
+    currencyRepository.save(account.getCurrency());
+    accountRepository.save(account);
 
     log.info("Обновлен объект аккаунта");
   }

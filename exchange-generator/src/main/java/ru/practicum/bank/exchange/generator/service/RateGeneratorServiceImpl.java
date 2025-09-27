@@ -35,7 +35,8 @@ public class RateGeneratorServiceImpl implements RateGeneratorService {
   }
 
   @Override
-  public Rate getCurrency(String currencyExchange) {
+  public Rate getCurrency(String currencyExchangeRequest) {
+    CurrencyExchange currencyExchange = CurrencyExchange.getValueOf(currencyExchangeRequest);
 
     switch (currencyExchange) {
       case USD_RUB -> {

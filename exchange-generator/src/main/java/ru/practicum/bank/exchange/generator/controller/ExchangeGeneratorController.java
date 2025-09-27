@@ -16,7 +16,7 @@ import ru.practicum.bank.exchange.generator.service.RateGeneratorService;
  */
 @Slf4j
 @RestController
-@RequestMapping("exchange-generator")
+@RequestMapping("/exchange-generator")
 @RequiredArgsConstructor
 public class ExchangeGeneratorController {
   private final RateGeneratorService rateGeneratorService;
@@ -30,7 +30,7 @@ public class ExchangeGeneratorController {
 
   @GetMapping("/{currencyExchange}")
   public Rate getCurrencyRate(@PathVariable @NotBlank String currencyExchange) {
-    log.info("получен запрос на получение всех курсов валют");
+    log.info("получен запрос на получение курса валюты");
 
     return rateGeneratorService.getCurrency(currencyExchange);
   }

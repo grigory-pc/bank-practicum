@@ -1,5 +1,6 @@
 package ru.practicum.bank.accounts.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class Account {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.PERSIST)
   @JoinColumn(name = "currency_id")
   private Currency currency;
 }

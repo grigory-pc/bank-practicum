@@ -15,6 +15,7 @@ import ru.practicum.bank.transfer.enums.CurrencyExchange;
 @Service
 @RequiredArgsConstructor
 public class TransferServiceImpl implements TransferService {
+  public static final boolean IS_EXISTS_TRUE = true;
   private final AccountsClient accountsClient;
   private final ExchangeClient exchangeClient;
 
@@ -35,7 +36,9 @@ public class TransferServiceImpl implements TransferService {
 
     if (transferDto.login().equals(transferDto.toLogin())) {
       log.info("Получен запрос на перевод средств на свой аккаунт");
-
+      if (fromCurrency.equals(transferDto.toCurrency())) {
+        return;
+      }
       toAccount = accountsClient.requestGetAccount(transferDto.login(), toCurrency).block();
     } else {
       log.info("Получен запрос на перевод средств на чужой аккаунт");
@@ -52,7 +55,7 @@ public class TransferServiceImpl implements TransferService {
     if (fromCurrency.equals(transferDto.toCurrency())) {
       updatedAccountTo = AccountsDto.builder()
                                     .currency(toAccount.currency())
-                                    .isExists(toAccount.isExists())
+                                    .isExists(IS_EXISTS_TRUE)
                                     .value(toAccount.value() + transferDto.value())
                                     .build();
 
@@ -83,7 +86,7 @@ public class TransferServiceImpl implements TransferService {
 
     updatedAccountTo = AccountsDto.builder()
                                   .currency(toAccount.currency())
-                                  .isExists(toAccount.isExists())
+                                  .isExists(IS_EXISTS_TRUE)
                                   .value(toAccount.value() + valueTo)
                                   .build();
     return updatedAccountTo;
@@ -101,7 +104,7 @@ public class TransferServiceImpl implements TransferService {
 
     updatedAccountTo = AccountsDto.builder()
                                   .currency(toAccount.currency())
-                                  .isExists(toAccount.isExists())
+                                  .isExists(IS_EXISTS_TRUE)
                                   .value(toAccount.value() + valueCurrencyTo)
                                   .build();
     return updatedAccountTo;
