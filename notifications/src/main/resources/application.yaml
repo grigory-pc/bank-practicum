@@ -1,17 +1,9 @@
 spring:
   application:
     name: notifications
-  datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
 
 server:
-  port: ${SERVER_PORT:8081}
+  port: ${SERVER_PORT:8086}
 
 management:
   endpoints:

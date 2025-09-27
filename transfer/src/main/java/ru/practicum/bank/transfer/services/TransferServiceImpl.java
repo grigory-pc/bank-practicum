@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.bank.transfer.clients.accounts.AccountsClient;
 import ru.practicum.bank.transfer.clients.exchange.ExchangeClient;
+import ru.practicum.bank.transfer.clients.notifications.NotificationsClient;
 import ru.practicum.bank.transfer.dto.AccountsDto;
 import ru.practicum.bank.transfer.dto.TransferDto;
 import ru.practicum.bank.transfer.enums.Currency;
@@ -18,6 +19,7 @@ public class TransferServiceImpl implements TransferService {
   public static final boolean IS_EXISTS_TRUE = true;
   private final AccountsClient accountsClient;
   private final ExchangeClient exchangeClient;
+  private final NotificationsClient notificationsClient;
 
   @Override
   public void transferToOtherAccount(TransferDto transferDto) {
@@ -53,6 +55,8 @@ public class TransferServiceImpl implements TransferService {
     updatedAccountTo = updateToAccount(transferDto, toAccount);
 
     accountsClient.updateAccount(List.of(updatedAccountFrom, updatedAccountTo)).subscribe();
+
+    notificationsClient.requestTransferNotifications(transferDto).block();
   }
 
   private AccountsDto updateToAccount(TransferDto transferDto, AccountsDto toAccount) {
