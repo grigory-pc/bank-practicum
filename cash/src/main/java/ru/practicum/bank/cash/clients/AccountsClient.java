@@ -1,25 +1,24 @@
 package ru.practicum.bank.cash.clients;
 
 import reactor.core.publisher.Mono;
-import ru.practicum.bank.cash.dto.CashChangeRequestDto;
+import ru.practicum.bank.cash.dto.AccountsDto;
 
 /**
  * Класс для запросов в микросервис Accounts.
  */
 public interface AccountsClient {
-  /**
-   * Запрос на снятие средств в микросервис Accounts.
-   *
-   * @param requestDto - объект с данными для изменения баланса.
-   * @return объект mono.
-   */
-  Mono<Void> requestGetCash(CashChangeRequestDto requestDto);
 
   /**
-   * Запрос на пополнение средств в микросервис Accounts.
-   *
-   * @param requestDto - объект с данными для изменения баланса.
-   * @return объект mono.
+   * Метод для запроса аккаунта.
+   * @param login - логин аккаунта.
+   * @param currency - валюта аккаунта.
+   * @return - объект аккаунта.
    */
-  Mono<Void> requestPutCash(CashChangeRequestDto requestDto);
+  Mono<AccountsDto> requestGetAccount(String login, String currency);
+
+  /**
+   * Метод для обновления аккаунта.
+   * @param accountsDto - список обновленных аккаунтов.
+   */
+  Mono<Void> updateAccount(AccountsDto accountsDto);
 }
