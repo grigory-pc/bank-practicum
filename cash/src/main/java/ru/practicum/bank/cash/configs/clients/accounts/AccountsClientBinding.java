@@ -1,11 +1,11 @@
-package ru.practicum.bank.cash.configs.clients;
+package ru.practicum.bank.cash.configs.clients.accounts;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.practicum.bank.cash.clients.AccountsClient;
-import ru.practicum.bank.cash.clients.AccountsClientImpl;
+import ru.practicum.bank.cash.clients.accounts.AccountsClient;
+import ru.practicum.bank.cash.clients.accounts.AccountsClientImpl;
 import ru.practicum.bank.cash.configs.DefaultWebClientFactory;
 import ru.practicum.bank.cash.exceptions.NegativeDurationException;
 

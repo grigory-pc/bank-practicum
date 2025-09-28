@@ -1,4 +1,4 @@
-package ru.practicum.bank.cash.clients;
+package ru.practicum.bank.cash.clients.accounts;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

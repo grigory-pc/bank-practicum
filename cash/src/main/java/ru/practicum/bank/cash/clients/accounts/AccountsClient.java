@@ -1,4 +1,4 @@
-package ru.practicum.bank.cash.clients;
+package ru.practicum.bank.cash.clients.accounts;
 
 import reactor.core.publisher.Mono;
 import ru.practicum.bank.cash.dto.AccountsDto;

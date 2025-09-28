@@ -1,4 +1,4 @@
-package ru.practicum.bank.cash.configs.clients;
+package ru.practicum.bank.cash.configs.clients.accounts;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

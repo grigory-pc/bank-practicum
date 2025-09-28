@@ -5,12 +5,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.bank.transfer.clients.accounts.AccountsClient;
+import ru.practicum.bank.transfer.clients.blocker.BlockerClient;
 import ru.practicum.bank.transfer.clients.exchange.ExchangeClient;
 import ru.practicum.bank.transfer.clients.notifications.NotificationsClient;
 import ru.practicum.bank.transfer.dto.AccountsDto;
 import ru.practicum.bank.transfer.dto.TransferDto;
 import ru.practicum.bank.transfer.enums.Currency;
 import ru.practicum.bank.transfer.enums.CurrencyExchange;
+import ru.practicum.bank.transfer.exceptions.BlockerException;
 
 @Slf4j
 @Service
@@ -20,6 +22,7 @@ public class TransferServiceImpl implements TransferService {
   private final AccountsClient accountsClient;
   private final ExchangeClient exchangeClient;
   private final NotificationsClient notificationsClient;
+  private final BlockerClient blockerClient;
 
   @Override
   public void transferToOtherAccount(TransferDto transferDto) {
@@ -30,6 +33,9 @@ public class TransferServiceImpl implements TransferService {
         transferDto.toCurrency())) {
       log.warn("Получен запрос на перевод средств на свой аккаунт в той же валюте: {}",
                transferDto.fromCurrency());
+
+      blockOperation();
+
       return;
     }
 
@@ -39,6 +45,9 @@ public class TransferServiceImpl implements TransferService {
     if (fromAccount.value() < transferDto.value()) {
       log.warn("На счёте недостаточно средств для снятия. На текущем счёте: {}",
                fromAccount.value());
+
+      blockOperation();
+
       return;
     }
 
@@ -57,6 +66,18 @@ public class TransferServiceImpl implements TransferService {
     accountsClient.updateAccount(List.of(updatedAccountFrom, updatedAccountTo)).subscribe();
 
     notificationsClient.requestTransferNotifications(transferDto).block();
+  }
+
+  private void blockOperation() {
+    log.info("Отправляется запрос в сервис блокировки");
+
+    var isOperationBlocked = blockerClient.requestBlockOperation().block();
+
+    if (Boolean.TRUE.equals(isOperationBlocked)) {
+      log.info("Операция заблокирована");
+    } else {
+      throw new BlockerException("Некорректный ответ от сервиса блокировки");
+    }
   }
 
   private AccountsDto updateToAccount(TransferDto transferDto, AccountsDto toAccount) {

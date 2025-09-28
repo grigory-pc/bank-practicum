@@ -10,6 +10,10 @@ client:
     base-url: http://localhost:8081/accounts
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
+  blocker:
+    base-url: http://localhost:8082/blocker
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000
   exchange:
     base-url: http://localhost:8084/rates
     connect-timeout-ms: 1000
