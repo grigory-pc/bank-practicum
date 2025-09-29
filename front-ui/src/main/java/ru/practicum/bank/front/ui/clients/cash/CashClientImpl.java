@@ -2,8 +2,12 @@ package ru.practicum.bank.front.ui.clients.cash;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -17,14 +21,24 @@ public class CashClientImpl implements CashClient {
   public static final String REQUEST_CASH_MESSAGE = "Отправлен запрос в микросервис Cash";
 
   private final WebClient webClient;
+  private final OAuth2AuthorizedClientManager manager;
 
   @Override
   public Mono<Void> requestCashOperation(CashDto cashDto) {
+    OAuth2AuthorizedClient oAuth2client = manager.authorize(OAuth2AuthorizeRequest
+                                                                .withClientRegistrationId("bank-practicum")
+                                                                .principal("system")
+                                                                .build()
+    );
+
+    var accessToken = oAuth2client.getAccessToken().getTokenValue();
+
     try {
       log.info(REQUEST_CASH_MESSAGE);
 
       return webClient
           .post()
+          .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
           .contentType(MediaType.APPLICATION_JSON)
           .body(BodyInserters.fromValue(cashDto))
           .retrieve()

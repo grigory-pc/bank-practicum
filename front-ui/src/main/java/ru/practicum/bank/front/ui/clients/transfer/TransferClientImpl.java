@@ -2,8 +2,12 @@ package ru.practicum.bank.front.ui.clients.transfer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -15,16 +19,25 @@ import ru.practicum.bank.front.ui.exceptions.WebClientHttpException;
 public class TransferClientImpl implements TransferClient {
   public static final String CASH_ERROR_MESSAGE = "Ошибка при запросе в микросервис Transfer";
   public static final String REQUEST_CASH_MESSAGE = "Отправлен запрос в микросервис Transfer";
-
   private final WebClient webClient;
+  private final OAuth2AuthorizedClientManager manager;
 
   @Override
   public Mono<Void> requestTransfer(TransferDto transferDto) {
+    OAuth2AuthorizedClient oAuth2client = manager.authorize(OAuth2AuthorizeRequest
+                                                                .withClientRegistrationId("bank-practicum")
+                                                                .principal("system")
+                                                                .build()
+    );
+
+    var accessToken = oAuth2client.getAccessToken().getTokenValue();
+
     try {
       log.info(REQUEST_CASH_MESSAGE);
 
       return webClient
           .post()
+          .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
           .contentType(MediaType.APPLICATION_JSON)
           .body(BodyInserters.fromValue(transferDto))
           .retrieve()

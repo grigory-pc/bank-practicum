@@ -1,6 +1,14 @@
+server:
+  port: ${SERVER_PORT:8081}
+
 spring:
   application:
-    name: org.postgresql.Driver
+    name: accounts
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: https://localhost:8180/realms/master
   datasource:
     url: jdbc:postgresql://localhost:5432/bank
     username: postgres
@@ -16,8 +24,6 @@ spring:
 hibernate:
   dialect: org.hibernate.dialect.PostgreSQLDialect
   show_sql: true
-server:
-  port: ${SERVER_PORT:8081}
 
 management:
   endpoints:

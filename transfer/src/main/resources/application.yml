@@ -1,9 +1,23 @@
+server:
+  port: ${SERVER_PORT:8087}
+
 spring:
   application:
     name: transfer
-
-server:
-  port: ${SERVER_PORT:8087}
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8180/realms/master
+        registration:
+          bank-practicum:
+            provider: keycloak
+            authorizationGrantType: client_credentials
+            client-id: bank-security
+            client-secret: 05NVur4UeQmcYgHaFOJgx7yny5q5EEjz
+            scope: profile
+            clientAuthenticationMethod: client_secret_post
 
 client:
   accounts:

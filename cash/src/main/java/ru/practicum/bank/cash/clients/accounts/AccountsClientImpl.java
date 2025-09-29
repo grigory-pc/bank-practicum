@@ -2,8 +2,12 @@ package ru.practicum.bank.cash.clients.accounts;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -18,9 +22,18 @@ public class AccountsClientImpl implements AccountsClient {
   public static final String REQUEST_ACCOUNTS_MESSAGE = "Отправлен запрос в микросервис Accounts";
   public static final String REQUEST_SUCCESS = "Запрос обработан успешно";
   private final WebClient webClient;
+  private final OAuth2AuthorizedClientManager manager;
 
   @Override
   public Mono<AccountsDto> requestGetAccount(String login, String currency) {
+    OAuth2AuthorizedClient oAuth2client = manager.authorize(OAuth2AuthorizeRequest
+                                                          .withClientRegistrationId("bank-practicum")
+                                                          .principal("system")
+                                                          .build()
+    );
+
+    var accessToken = oAuth2client.getAccessToken().getTokenValue();
+
     try {
       log.info(REQUEST_ACCOUNTS_MESSAGE);
 
@@ -29,6 +42,7 @@ public class AccountsClientImpl implements AccountsClient {
           .uri(uriBuilder -> uriBuilder
               .path(ACCOUNT_PATH + "/" + login + "/" + currency)
               .build())
+          .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
           .retrieve()
           .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
               .bodyToMono(String.class)
@@ -44,6 +58,14 @@ public class AccountsClientImpl implements AccountsClient {
 
   @Override
   public Mono<Void> updateAccount(AccountsDto accountsDto) {
+    OAuth2AuthorizedClient oAuth2client = manager.authorize(OAuth2AuthorizeRequest
+                                                                .withClientRegistrationId("bank-practicum")
+                                                                .principal("system")
+                                                                .build()
+    );
+
+    var accessToken = oAuth2client.getAccessToken().getTokenValue();
+
     try {
       log.info(REQUEST_ACCOUNTS_MESSAGE);
 
@@ -52,6 +74,7 @@ public class AccountsClientImpl implements AccountsClient {
           .uri(uriBuilder -> uriBuilder
               .path(ACCOUNT_PATH)
               .build())
+          .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
           .contentType(MediaType.APPLICATION_JSON)
           .body(BodyInserters.fromValue(accountsDto))
           .retrieve()
