@@ -41,7 +41,16 @@ public class SecurityConfig {
             .pathMatchers("/", "/main").hasRole("USER")
             .anyExchange().authenticated()
         )
-        .formLogin(withDefaults()
+//        .formLogin(withDefaults()
+//        )
+        .formLogin(form -> form
+            .authenticationSuccessHandler()
+            .authenticationFailureHandler()
+
+            .defaultSuccessUrl("/")
+            .successHandler((request, response, authentication) -> response.sendRedirect("/"))
+            .failureHandler((request, response, exception) -> response.sendRedirect("/signup"))
+            .permitAll()
         )
         .logout(logout -> logout
             .logoutUrl("/")
