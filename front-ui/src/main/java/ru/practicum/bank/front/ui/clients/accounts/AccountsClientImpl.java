@@ -83,7 +83,7 @@ public class AccountsClientImpl implements AccountsClient {
                           .uri(uriBuilder -> uriBuilder
                               .path(path)
                               .build())
-                          .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                          .header(HttpHeaders.AUTHORIZATION, BEARER + accessToken)
                           .contentType(MediaType.APPLICATION_JSON)
                           .body(BodyInserters.fromValue(user))
                           .retrieve()
@@ -137,8 +137,8 @@ public class AccountsClientImpl implements AccountsClient {
   @Override
   public Mono<UserAuthDto> requestGetAuthUser(String login) {
     return manager.authorize(OAuth2AuthorizeRequest
-                                 .withClientRegistrationId(oAuth2props.clientRegistrationId())
-                                 .principal(oAuth2props.principal())
+                                 .withClientRegistrationId("bank-practicum")
+                                 .principal("system")
                                  .build())
                   .flatMap(client -> {
                     var accessToken = client.getAccessToken().getTokenValue();
@@ -151,7 +151,7 @@ public class AccountsClientImpl implements AccountsClient {
                           .uri(uriBuilder -> uriBuilder
                               .path(GET_AUTH_PATH + "/" + login)
                               .build())
-                          .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+                          .header(HttpHeaders.AUTHORIZATION, BEARER + accessToken)
                           .retrieve()
                           .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
                               .bodyToMono(String.class)
