@@ -3,10 +3,12 @@ package ru.practicum.bank.front.ui.configs.clients.exchange;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.bank.front.ui.clients.exchange.ExchangeClient;
 import ru.practicum.bank.front.ui.clients.exchange.ExchangeClientImpl;
 import ru.practicum.bank.front.ui.configs.clients.DefaultWebClientFactory;
+import ru.practicum.bank.front.ui.configs.security.OAuth2ConfigProps;
 import ru.practicum.bank.front.ui.exceptions.NegativeDurationException;
 
 @Configuration
@@ -22,7 +24,9 @@ public class ExchangeClientBinding {
 
   @Bean
   public ExchangeClient exchangeGeneratorClient(
-      @Qualifier(EXCHANGE_GENERATOR_WEB_CLIENT) WebClient webClient) {
-    return new ExchangeClientImpl(webClient);
+      @Qualifier(EXCHANGE_GENERATOR_WEB_CLIENT) WebClient webClient,
+      ReactiveOAuth2AuthorizedClientManager clientManager,
+      OAuth2ConfigProps oAuth2Props) {
+    return new ExchangeClientImpl(webClient, clientManager, oAuth2Props);
   }
 }

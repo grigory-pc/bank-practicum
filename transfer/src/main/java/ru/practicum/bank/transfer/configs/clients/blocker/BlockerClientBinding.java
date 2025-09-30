@@ -3,6 +3,7 @@ package ru.practicum.bank.transfer.configs.clients.blocker;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.bank.transfer.clients.blocker.BlockerClient;
 import ru.practicum.bank.transfer.clients.blocker.BlockerClientImpl;
@@ -21,7 +22,8 @@ public class BlockerClientBinding {
   }
 
   @Bean
-  public BlockerClient blockerClient(@Qualifier(BLOCKER_WEB_CLIENT) WebClient webClient) {
-    return new BlockerClientImpl(webClient);
+  public BlockerClient blockerClient(@Qualifier(BLOCKER_WEB_CLIENT) WebClient webClient,
+                                     OAuth2AuthorizedClientManager clientManager) {
+    return new BlockerClientImpl(webClient, clientManager);
   }
 }

@@ -3,6 +3,7 @@ package ru.practicum.bank.transfer.configs.clients.exchange;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.bank.transfer.clients.exchange.ExchangeClient;
 import ru.practicum.bank.transfer.clients.exchange.ExchangeClientImpl;
@@ -22,7 +23,8 @@ public class ExchangeClientBinding {
 
   @Bean
   public ExchangeClient exchangeGeneratorClient(
-      @Qualifier(EXCHANGE_GENERATOR_WEB_CLIENT) WebClient webClient) {
-    return new ExchangeClientImpl(webClient);
+      @Qualifier(EXCHANGE_GENERATOR_WEB_CLIENT) WebClient webClient,
+      OAuth2AuthorizedClientManager clientManager) {
+    return new ExchangeClientImpl(webClient, clientManager);
   }
 }

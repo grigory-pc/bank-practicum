@@ -3,6 +3,7 @@ package ru.practicum.bank.transfer.configs.clients.notifications;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.bank.transfer.clients.notifications.NotificationsClient;
 import ru.practicum.bank.transfer.clients.notifications.NotificationsClientImpl;
@@ -21,7 +22,8 @@ public class NotificationsClientBinding {
   }
 
   @Bean
-  public NotificationsClient notificationsClient(@Qualifier(NOTIFICATIONS_WEB_CLIENT) WebClient webClient) {
-    return new NotificationsClientImpl(webClient);
+  public NotificationsClient notificationsClient(@Qualifier(NOTIFICATIONS_WEB_CLIENT) WebClient webClient,
+                                                 OAuth2AuthorizedClientManager clientManager) {
+    return new NotificationsClientImpl(webClient, clientManager);
   }
 }
