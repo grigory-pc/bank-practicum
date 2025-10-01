@@ -1,6 +1,8 @@
 package ru.practicum.bank.front.ui.configs.clients.accounts;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction;
+import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientManager;
@@ -17,10 +19,11 @@ public class AccountsClientBinding {
 
 
   @Bean(ACCOUNTS_WEB_CLIENT)
-  public WebClient getAccountsWebClient(AccountsClientProps props)
+  public WebClient getAccountsWebClient(AccountsClientProps props,
+                                        DeferringLoadBalancerExchangeFilterFunction<LoadBalancedExchangeFilterFunction> exchangeFilterFunction)
       throws NegativeDurationException {
     return DefaultWebClientFactory.getClient(props.connectTimeoutMs(), props.responseTimeoutMs(),
-                                             props.baseUrl());
+                                             props.baseUrl(), exchangeFilterFunction);
   }
 
   @Bean

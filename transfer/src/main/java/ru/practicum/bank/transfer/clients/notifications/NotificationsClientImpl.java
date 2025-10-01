@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClient
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.practicum.bank.transfer.configs.OAuth2ConfigProps;
+import ru.practicum.bank.transfer.configs.security.OAuth2ConfigProps;
 import ru.practicum.bank.transfer.dto.TransferDto;
 import ru.practicum.bank.transfer.exceptions.WebClientHttpException;
 

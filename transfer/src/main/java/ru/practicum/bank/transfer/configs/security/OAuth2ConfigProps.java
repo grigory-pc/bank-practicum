@@ -1,4 +1,4 @@
-package ru.practicum.bank.cash.configs;
+package ru.practicum.bank.transfer.configs.security;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

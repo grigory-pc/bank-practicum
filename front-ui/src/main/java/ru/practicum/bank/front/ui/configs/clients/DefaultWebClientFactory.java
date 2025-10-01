@@ -1,9 +1,16 @@
 package ru.practicum.bank.front.ui.configs.clients;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.ChannelOption;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction;
+import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 import ru.practicum.bank.front.ui.exceptions.NegativeDurationException;
@@ -14,7 +21,6 @@ import ru.practicum.bank.front.ui.exceptions.NegativeDurationException;
 public class DefaultWebClientFactory {
   private DefaultWebClientFactory() {
   }
-
   /**
    * Настраиваемый web-клиент с конфигурированием URL для выполнения запросов.
    *
@@ -24,9 +30,14 @@ public class DefaultWebClientFactory {
    * @return Сконфигурированный HTTP-клиент для использования при выполнении запросов.
    * @throws NegativeDurationException Если переданы отрицательные значения таймаутов.
    */
-  public static WebClient getClient(int connectTimeoutMs, long responseTimeoutMs, String baseUrl)
+  public static WebClient getClient(int connectTimeoutMs, long responseTimeoutMs, String baseUrl,
+                                    DeferringLoadBalancerExchangeFilterFunction<LoadBalancedExchangeFilterFunction> exchangeFilterFunction)
       throws NegativeDurationException {
-    return configureWebClientBuilder(connectTimeoutMs, responseTimeoutMs).baseUrl(baseUrl).build();
+    return configureWebClientBuilder(connectTimeoutMs, responseTimeoutMs)
+        .baseUrl(baseUrl)
+        .filter(exchangeFilterFunction)
+        .exchangeStrategies(getExchangeStrategies())
+        .build();
   }
 
   /**
@@ -52,5 +63,21 @@ public class DefaultWebClientFactory {
     return WebClient
         .builder()
         .clientConnector(new ReactorClientHttpConnector(baseClient));
+  }
+
+  private static ExchangeStrategies getExchangeStrategies() {
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    return  ExchangeStrategies.builder()
+                              .codecs(clientDefaultCodecsConfigurer -> {
+                                clientDefaultCodecsConfigurer
+                                    .defaultCodecs()
+                                    .jackson2JsonEncoder(
+                                        new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON, MediaType.TEXT_EVENT_STREAM));
+                                clientDefaultCodecsConfigurer
+                                    .defaultCodecs()
+                                    .jackson2JsonDecoder(
+                                        new Jackson2JsonDecoder(objectMapper, MediaType.APPLICATION_JSON, MediaType.TEXT_EVENT_STREAM));
+                              }).build();
   }
 }

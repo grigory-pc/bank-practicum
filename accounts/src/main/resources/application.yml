@@ -4,15 +4,14 @@ server:
 spring:
   application:
     name: accounts
-  consul:
-    host: localhost
-    port: 8500
-    discovery:
-      service-name: accounts
-    config:
-      enabled: true
-      prefix: config
-      defaultContext: application
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: 127.0.0.1
+      config:
+        enabled: false
   security:
     oauth2:
       resource-server:
@@ -34,3 +33,11 @@ hibernate:
   dialect: org.hibernate.dialect.PostgreSQLDialect
   show_sql: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always

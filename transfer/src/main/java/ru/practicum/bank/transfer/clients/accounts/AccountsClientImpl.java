@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.practicum.bank.transfer.configs.OAuth2ConfigProps;
+import ru.practicum.bank.transfer.configs.security.OAuth2ConfigProps;
 import ru.practicum.bank.transfer.dto.AccountsDto;
 import ru.practicum.bank.transfer.exceptions.WebClientHttpException;
 

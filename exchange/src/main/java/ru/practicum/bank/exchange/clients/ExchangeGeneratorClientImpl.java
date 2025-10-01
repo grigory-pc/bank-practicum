@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.practicum.bank.exchange.configs.OAuth2ConfigProps;
+import ru.practicum.bank.exchange.configs.security.OAuth2ConfigProps;
 import ru.practicum.bank.exchange.dto.Rate;
 import ru.practicum.bank.exchange.exceptions.WebClientHttpException;
 

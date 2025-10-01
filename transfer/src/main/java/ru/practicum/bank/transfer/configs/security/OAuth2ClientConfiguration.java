@@ -1,4 +1,4 @@
-package ru.practicum.bank.exchange.configs;
+package ru.practicum.bank.transfer.configs.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

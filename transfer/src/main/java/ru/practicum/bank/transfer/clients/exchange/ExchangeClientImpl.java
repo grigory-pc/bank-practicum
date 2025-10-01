@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.practicum.bank.transfer.configs.OAuth2ConfigProps;
+import ru.practicum.bank.transfer.configs.security.OAuth2ConfigProps;
 import ru.practicum.bank.transfer.dto.Rate;
 import ru.practicum.bank.transfer.enums.CurrencyExchange;
 import ru.practicum.bank.transfer.exceptions.WebClientHttpException;
