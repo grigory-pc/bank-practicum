@@ -19,11 +19,3 @@ spring:
         jwt:
           issuer-uri: http://localhost:8180/realms/master
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info
-  endpoint:
-    health:
-      show-details: always

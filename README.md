@@ -18,4 +18,9 @@ docker run -d -p 8082:8080 --name keycloak -e KC_BOOTSTRAP_ADMIN_USERNAME=admin 
 ```
 docker run -d --name=consul-server -e CONSUL_BIND_INTERFACE=eth0 -p 8500:8500 -p 8600:8600/udp hashicorp/consul
 ```
+Добавление общих параметров после запуска контейнера:
+```
+consul kv put config/management/endpoints/web/exposure/include "health,info"
+consul kv put config/management/endpoint/health/show-details "always
+```
 
