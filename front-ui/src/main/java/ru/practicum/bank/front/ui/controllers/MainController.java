@@ -19,7 +19,6 @@ public class MainController {
   public static final String MAIN_TEMPLATE = "main";
   private final AccountsClient accountsClient;
 
-
   /**
    * Перенаправление запросов с "/" на "/main".
    *

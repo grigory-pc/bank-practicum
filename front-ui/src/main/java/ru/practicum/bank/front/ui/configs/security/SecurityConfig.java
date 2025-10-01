@@ -8,7 +8,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
@@ -18,12 +17,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationFailureHandler;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 import ru.practicum.bank.front.ui.clients.accounts.AccountsClient;
-import ru.practicum.bank.front.ui.exceptions.WebClientHttpException;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Slf4j
 @Configuration
@@ -37,20 +35,14 @@ public class SecurityConfig {
         .csrf(ServerHttpSecurity.CsrfSpec::disable)
         .authenticationManager(authenticationManager)
         .authorizeExchange(exchanges -> exchanges
+            .pathMatchers("/login").permitAll()
             .pathMatchers("/signup").permitAll()
             .pathMatchers("/", "/main").hasRole("USER")
             .anyExchange().authenticated()
         )
-//        .formLogin(withDefaults()
-//        )
         .formLogin(form -> form
-            .authenticationSuccessHandler()
-            .authenticationFailureHandler()
-
-            .defaultSuccessUrl("/")
-            .successHandler((request, response, authentication) -> response.sendRedirect("/"))
-            .failureHandler((request, response, exception) -> response.sendRedirect("/signup"))
-            .permitAll()
+            .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("/"))
+            .authenticationFailureHandler(new RedirectServerAuthenticationFailureHandler("/signup"))
         )
         .logout(logout -> logout
             .logoutUrl("/")
@@ -109,8 +101,9 @@ public class SecurityConfig {
                                      .onErrorResume(e -> {
                                        log.error("Ошибка при попытке получения данных пользователя",
                                                  e);
-                                       return Mono.error(new WebClientHttpException(
-                                           "Возникла непредвиденная ситуация во время получения(отправки) данных из Accounts"));
+                                       return Mono.error(new BadCredentialsException(
+                                           "Возникла непредвиденная ситуация во время получения(отправки) данных из Accounts"
+                                       ));
                                      });
   }
 
@@ -119,11 +112,4 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
-  @Bean
-  public WebSecurityCustomizer webSecurityCustomizer() {
-    return web -> web
-        .ignoring()
-        .requestMatchers("//static/**")
-        .requestMatchers("//resources/**");
-  }
 }

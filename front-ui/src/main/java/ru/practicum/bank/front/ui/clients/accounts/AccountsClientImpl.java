@@ -137,8 +137,8 @@ public class AccountsClientImpl implements AccountsClient {
   @Override
   public Mono<UserAuthDto> requestGetAuthUser(String login) {
     return manager.authorize(OAuth2AuthorizeRequest
-                                 .withClientRegistrationId("bank-practicum")
-                                 .principal("system")
+                                 .withClientRegistrationId(oAuth2props.clientRegistrationId())
+                                 .principal(oAuth2props.principal())
                                  .build())
                   .flatMap(client -> {
                     var accessToken = client.getAccessToken().getTokenValue();
