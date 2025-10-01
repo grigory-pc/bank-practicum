@@ -4,6 +4,15 @@ server:
 spring:
   application:
     name: exchange
+  consul:
+    host: localhost
+    port: 8500
+    discovery:
+      service-name: exchange
+    config:
+      enabled: true
+      prefix: config
+      defaultContext: application
   security:
     oauth2:
       client:
@@ -25,7 +34,7 @@ oauth2:
 
 client:
   exchange-generator:
-    base-url: http://localhost:8085/exchange-generator
+    base-url: http://exchange-generator/exchange-generator
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
 

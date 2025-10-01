@@ -4,6 +4,15 @@ server:
 spring:
   application:
     name: transfer
+  consul:
+    host: localhost
+    port: 8500
+    discovery:
+      service-name: transfer
+    config:
+      enabled: true
+      prefix: config
+      defaultContext: application
   security:
     oauth2:
       client:
@@ -25,19 +34,19 @@ oauth2:
 
 client:
   accounts:
-    base-url: http://localhost:8081/accounts
+    base-url: http://accounts/accounts
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   blocker:
-    base-url: http://localhost:8082/blocker
+    base-url: http://blocker/blocker
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   exchange:
-    base-url: http://localhost:8084/rates
+    base-url: http://rates/rates
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   notifications:
-    base-url: http://localhost:8086/notifications
+    base-url: http://notifications/notifications
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
 
