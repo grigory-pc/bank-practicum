@@ -14,8 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationFailureHandler;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
@@ -63,20 +61,11 @@ public class SecurityConfig {
   public ReactiveAuthenticationManager authenticationManager(
       ReactiveUserDetailsService reactiveUserDetailsService) {
     return authentication -> reactiveUserDetailsService.findByUsername(authentication.getName())
-                                                       .map(userDetails -> {
-                                                         String presentedPassword
-                                                             = (String) authentication.getCredentials();
-                                                         if (!passwordEncoder().matches(
-                                                             presentedPassword,
-                                                             userDetails.getPassword())) {
-                                                           throw new BadCredentialsException(
-                                                               "Неверный пароль");
-                                                         }
-                                                         return new UsernamePasswordAuthenticationToken(
-                                                             userDetails,
-                                                             authentication.getCredentials(),
-                                                             userDetails.getAuthorities());
-                                                       })
+                                                       .map(
+                                                           userDetails -> new UsernamePasswordAuthenticationToken(
+                                                               userDetails,
+                                                               authentication.getCredentials(),
+                                                               userDetails.getAuthorities()))
                                                        .cast(Authentication.class)
                                                        .switchIfEmpty(Mono.error(
                                                            new BadCredentialsException(
@@ -106,10 +95,4 @@ public class SecurityConfig {
                                        ));
                                      });
   }
-
-  @Bean
-  PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
-
 }

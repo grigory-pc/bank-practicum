@@ -7,8 +7,8 @@ VALUES
 
 INSERT INTO users (login, password, name, birthdate, role)
 VALUES
-    ('Ivan', '{noop}Ivan}', 'Иван Иванов', '1990-05-15', 'USER'),
-    ('Petr', '{noop}Petr}', 'Петр Петров', '1991-01-01', 'USER');
+    ('Ivan', 'password', 'Иван Иванов', '1990-05-15', 'USER'),
+    ('Petr', 'password', 'Петр Петров', '1991-01-01', 'USER');
 
 
 INSERT INTO accounts (currency_id, user_id, value, is_exists)
