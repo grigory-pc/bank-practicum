@@ -21,6 +21,7 @@ import ru.practicum.bank.cash.exceptions.NegativeDurationException;
 public class DefaultWebClientFactory {
   private DefaultWebClientFactory() {
   }
+
   /**
    * Настраиваемый web-клиент с конфигурированием URL для выполнения запросов.
    *
@@ -45,7 +46,7 @@ public class DefaultWebClientFactory {
    *
    * @param connectTimeoutMs  Таймаут ожидания подключения в миллисекундах.
    * @param responseTimeoutMs Таймаут ожидания ответа в миллисекундах.
-   * @return Предварительно настроенный {@link org.springframework.web.reactive.function.client.WebClient.Builder}.
+   * @return Предварительно настроенный {@link WebClient.Builder}.
    * @throws NegativeDurationException Если переданы отрицательные значения таймаутов.
    */
   private static WebClient.Builder configureWebClientBuilder(int connectTimeoutMs,

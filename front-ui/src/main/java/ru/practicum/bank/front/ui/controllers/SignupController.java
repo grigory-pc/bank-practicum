@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import reactor.core.publisher.Mono;
 import ru.practicum.bank.front.ui.clients.accounts.AccountsClient;
 import ru.practicum.bank.front.ui.dto.UserDto;
 
@@ -24,6 +23,7 @@ import ru.practicum.bank.front.ui.dto.UserDto;
 public class SignupController {
 
   public static final String SIGNUP_TEMPLATE = "signup";
+  public static final String LOGIN = "login";
 
   private final AccountsClient accountsClient;
 
@@ -33,10 +33,10 @@ public class SignupController {
    * @return страница регистрации аккаунта в системе.
    */
   @GetMapping()
-  public Mono<String> getSignup() {
+  public String getSignup() {
     log.info("Получен запрос на регистрацию аккаунта");
 
-    return Mono.just(SIGNUP_TEMPLATE);
+    return SIGNUP_TEMPLATE;
   }
 
   /**
@@ -50,24 +50,28 @@ public class SignupController {
    * @return главная страница или станица регистрации в случае ошибки.
    */
   @PostMapping
-  public Mono<String> registerNewAccount(@RequestParam(value = "login") @NotBlank String login,
-                                         @RequestParam(value = "password")
-                                         @NotBlank String password,
-                                         @RequestParam(value = "confirm_password")
-                                         @NotBlank String confirmPassword,
-                                         @RequestParam(value = "name") @NotBlank String name,
-                                         @RequestParam(value = "birthdate")
-                                         @NotNull LocalDate birthdate) {
+  public String registerNewAccount(@RequestParam(value = LOGIN) @NotBlank String login,
+                                   @RequestParam(value = "password") @NotBlank String password,
+                                   @RequestParam(value = "confirm_password")
+                                   @NotBlank String confirmPassword,
+                                   @RequestParam(value = "name") @NotBlank String name,
+                                   @RequestParam(value = "birthdate")
+                                   @NotNull LocalDate birthdate) {
 
-    var newAccount = UserDto.builder()
-                            .login(login)
-                            .password(password)
-                            .confirm_password(confirmPassword)
-                            .name(name)
-                            .birthdate(birthdate)
-                            .build();
+    try {
+      var newAccount = UserDto.builder()
+                              .login(login)
+                              .password(password)
+                              .confirm_password(confirmPassword)
+                              .name(name)
+                              .birthdate(birthdate)
+                              .build();
 
-    return accountsClient.requestCreateUser(newAccount)
-                         .then(Mono.just("login"));
+      accountsClient.requestCreateUser(newAccount).block();
+
+      return LOGIN;
+    } catch (Exception e) {
+      return SIGNUP_TEMPLATE;
+    }
   }
 }

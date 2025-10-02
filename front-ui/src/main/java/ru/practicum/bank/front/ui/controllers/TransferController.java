@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import reactor.core.publisher.Mono;
 import ru.practicum.bank.front.ui.clients.transfer.TransferClient;
 import ru.practicum.bank.front.ui.dto.TransferDto;
 
@@ -34,11 +33,11 @@ public class TransferController {
    * @return редирект на "/main".
    */
   @PostMapping("/user/{login}/transfer")
-  public Mono<String> getCash(@PathVariable(value = "login") String login,
-                              @RequestParam(value = "from_currency") @NotBlank String fromCurrency,
-                              @RequestParam(value = "to_currency") @NotBlank String toCurrency,
-                              @RequestParam(value = "value") @NotNull Integer value,
-                              @RequestParam(value = "to_login") @NotBlank String toLogin) {
+  public String getCash(@PathVariable(value = "login") String login,
+                        @RequestParam(value = "from_currency") @NotBlank String fromCurrency,
+                        @RequestParam(value = "to_currency") @NotBlank String toCurrency,
+                        @RequestParam(value = "value") @NotNull Integer value,
+                        @RequestParam(value = "to_login") @NotBlank String toLogin) {
     log.info("получен запрос на перевод средств со счета: {} на счет: {}", fromCurrency,
              toCurrency);
 
@@ -50,6 +49,8 @@ public class TransferController {
                                  .toLogin(toLogin)
                                  .build();
 
-    return transferClient.requestTransfer(transferDto).then(Mono.just(REDIRECT_MAIN));
+    transferClient.requestTransfer(transferDto).block();
+
+    return REDIRECT_MAIN;
   }
 }

@@ -12,24 +12,6 @@ spring:
         hostname: 127.0.0.1
       config:
         enabled: false
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:8180/realms/master
-        registration:
-          bank-practicum:
-            provider: keycloak
-            authorizationGrantType: client_credentials
-            client-id: bank-security
-            client-secret: t3lFCVk2q1yDCLYX2i6v6nIXEAyF507D
-            scope: profile
-            clientAuthenticationMethod: client_secret_post
-
-oauth2:
-  client-registration-id: bank-practicum
-  principal: system
 
 client:
   accounts:

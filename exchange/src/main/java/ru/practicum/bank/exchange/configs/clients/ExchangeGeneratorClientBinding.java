@@ -5,11 +5,9 @@ import org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalan
 import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.bank.exchange.clients.ExchangeGeneratorClient;
 import ru.practicum.bank.exchange.clients.ExchangeGeneratorClientImpl;
-import ru.practicum.bank.exchange.configs.security.OAuth2ConfigProps;
 import ru.practicum.bank.exchange.exceptions.NegativeDurationException;
 
 @Configuration
@@ -26,9 +24,7 @@ public class ExchangeGeneratorClientBinding {
 
   @Bean
   public ExchangeGeneratorClient exchangeGeneratorClient(
-      @Qualifier(EXCHANGE_GENERATOR_WEB_CLIENT) WebClient webClient,
-      ReactiveOAuth2AuthorizedClientManager clientManager,
-      OAuth2ConfigProps oAuth2Props) {
-    return new ExchangeGeneratorClientImpl(webClient, clientManager, oAuth2Props);
+      @Qualifier(EXCHANGE_GENERATOR_WEB_CLIENT) WebClient webClient) {
+    return new ExchangeGeneratorClientImpl(webClient);
   }
 }

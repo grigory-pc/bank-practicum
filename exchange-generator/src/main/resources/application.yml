@@ -12,9 +12,3 @@ spring:
         hostname: 127.0.0.1
       config:
         enabled: false
-  security:
-    oauth2:
-      resource-server:
-        jwt:
-          issuer-uri: http://localhost:8180/realms/master
-

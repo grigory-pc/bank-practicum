@@ -5,12 +5,10 @@ import org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalan
 import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.bank.transfer.clients.accounts.AccountsClient;
 import ru.practicum.bank.transfer.clients.accounts.AccountsClientImpl;
 import ru.practicum.bank.transfer.configs.clients.DefaultWebClientFactory;
-import ru.practicum.bank.transfer.configs.security.OAuth2ConfigProps;
 import ru.practicum.bank.transfer.exceptions.NegativeDurationException;
 
 @Configuration
@@ -26,9 +24,7 @@ public class AccountsClientBinding {
   }
 
   @Bean
-  public AccountsClient accountsClient(@Qualifier(ACCOUNTS_WEB_CLIENT) WebClient webClient,
-                                       ReactiveOAuth2AuthorizedClientManager clientManager,
-                                       OAuth2ConfigProps oAuth2Props) {
-    return new AccountsClientImpl(webClient, clientManager, oAuth2Props);
+  public AccountsClient accountsClient(@Qualifier(ACCOUNTS_WEB_CLIENT) WebClient webClient) {
+    return new AccountsClientImpl(webClient);
   }
 }

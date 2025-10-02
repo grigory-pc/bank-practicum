@@ -1,7 +1,6 @@
 package ru.practicum.bank.front.ui.configs.clients;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.netty.channel.ChannelOption;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -35,15 +34,11 @@ public class DefaultWebClientFactory {
   public static WebClient getClient(int connectTimeoutMs, long responseTimeoutMs, String baseUrl,
                                     DeferringLoadBalancerExchangeFilterFunction<LoadBalancedExchangeFilterFunction> exchangeFilterFunction)
       throws NegativeDurationException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.registerModule(new JavaTimeModule());
 
     return configureWebClientBuilder(connectTimeoutMs, responseTimeoutMs)
         .baseUrl(baseUrl)
         .filter(exchangeFilterFunction)
         .exchangeStrategies(getExchangeStrategies())
-        .codecs((configurer -> configurer.customCodecs()
-                                         .register(new Jackson2JsonDecoder(objectMapper))))
         .build();
   }
 

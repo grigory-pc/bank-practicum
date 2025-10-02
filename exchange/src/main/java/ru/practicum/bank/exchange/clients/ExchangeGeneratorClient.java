@@ -13,7 +13,7 @@ public interface ExchangeGeneratorClient {
    * Получение списка курсов валют.
    * @return курсы валют.
    */
-  Mono<List<Rate>> getRates();
+  List<Rate> getRates();
 
   /**
    * Получение курса валюты.
