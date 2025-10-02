@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import reactor.core.publisher.Mono;
 import ru.practicum.bank.front.ui.clients.accounts.AccountsClient;
 import ru.practicum.bank.front.ui.dto.UserDto;
 
@@ -34,10 +35,11 @@ public class AccountController {
    * @return главная страница.
    */
   @PostMapping("/{login}/editPassword")
-  public String editAccountPassword(@PathVariable(value = "login") @NotBlank String login,
-                                    @RequestParam(value = "password") @NotBlank String password,
-                                    @RequestParam(value = "confirm_password")
-                                    @NotBlank String confirmPassword) {
+  public Mono<String> editAccountPassword(@PathVariable(value = "login") @NotBlank String login,
+                                          @RequestParam(value = "password")
+                                          @NotBlank String password,
+                                          @RequestParam(value = "confirm_password")
+                                          @NotBlank String confirmPassword) {
     log.info("получен запрос на изменение пароля");
 
     var account = UserDto.builder()
@@ -48,7 +50,8 @@ public class AccountController {
 
     accountsClient.requestEditUser(EDIT_USER_PASSWORD, account).block();
 
-    return REDIRECT_MAIN;
+    return accountsClient.requestEditUser(EDIT_USER_PASSWORD, account)
+                         .then(Mono.just(REDIRECT_MAIN));
   }
 
   /**
@@ -60,9 +63,10 @@ public class AccountController {
    * @return главная страница.
    */
   @PostMapping("/{login}/editUserAccounts")
-  public String editUserAccounts(@PathVariable(value = "login") @NotBlank String login,
-                                 @RequestParam(value = "name") @NotBlank String name,
-                                 @RequestParam(value = "birthdate") @NotBlank LocalDate birthdate) {
+  public Mono<String> editUserAccounts(@PathVariable(value = "login") @NotBlank String login,
+                                       @RequestParam(value = "name") @NotBlank String name,
+                                       @RequestParam(value = "birthdate")
+                                       @NotBlank LocalDate birthdate) {
     log.info("получен запрос на изменение данных пользователя");
 
     var account = UserDto.builder()
@@ -71,8 +75,7 @@ public class AccountController {
                          .birthdate(birthdate)
                          .build();
 
-    accountsClient.requestEditUser(EDIT_USER_DATA, account).block();
+    return accountsClient.requestEditUser(EDIT_USER_DATA, account).then(Mono.just(REDIRECT_MAIN));
 
-    return REDIRECT_MAIN;
   }
 }

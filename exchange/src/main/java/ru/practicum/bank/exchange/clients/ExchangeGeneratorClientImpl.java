@@ -25,7 +25,7 @@ public class ExchangeGeneratorClientImpl implements ExchangeGeneratorClient {
   private final OAuth2ConfigProps oAuth2props;
 
   @Override
-  public List<Rate> getRates() {
+  public Mono<List<Rate>> getRates() {
     return manager.authorize(OAuth2AuthorizeRequest
                                  .withClientRegistrationId(oAuth2props.clientRegistrationId())
                                  .principal(oAuth2props.principal())
@@ -53,9 +53,7 @@ public class ExchangeGeneratorClientImpl implements ExchangeGeneratorClient {
                       log.error("Ошибка при получении курсов валют", e);
                       throw e;
                     }
-                  }).blockOptional()
-                  .orElseThrow(
-                      () -> new WebClientHttpException("Не удалось получить список курсов валют"));
+                  });
   }
 
   @Override

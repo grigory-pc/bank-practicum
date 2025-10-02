@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 import ru.practicum.bank.exchange.clients.ExchangeGeneratorClient;
 import ru.practicum.bank.exchange.dto.Rate;
 
@@ -22,7 +23,7 @@ public class ExchangeController {
   private final ExchangeGeneratorClient exchangeGeneratorClient;
 
   @GetMapping
-  public List<Rate> getRates() {
+  public Mono<List<Rate>> getRates() {
     log.info("получен запрос на получение всех курсов валют");
 
     return exchangeGeneratorClient.getRates();

@@ -1,6 +1,5 @@
 package ru.practicum.bank.front.ui.clients.exchange;
 
-import java.time.Duration;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +9,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import ru.practicum.bank.front.ui.configs.security.OAuth2ConfigProps;
 import ru.practicum.bank.front.ui.dto.Rate;
 import ru.practicum.bank.front.ui.exceptions.WebClientHttpException;
@@ -24,7 +24,7 @@ public class ExchangeClientImpl implements ExchangeClient {
   private final OAuth2ConfigProps oAuth2props;
 
   @Override
-  public List<Rate> getRates() {
+  public Mono<List<Rate>> getRates() {
     return manager.authorize(
                       OAuth2AuthorizeRequest.withClientRegistrationId(oAuth2props.clientRegistrationId())
                                             .principal(oAuth2props.principal())
@@ -45,11 +45,7 @@ public class ExchangeClientImpl implements ExchangeClient {
                         })
                         .doOnSuccess(response -> log.info("Получен ответ {}", response))
                         .doOnError(WebClientHttpException.class,
-                                   ex -> log.error("Ошибка при получении списка курсов валют", ex))
-                        .timeout(Duration.ofSeconds(10));
-                  })
-                  .blockOptional()
-                  .orElseThrow(
-                      () -> new WebClientHttpException("Не удалось получить список курсов валют"));
+                                   ex -> log.error("Ошибка при получении списка курсов валют", ex));
+                  });
   }
 }

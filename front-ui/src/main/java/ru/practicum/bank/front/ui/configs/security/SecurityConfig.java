@@ -31,11 +31,12 @@ public class SecurityConfig {
                                                        ReactiveAuthenticationManager authenticationManager) {
     return http
         .csrf(ServerHttpSecurity.CsrfSpec::disable)
+        .cors(ServerHttpSecurity.CorsSpec::disable)
         .authenticationManager(authenticationManager)
         .authorizeExchange(exchanges -> exchanges
             .pathMatchers("/login").permitAll()
             .pathMatchers("/signup").permitAll()
-            .pathMatchers("/", "/main").hasRole("USER")
+            .pathMatchers("/**").hasRole("USER")
             .anyExchange().authenticated()
         )
         .formLogin(form -> form

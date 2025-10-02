@@ -41,6 +41,7 @@ public class MainController {
 
     return accountsClient.requestGetUser(principal.getName())
                          .doOnNext(userFull -> {
+                           model.addAttribute("login", userFull.login());
                            model.addAttribute("name", userFull.name());
                            model.addAttribute("birthdate", userFull.birthdate());
                            model.addAttribute("accounts", userFull.accounts());

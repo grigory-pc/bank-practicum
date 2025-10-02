@@ -41,7 +41,7 @@ client:
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   exchange:
-    base-url: http://rates/rates
+    base-url: http://exchange/rates
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   notifications:
