@@ -18,7 +18,6 @@ import ru.practicum.bank.front.ui.clients.accounts.AccountsClient;
 @RequiredArgsConstructor
 public class MainController {
   public static final String MAIN_TEMPLATE = "main";
-  public static final String SIGNUP_TEMPLATE = "/signup";
   private final AccountsClient accountsClient;
 
   /**
@@ -40,11 +39,8 @@ public class MainController {
   public Mono<String> getMain(Principal principal, Model model) {
     log.info("Получен запрос на открытие главной страницы для аккаунта: ");
 
-    //    var userFull = accountsClient.requestGetUser(principal.getName()).block();
-
     return accountsClient.requestGetUser(principal.getName())
-                         .flatMap(userFull -> {
-                           model.addAttribute("login", userFull.login());
+                         .doOnNext(userFull -> {
                            model.addAttribute("name", userFull.name());
                            model.addAttribute("birthdate", userFull.birthdate());
                            model.addAttribute("accounts", userFull.accounts());
@@ -55,10 +51,7 @@ public class MainController {
                            model.addAttribute("cashErrors", userFull.cashErrors());
                            model.addAttribute("transferErrors", userFull.transferErrors());
                            model.addAttribute("transferErrors", userFull.transferOtherErrors());
-                           return Mono.just(MAIN_TEMPLATE);  // замените на имя вашего шаблона
                          })
-                         .doOnError(ex -> log.error("Ошибка при загрузке данных пользователя: {}",
-                                                    ex.getMessage()))
-                         .onErrorResume(ex -> Mono.just(SIGNUP_TEMPLATE));
+                         .then(Mono.just(MAIN_TEMPLATE));
   }
 }

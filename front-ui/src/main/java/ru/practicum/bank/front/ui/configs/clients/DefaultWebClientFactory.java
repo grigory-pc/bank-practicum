@@ -1,6 +1,7 @@
 package ru.practicum.bank.front.ui.configs.clients;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.netty.channel.ChannelOption;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -21,6 +22,7 @@ import ru.practicum.bank.front.ui.exceptions.NegativeDurationException;
 public class DefaultWebClientFactory {
   private DefaultWebClientFactory() {
   }
+
   /**
    * Настраиваемый web-клиент с конфигурированием URL для выполнения запросов.
    *
@@ -33,10 +35,15 @@ public class DefaultWebClientFactory {
   public static WebClient getClient(int connectTimeoutMs, long responseTimeoutMs, String baseUrl,
                                     DeferringLoadBalancerExchangeFilterFunction<LoadBalancedExchangeFilterFunction> exchangeFilterFunction)
       throws NegativeDurationException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new JavaTimeModule());
+
     return configureWebClientBuilder(connectTimeoutMs, responseTimeoutMs)
         .baseUrl(baseUrl)
         .filter(exchangeFilterFunction)
         .exchangeStrategies(getExchangeStrategies())
+        .codecs((configurer -> configurer.customCodecs()
+                                         .register(new Jackson2JsonDecoder(objectMapper))))
         .build();
   }
 
@@ -68,16 +75,20 @@ public class DefaultWebClientFactory {
   private static ExchangeStrategies getExchangeStrategies() {
     ObjectMapper objectMapper = new ObjectMapper();
 
-    return  ExchangeStrategies.builder()
-                              .codecs(clientDefaultCodecsConfigurer -> {
-                                clientDefaultCodecsConfigurer
-                                    .defaultCodecs()
-                                    .jackson2JsonEncoder(
-                                        new Jackson2JsonEncoder(objectMapper, MediaType.APPLICATION_JSON, MediaType.TEXT_EVENT_STREAM));
-                                clientDefaultCodecsConfigurer
-                                    .defaultCodecs()
-                                    .jackson2JsonDecoder(
-                                        new Jackson2JsonDecoder(objectMapper, MediaType.APPLICATION_JSON, MediaType.TEXT_EVENT_STREAM));
-                              }).build();
+    return ExchangeStrategies.builder()
+                             .codecs(clientDefaultCodecsConfigurer -> {
+                               clientDefaultCodecsConfigurer
+                                   .defaultCodecs()
+                                   .jackson2JsonEncoder(
+                                       new Jackson2JsonEncoder(objectMapper,
+                                                               MediaType.APPLICATION_JSON,
+                                                               MediaType.TEXT_EVENT_STREAM));
+                               clientDefaultCodecsConfigurer
+                                   .defaultCodecs()
+                                   .jackson2JsonDecoder(
+                                       new Jackson2JsonDecoder(objectMapper,
+                                                               MediaType.APPLICATION_JSON,
+                                                               MediaType.TEXT_EVENT_STREAM));
+                             }).build();
   }
 }
