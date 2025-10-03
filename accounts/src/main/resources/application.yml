@@ -1,12 +1,12 @@
 server:
-  port: ${SERVER_PORT:8081}
+  port: 8081
 
 spring:
   application:
     name: accounts
   cloud:
     consul:
-      host: localhost
+      host: 127.0.0.1
       port: 8500
       discovery:
         hostname: 127.0.0.1
@@ -16,9 +16,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/bank
     username: postgres
     password: postgres
-#    url: ${SPRING_DATASOURCE_URL}
-#    username: ${SPRING_DATASOURCE_USERNAME}
-#    password: ${SPRING_DATASOURCE_PASSWORD}
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:

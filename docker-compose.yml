@@ -1,24 +1,90 @@
 services:
-  user-service:
+  consul:
+    image: consul:1.10.0
+    hostname: 127.0.0.1
+    ports:
+      - 8500:8500
+
+
+  front-ui-service:
     build:
-      context: ./bank-practicum
+      context: ./front-ui
       dockerfile: Dockerfile
     ports:
-      - "${SERVER_PORT}:${SERVER_PORT}"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://${TEMPLATE_DB_HOST}:5432/${TEMPLATE_DB_NAME}
-      SPRING_DATASOURCE_USERNAME: ${TEMPLATE_DB_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${TEMPLATE_DB_PASSWORD}
-      SERVER_PORT: ${SERVER_PORT}
+      - "8080:8080"
     depends_on:
-      - template-db
+      - consul
 
-  template-db:
+  accounts-service:
+    build:
+      context: ./accounts
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - consul
+      - bank-db
+
+  bank-db:
     image: postgres:16
-    container_name: user-db
-    environment:
-      POSTGRES_DB: ${TEMPLATE_DB_NAME}
-      POSTGRES_USER: ${TEMPLATE_DB_USERNAME}
-      POSTGRES_PASSWORD: ${TEMPLATE_DB_PASSWORD}
+    container_name: bank-db
     ports:
       - "5433:5432"
+    environment:
+      POSTGRES_DB: "bank-db"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+
+  blocker-service:
+    build:
+      context: ./blocker
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      - consul
+
+  cash-service:
+    build:
+      context: ./cash
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      - consul
+
+  exchange-service:
+    build:
+      context: ./exchange
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    depends_on:
+      - consul
+
+  exchange-generator-service:
+    build:
+      context: ./exchange-generator
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    depends_on:
+      - consul
+
+  notifications-service:
+    build:
+      context: ./notifications
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8086"
+    depends_on:
+      - consul
+
+  transfer-service:
+    build:
+      context: ./transfer
+      dockerfile: Dockerfile
+    ports:
+      - "8087:8087"
+    depends_on:
+      - consul

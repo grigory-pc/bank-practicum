@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:8080}
+  port: 8080
   servlet:
     encoding:
       enabled: false
@@ -11,7 +11,7 @@ spring:
     name: front-ui
   cloud:
     consul:
-      host: localhost
+      host: 127.0.0.1
       port: 8500
       discovery:
         hostname: 127.0.0.1
@@ -20,7 +20,8 @@ spring:
 
 client:
   accounts:
-    base-url: http://accounts/accounts
+    base-url: ${ACCOUNTS_CLIENT_BASE_URL}
+    #    base-url: http://accounts/accounts
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   cash:
