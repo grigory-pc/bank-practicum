@@ -6,14 +6,12 @@ spring:
     name: accounts
   cloud:
     consul:
-      host: 127.0.0.1
+      host: consul
       port: 8500
-      discovery:
-        hostname: 127.0.0.1
       config:
         enabled: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/bank
+    url: jdbc:postgresql://bank-db:5433/bank-db
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver

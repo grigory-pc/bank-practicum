@@ -6,9 +6,7 @@ spring:
     name: blocker
   cloud:
     consul:
-      host: localhost
+      host: consul
       port: 8500
-      discovery:
-        hostname: 127.0.0.1
       config:
         enabled: false

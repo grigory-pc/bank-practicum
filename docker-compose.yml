@@ -1,10 +1,8 @@
 services:
   consul:
     image: consul:1.10.0
-    hostname: 127.0.0.1
     ports:
       - 8500:8500
-
 
   front-ui-service:
     build:
@@ -34,57 +32,57 @@ services:
       POSTGRES_DB: "bank-db"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
-
-  blocker-service:
-    build:
-      context: ./blocker
-      dockerfile: Dockerfile
-    ports:
-      - "8082:8082"
-    depends_on:
-      - consul
-
-  cash-service:
-    build:
-      context: ./cash
-      dockerfile: Dockerfile
-    ports:
-      - "8083:8083"
-    depends_on:
-      - consul
-
-  exchange-service:
-    build:
-      context: ./exchange
-      dockerfile: Dockerfile
-    ports:
-      - "8084:8084"
-    depends_on:
-      - consul
-
-  exchange-generator-service:
-    build:
-      context: ./exchange-generator
-      dockerfile: Dockerfile
-    ports:
-      - "8085:8085"
-    depends_on:
-      - consul
-
-  notifications-service:
-    build:
-      context: ./notifications
-      dockerfile: Dockerfile
-    ports:
-      - "8086:8086"
-    depends_on:
-      - consul
-
-  transfer-service:
-    build:
-      context: ./transfer
-      dockerfile: Dockerfile
-    ports:
-      - "8087:8087"
-    depends_on:
-      - consul
+#
+#  blocker-service:
+#    build:
+#      context: ./blocker
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8082:8082"
+#    depends_on:
+#      - consul
+#
+#  cash-service:
+#    build:
+#      context: ./cash
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8083:8083"
+#    depends_on:
+#      - consul
+#
+#  exchange-service:
+#    build:
+#      context: ./exchange
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8084:8084"
+#    depends_on:
+#      - consul
+#
+#  exchange-generator-service:
+#    build:
+#      context: ./exchange-generator
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8085:8085"
+#    depends_on:
+#      - consul
+#
+#  notifications-service:
+#    build:
+#      context: ./notifications
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8086:8086"
+#    depends_on:
+#      - consul
+#
+#  transfer-service:
+#    build:
+#      context: ./transfer
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8087:8087"
+#    depends_on:
+#      - consul
