@@ -22,11 +22,11 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   public AccountsDto getAccount(String login, String currency) {
-    var findedUser = userRepository.findByLogin(login);
-    var findedCurrency = currencyRepository.findByName(currency);
+    var foundUser = userRepository.findByLogin(login);
+    var foundCurrency = currencyRepository.findByName(currency);
 
     return accountMapper.toDto(
-        accountRepository.findByCurrencyAndUser(findedCurrency.get(), findedUser).get());
+        accountRepository.findByCurrencyAndUser(foundCurrency.get(), foundUser).get());
   }
 
   @Override

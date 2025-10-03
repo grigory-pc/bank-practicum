@@ -3,6 +3,8 @@ package ru.practicum.bank.cash.configs;
 import io.netty.channel.ChannelOption;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction;
+import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
@@ -24,9 +26,13 @@ public class DefaultWebClientFactory {
    * @return Сконфигурированный HTTP-клиент для использования при выполнении запросов.
    * @throws NegativeDurationException Если переданы отрицательные значения таймаутов.
    */
-  public static WebClient getClient(int connectTimeoutMs, long responseTimeoutMs, String baseUrl)
+  public static WebClient getClient(int connectTimeoutMs, long responseTimeoutMs, String baseUrl,
+                                    DeferringLoadBalancerExchangeFilterFunction<LoadBalancedExchangeFilterFunction> exchangeFilterFunction)
       throws NegativeDurationException {
-    return configureWebClientBuilder(connectTimeoutMs, responseTimeoutMs).baseUrl(baseUrl).build();
+    return configureWebClientBuilder(connectTimeoutMs, responseTimeoutMs)
+        .baseUrl(baseUrl)
+        .filter(exchangeFilterFunction)
+        .build();
   }
 
   /**

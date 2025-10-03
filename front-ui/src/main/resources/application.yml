@@ -1,33 +1,37 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    encoding:
+      enabled: false
+      charset: UTF-8
+      force: true
+
 spring:
   application:
     name: front-ui
-
-server:
-  port: ${SERVER_PORT:8080}
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: 127.0.0.1
+      config:
+        enabled: false
 
 client:
   accounts:
-    base-url: http://localhost:8081/accounts
+    base-url: http://accounts/accounts
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   cash:
-    base-url: http://localhost:8083/cash
+    base-url: http://cash/cash
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   transfer:
-    base-url: http://localhost:8087/transfer
+    base-url: http://transfer/transfer
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   exchange:
-    base-url: http://localhost:8084/rates
+    base-url: http://exchange/rates
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info
-  endpoint:
-    health:
-      show-details: always

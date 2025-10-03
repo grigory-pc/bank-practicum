@@ -23,6 +23,7 @@ import ru.practicum.bank.front.ui.dto.UserDto;
 public class SignupController {
 
   public static final String SIGNUP_TEMPLATE = "signup";
+  public static final String LOGIN = "login";
 
   private final AccountsClient accountsClient;
 
@@ -68,7 +69,7 @@ public class SignupController {
 
       accountsClient.requestCreateUser(newAccount).block();
 
-      return "login";
+      return LOGIN;
     } catch (Exception e) {
       return SIGNUP_TEMPLATE;
     }
