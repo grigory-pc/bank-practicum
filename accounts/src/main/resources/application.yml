@@ -11,7 +11,7 @@ spring:
       config:
         enabled: false
   datasource:
-    url: jdbc:postgresql://bank-db:5433/bank-db
+    url: jdbc:postgresql://bank-db:5432/bank-db
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver

@@ -18,8 +18,7 @@ spring:
 
 client:
   accounts:
-    base-url: ${ACCOUNTS_CLIENT_BASE_URL}
-    #    base-url: http://accounts/accounts
+    base-url: http://accounts/accounts
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   cash:
