@@ -1,21 +1,21 @@
-spring:
-  application:
-    name: exchange
-
 server:
   port: ${SERVER_PORT:8084}
 
+spring:
+  application:
+    name: exchange
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: 127.0.0.1
+      config:
+        enabled: false
+
 client:
   exchange-generator:
-    base-url: http://localhost:8085/exchange-generator
+    base-url: http://exchange-generator/exchange-generator
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info
-  endpoint:
-    health:
-      show-details: always

@@ -1,33 +1,33 @@
-spring:
-  application:
-    name: transfer
-
 server:
   port: ${SERVER_PORT:8087}
 
+spring:
+  application:
+    name: transfer
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: 127.0.0.1
+      config:
+        enabled: false
+
 client:
   accounts:
-    base-url: http://localhost:8081/accounts
+    base-url: http://accounts/accounts
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   blocker:
-    base-url: http://localhost:8082/blocker
+    base-url: http://blocker/blocker
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   exchange:
-    base-url: http://localhost:8084/rates
+    base-url: http://exchange/rates
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   notifications:
-    base-url: http://localhost:8086/notifications
+    base-url: http://notifications/notifications
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health, info
-  endpoint:
-    health:
-      show-details: always
