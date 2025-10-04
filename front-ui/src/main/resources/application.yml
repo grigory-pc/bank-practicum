@@ -9,12 +9,12 @@ server:
 spring:
   application:
     name: front-ui
+  config:
+    import: optional:consul://consul:8500
   cloud:
     consul:
       host: consul
       port: 8500
-      config:
-        enabled: false
 
 client:
   accounts:

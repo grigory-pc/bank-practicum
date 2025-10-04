@@ -4,12 +4,12 @@ server:
 spring:
   application:
     name: accounts
+  config:
+    import: optional:consul://consul:8500
   cloud:
     consul:
       host: consul
       port: 8500
-      config:
-        enabled: false
   datasource:
     url: jdbc:postgresql://bank-db:5432/bank-db
     username: postgres
