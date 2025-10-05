@@ -59,6 +59,17 @@ services:
       - "8084:8084"
     depends_on:
       - consul
+      - exchange-db
+
+  exchange-db:
+    image: postgres:16
+    container_name: exchange-db
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: "exchange-db"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
 
   exchange-generator-service:
     build:

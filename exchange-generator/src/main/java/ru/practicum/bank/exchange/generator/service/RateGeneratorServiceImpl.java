@@ -4,9 +4,8 @@ import java.util.List;
 import java.util.Random;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.practicum.bank.exchange.generator.dto.Rate;
+import ru.practicum.bank.exchange.generator.dto.RateDto;
 import ru.practicum.bank.exchange.generator.enums.CurrencyExchange;
-import ru.practicum.bank.exchange.generator.exceptions.CurrencyException;
 
 @Slf4j
 @Service
@@ -30,65 +29,44 @@ public class RateGeneratorServiceImpl implements RateGeneratorService {
   private final Random random = new Random();
 
   @Override
-  public List<Rate> getAllCurrency() {
-    return List.of(generateCurrencyUsdRub(), generateCurrencyCnyRub());
+  public List<RateDto> getAllCurrency() {
+    return List.of(generateCurrencyUsdRub(), generateCurrencyRubUsd(), generateCurrencyCnyRub(),
+                   generateCurrencyRubCny());
   }
 
-  @Override
-  public Rate getCurrency(String currencyExchangeRequest) {
-    CurrencyExchange currencyExchange = CurrencyExchange.getValueOf(currencyExchangeRequest);
-
-    switch (currencyExchange) {
-      case USD_RUB -> {
-        return generateCurrencyUsdRub();
-      }
-      case RUB_USD -> {
-        return generateCurrencyRubUsd();
-      }
-      case CNY_RUB -> {
-        return generateCurrencyCnyRub();
-      }
-      case RUB_CNY -> {
-        return generateCurrencyRubCny();
-      }
-      default -> throw new CurrencyException("некорректная валютная пара");
-    }
-  }
-
-
-  private Rate generateCurrencyRubUsd() {
+  private RateDto generateCurrencyRubUsd() {
     var randomCurrencyUsd = random.nextDouble(RUB_USD_MAX - RUB_USD_MIN + STEP_FOR_RANDOM_FROM_RUB)
                             + RUB_USD_MIN;
     var roundedCurrencyUsd = Math.round(randomCurrencyUsd * ROUND_DOUBLE_FROM_RUB)
                              / ROUND_DOUBLE_FROM_RUB;
 
-    return new Rate(CurrencyExchange.RUB_USD.name(), RUB_USD, roundedCurrencyUsd);
+    return new RateDto(CurrencyExchange.RUB_USD.name(), RUB_USD, roundedCurrencyUsd);
   }
 
-  private Rate generateCurrencyRubCny() {
+  private RateDto generateCurrencyRubCny() {
     var randomCurrencyCny = random.nextDouble(RUB_CNY_MAX - RUB_CNY_MIN + STEP_FOR_RANDOM_FROM_RUB)
                             + RUB_CNY_MIN;
     var roundedCurrencyCny = Math.round(randomCurrencyCny * ROUND_DOUBLE_FROM_RUB)
                              / ROUND_DOUBLE_FROM_RUB;
 
-    return new Rate(CurrencyExchange.RUB_CNY.name(), RUB_CNY, roundedCurrencyCny);
+    return new RateDto(CurrencyExchange.RUB_CNY.name(), RUB_CNY, roundedCurrencyCny);
   }
 
-  private Rate generateCurrencyUsdRub() {
+  private RateDto generateCurrencyUsdRub() {
     var randomCurrencyUsd = random.nextDouble(USD_RUB_MAX - USD_RUB_MIN + STEP_FOR_RANDOM_TO_RUB)
                             + USD_RUB_MIN;
     var roundedCurrencyUsd = Math.round(randomCurrencyUsd * ROUND_DOUBLE_TO_RUB)
                              / ROUND_DOUBLE_TO_RUB;
 
-    return new Rate(CurrencyExchange.USD_RUB.name(), USD_RUB, roundedCurrencyUsd);
+    return new RateDto(CurrencyExchange.USD_RUB.name(), USD_RUB, roundedCurrencyUsd);
   }
 
-  private Rate generateCurrencyCnyRub() {
+  private RateDto generateCurrencyCnyRub() {
     var randomCurrencyCny = random.nextDouble(CNY_RUB_MAX - CNY_RUB_MIN + STEP_FOR_RANDOM_TO_RUB)
                             + CNY_RUB_MIN;
     var roundedCurrencyCny = Math.round(randomCurrencyCny * ROUND_DOUBLE_TO_RUB)
                              / ROUND_DOUBLE_TO_RUB;
 
-    return new Rate(CurrencyExchange.CNY_RUB.name(), CNY_RUB, roundedCurrencyCny);
+    return new RateDto(CurrencyExchange.CNY_RUB.name(), CNY_RUB, roundedCurrencyCny);
   }
 }

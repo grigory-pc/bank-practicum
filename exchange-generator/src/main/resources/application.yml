@@ -10,3 +10,9 @@ spring:
     consul:
       host: consul
       port: 8500
+
+client:
+  exchange:
+    base-url: http://exchange/rates/update
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000

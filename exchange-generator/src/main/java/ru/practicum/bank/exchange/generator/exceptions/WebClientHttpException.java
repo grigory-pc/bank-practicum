@@ -1,4 +1,4 @@
-package ru.practicum.bank.exchange.exceptions;
+package ru.practicum.bank.exchange.generator.exceptions;
 
 import lombok.NoArgsConstructor;
 
