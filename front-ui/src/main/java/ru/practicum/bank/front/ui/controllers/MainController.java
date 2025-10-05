@@ -39,7 +39,7 @@ public class MainController {
   public String getMain(Principal principal, Model model) {
     log.info("Получен запрос на открытие главной страницы для аккаунта: ");
 
-    var userFull = accountsClient.requestGetUser(principal.getName()).block();
+    var userFull = accountsClient.requestGetUser(principal.getName());
 
     model.addAttribute("login", userFull.login());
     model.addAttribute("name", userFull.name());

@@ -46,7 +46,7 @@ public class AccountController {
                          .confirm_password(confirmPassword)
                          .build();
 
-    accountsClient.requestEditUser(EDIT_USER_PASSWORD, account).block();
+    accountsClient.requestEditUser(EDIT_USER_PASSWORD, account);
 
     return REDIRECT_MAIN;
   }
@@ -71,7 +71,7 @@ public class AccountController {
                          .birthdate(birthdate)
                          .build();
 
-    accountsClient.requestEditUser(EDIT_USER_DATA, account).block();
+    accountsClient.requestEditUser(EDIT_USER_DATA, account);
 
     return REDIRECT_MAIN;
   }

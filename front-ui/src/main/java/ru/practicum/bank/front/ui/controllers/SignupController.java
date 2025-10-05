@@ -67,7 +67,7 @@ public class SignupController {
                               .birthdate(birthdate)
                               .build();
 
-      accountsClient.requestCreateUser(newAccount).block();
+      accountsClient.requestCreateUser(newAccount);
 
       return LOGIN;
     } catch (Exception e) {

@@ -4,14 +4,24 @@ server:
 spring:
   application:
     name: accounts
-  config:
-    import: optional:consul://consul:8500
   cloud:
     consul:
-      host: consul
+#      host: consul
+      host: 127.0.0.1
       port: 8500
+      config:
+        enabled: false
+      discovery:
+        hostname: 127.0.0.1
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: http://localhost:8180/realms/master
+#          issuer-uri: http://172.17.0.2:8080/realms/master
   datasource:
-    url: jdbc:postgresql://bank-db:5432/bank-db
+#    url: jdbc:postgresql://bank-db:5432/bank-db
+    url: jdbc:postgresql://127.0.0.1:5432/bank
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver
@@ -19,6 +29,16 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
 hibernate:
   dialect: org.hibernate.dialect.PostgreSQLDialect
   show_sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always

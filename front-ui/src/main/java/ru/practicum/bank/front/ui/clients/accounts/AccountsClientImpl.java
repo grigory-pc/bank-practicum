@@ -2,14 +2,17 @@ package ru.practicum.bank.front.ui.clients.accounts;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+import ru.practicum.bank.front.ui.dto.UserAuthDto;
 import ru.practicum.bank.front.ui.dto.UserDto;
 import ru.practicum.bank.front.ui.dto.UserFullDto;
-import ru.practicum.bank.front.ui.dto.UserAuthDto;
 import ru.practicum.bank.front.ui.exceptions.WebClientHttpException;
 
 @Slf4j
@@ -21,100 +24,126 @@ public class AccountsClientImpl implements AccountsClient {
   public static final String ACCOUNT_ERROR_MESSAGE = "Ошибка при запросе в микросервис Accounts";
   public static final String REQUEST_ACCOUNTS_MESSAGE = "Отправлен запрос в микросервис Accounts";
   public static final String REQUEST_SUCCESS = "Запрос обработан успешно";
+  public static final String OAUTH2_CONFIG = "bank-practicum";
+  public static final String OAUTH2_PRINCIPAL = "system";
 
-  private final WebClient webClient;
+  private final RestTemplate restTemplate;
+  private final OAuth2AuthorizedClientManager oAuth2ClientManager;
 
   @Override
-  public Mono<Void> requestCreateUser(UserDto user) {
-    try {
-      log.info(REQUEST_ACCOUNTS_MESSAGE);
+  public void requestCreateUser(UserDto user) {
+    log.info(REQUEST_ACCOUNTS_MESSAGE);
 
-      return webClient
-          .post()
-          .uri(uriBuilder -> uriBuilder
-              .path(CREATE_ACCOUNT_PATH)
-              .build())
-          .contentType(MediaType.APPLICATION_JSON)
-          .body(BodyInserters.fromValue(user))
-          .retrieve()
-          .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
-              .bodyToMono(String.class)
-              .flatMap(error -> Mono.error(new WebClientHttpException(error))))
-          .bodyToMono(Void.class)
-          .doOnSuccess(v -> log.info(REQUEST_SUCCESS))
-          .doOnError(WebClientHttpException.class, ex -> log.error(ACCOUNT_ERROR_MESSAGE, ex));
-    } catch (WebClientHttpException e) {
+    OAuth2AuthorizedClient client = oAuth2ClientManager.authorize(OAuth2AuthorizeRequest
+                                                                      .withClientRegistrationId(
+                                                                          OAUTH2_CONFIG)
+                                                                      .principal(OAUTH2_PRINCIPAL)
+                                                                      .build()
+    );
+
+    String accessToken = client.getAccessToken().getTokenValue();
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setBearerAuth(accessToken);
+
+    HttpEntity<UserDto> entity = new HttpEntity<>(user, headers);
+
+    try {
+      restTemplate.postForEntity(
+          CREATE_ACCOUNT_PATH,
+          user,
+          Void.class,
+          entity
+      );
+
+      log.info(REQUEST_SUCCESS);
+    } catch (RestClientException e) {
       log.error(ACCOUNT_ERROR_MESSAGE, e);
-      throw e;
+      throw new WebClientHttpException(e.getMessage());
     }
   }
 
   @Override
-  public Mono<Void> requestEditUser(String path, UserDto user) {
-    try {
-      log.info(REQUEST_ACCOUNTS_MESSAGE);
+  public void requestEditUser(String path, UserDto user) {
+    log.info(REQUEST_ACCOUNTS_MESSAGE);
 
-      return webClient
-          .patch()
-          .uri(uriBuilder -> uriBuilder
-              .path(path)
-              .build())
-          .contentType(MediaType.APPLICATION_JSON)
-          .body(BodyInserters.fromValue(user))
-          .retrieve()
-          .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
-              .bodyToMono(String.class)
-              .flatMap(error -> Mono.error(new WebClientHttpException(error))))
-          .bodyToMono(Void.class)
-          .doOnSuccess(v -> log.info(REQUEST_SUCCESS))
-          .doOnError(WebClientHttpException.class, ex -> log.error(ACCOUNT_ERROR_MESSAGE, ex));
-    } catch (WebClientHttpException e) {
+    try {
+      restTemplate.patchForObject(
+          path,
+          user,
+          Void.class
+      );
+
+      log.info(REQUEST_SUCCESS);
+    } catch (RestClientException e) {
       log.error(ACCOUNT_ERROR_MESSAGE, e);
-      throw e;
+      throw new WebClientHttpException(e.getMessage());
     }
   }
 
   @Override
-  public Mono<UserFullDto> requestGetUser(String login) {
-    try {
-      log.info(REQUEST_ACCOUNTS_MESSAGE);
+  public UserFullDto requestGetUser(String login) {
+    log.info(REQUEST_ACCOUNTS_MESSAGE);
 
-      return webClient
-          .get()
-          .uri(uriBuilder -> uriBuilder
-              .path(GET_ACCOUNT_PATH + "/" + login)
-              .build()).retrieve()
-          .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
-              .bodyToMono(String.class)
-              .flatMap(error -> Mono.error(new WebClientHttpException(error))))
-          .bodyToMono(UserFullDto.class)
-          .doOnSuccess(v -> log.info(REQUEST_SUCCESS))
-          .doOnError(WebClientHttpException.class, ex -> log.error(ACCOUNT_ERROR_MESSAGE, ex));
-    } catch (WebClientHttpException e) {
+    OAuth2AuthorizedClient client = oAuth2ClientManager.authorize(OAuth2AuthorizeRequest
+                                                                      .withClientRegistrationId(
+                                                                          OAUTH2_CONFIG)
+                                                                      .principal(OAUTH2_PRINCIPAL)
+                                                                      .build()
+    );
+
+    String accessToken = client.getAccessToken().getTokenValue();
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setBearerAuth(accessToken);
+
+    HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+    try {
+      ResponseEntity<UserFullDto> response = restTemplate.getForEntity(
+          GET_ACCOUNT_PATH + "/" + login,
+          UserFullDto.class,
+          entity
+      );
+
+      log.info(REQUEST_SUCCESS);
+      return response.getBody();
+    } catch (RestClientException e) {
       log.error(ACCOUNT_ERROR_MESSAGE, e);
-      throw e;
+      throw new WebClientHttpException(e.getMessage());
     }
   }
 
   @Override
-  public Mono<UserAuthDto> requestGetAuthUser(String login) {
-    try {
-      log.info(REQUEST_ACCOUNTS_MESSAGE);
+  public UserAuthDto requestGetAuthUser(String login) {
+    log.info(REQUEST_ACCOUNTS_MESSAGE);
 
-      return webClient
-          .get()
-          .uri(uriBuilder -> uriBuilder
-              .path(GET_AUTH_PATH + "/" + login)
-              .build()).retrieve()
-          .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
-              .bodyToMono(String.class)
-              .flatMap(error -> Mono.error(new WebClientHttpException(error))))
-          .bodyToMono(UserAuthDto.class)
-          .doOnSuccess(v -> log.info(REQUEST_SUCCESS))
-          .doOnError(WebClientHttpException.class, ex -> log.error(ACCOUNT_ERROR_MESSAGE, ex));
-    } catch (WebClientHttpException e) {
+    OAuth2AuthorizedClient client = oAuth2ClientManager.authorize(OAuth2AuthorizeRequest
+                                                                      .withClientRegistrationId(
+                                                                          OAUTH2_CONFIG)
+                                                                      .principal(OAUTH2_PRINCIPAL)
+                                                                      .build()
+    );
+
+    String accessToken = client.getAccessToken().getTokenValue();
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setBearerAuth(accessToken);
+
+    HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+    try {
+      ResponseEntity<UserAuthDto> response = restTemplate.getForEntity(
+          GET_AUTH_PATH + "/" + login,
+          UserAuthDto.class,
+          entity
+      );
+
+      log.info(REQUEST_SUCCESS);
+      return response.getBody();
+    } catch (RestClientException e) {
       log.error(ACCOUNT_ERROR_MESSAGE, e);
-      throw e;
+      throw new WebClientHttpException(e.getMessage());
     }
   }
 }

@@ -32,10 +32,14 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
     implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2025.0.0"))
     implementation("org.springframework.cloud:spring-cloud-starter-consul-discovery")
+    implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer")
     implementation("org.springframework.cloud:spring-cloud-starter-consul-config")
+
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.5.1")
 
     compileOnly("org.projectlombok:lombok")
 

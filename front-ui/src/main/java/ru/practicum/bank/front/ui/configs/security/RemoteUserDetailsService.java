@@ -18,7 +18,7 @@ public class RemoteUserDetailsService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserAuthDto user = accountsClient.requestGetAuthUser(username).block();
+    UserAuthDto user = accountsClient.requestGetAuthUser(username);
 
     log.info("Для авторизации из БД получен пользователь: {}", user);
 
