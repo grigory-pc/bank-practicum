@@ -43,6 +43,7 @@ public class DataSourceConfig {
     DataSource dataSource = event.getApplicationContext().getBean(DataSource.class);
 
     ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+    populator.addScript(new ClassPathResource("V1__drop_tables.sql"));
     populator.addScript(new ClassPathResource("V1__init_scheme.sql"));
     populator.addScript(new ClassPathResource("V1__init_data.sql"));
     populator.execute(dataSource);
