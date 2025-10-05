@@ -12,7 +12,7 @@ public class Worker {
   private final RateGeneratorService rateGeneratorService;
   private final ExchangeClient exchangeClient;
 
-  @Scheduled(fixedRate = 300_000)
+  @Scheduled(fixedRate = 60_000)
   public void run() {
     var rates = rateGeneratorService.getAllCurrency();
     exchangeClient.postRates(rates).subscribe();
