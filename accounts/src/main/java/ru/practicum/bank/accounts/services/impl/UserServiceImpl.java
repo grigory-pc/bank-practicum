@@ -5,9 +5,11 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.bank.accounts.clients.notifications.NotificationsClient;
 import ru.practicum.bank.accounts.dto.UserAuthDto;
 import ru.practicum.bank.accounts.dto.UserDto;
 import ru.practicum.bank.accounts.dto.UserFullDto;
+import ru.practicum.bank.accounts.dto.UserNotifyDto;
 import ru.practicum.bank.accounts.entity.Account;
 import ru.practicum.bank.accounts.entity.User;
 import ru.practicum.bank.accounts.exceptions.AgeException;
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
   private final AccountMapper accountMapper;
   private final CurrencyRepository currencyRepository;
   private final CurrencyMapper currencyMapper;
+  private final NotificationsClient notificationsClient;
 
   @Override
   public void addUser(UserDto userDto) throws PasswordException {
@@ -52,6 +55,8 @@ public class UserServiceImpl implements UserService {
 
       var newAccounts = createNewUserAccounts(savedUser);
       accountRepository.saveAll(newAccounts);
+
+      sendNotifications(savedUser, newAccounts);
     }
   }
 
@@ -132,5 +137,15 @@ public class UserServiceImpl implements UserService {
                                                 .build())
                         .toList();
 
+  }
+
+  private void sendNotifications(User savedUser, List<Account> newAccounts) {
+    var userNotify = UserNotifyDto.builder()
+                                  .login(savedUser.getLogin())
+                                  .name(savedUser.getName())
+                                  .accounts(accountMapper.toDto(newAccounts))
+                                  .build();
+
+    notificationsClient.requestAccountNotifications(userNotify).block();
   }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.bank.notifications.dto.CashDto;
 import ru.practicum.bank.notifications.dto.TransferDto;
+import ru.practicum.bank.notifications.dto.UserNotifyDto;
 import ru.practicum.bank.notifications.services.NotificationsService;
 
 /**
@@ -38,8 +39,19 @@ public class NotificationsController {
    */
   @PostMapping("/cash")
   public void cashNotifications(@Valid @RequestBody CashDto cashDto) {
-    log.info("получен запрос на перевод средств");
+    log.info("получен запрос на уведомление по действиям на счете");
 
     notificationsService.cashNotification(cashDto);
+  }
+
+  /**
+   * Уведомление о создании пользователя и счетов.
+   * @param userNotifyDto - данные по новому пользователю и счетам.
+   */
+  @PostMapping("/user")
+  public void userNotifications(@Valid @RequestBody UserNotifyDto userNotifyDto) {
+    log.info("получен запрос на уведомление о создании счета");
+
+    notificationsService.userNotification(userNotifyDto);
   }
 }

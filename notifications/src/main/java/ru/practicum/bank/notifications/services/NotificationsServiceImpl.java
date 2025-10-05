@@ -2,8 +2,10 @@ package ru.practicum.bank.notifications.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.bank.notifications.dto.AccountsDto;
 import ru.practicum.bank.notifications.dto.CashDto;
 import ru.practicum.bank.notifications.dto.TransferDto;
+import ru.practicum.bank.notifications.dto.UserNotifyDto;
 import ru.practicum.bank.notifications.enums.Action;
 
 @Slf4j
@@ -44,6 +46,17 @@ public class NotificationsServiceImpl implements NotificationsService {
         log.info("Отправлено уведомление о пополнении средств: {} {}", cashDto.value(),
                  cashDto.currency());
       }
+    }
+  }
+
+  @Override
+  public void userNotification(UserNotifyDto userNotifyDto) {
+    for (AccountsDto accountsDto : userNotifyDto.getAccounts()) {
+      System.out.printf("Для пользователя {} добавлен счет: {}", userNotifyDto.getName(),
+                        accountsDto.currency().name());
+
+      log.info("Отправлено уведомление пользователю {} о создании счета: {}",
+               userNotifyDto.getName(), accountsDto.currency().title());
     }
   }
 }

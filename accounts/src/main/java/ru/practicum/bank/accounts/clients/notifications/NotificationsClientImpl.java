@@ -1,4 +1,4 @@
-package ru.practicum.bank.cash.clients.notifications;
+package ru.practicum.bank.accounts.clients.notifications;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,14 +7,13 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.practicum.bank.cash.dto.CashDto;
-import ru.practicum.bank.cash.exceptions.WebClientHttpException;
+import ru.practicum.bank.accounts.dto.UserNotifyDto;
+import ru.practicum.bank.accounts.exceptions.WebClientHttpException;
 
 @Slf4j
 @RequiredArgsConstructor
 public class NotificationsClientImpl implements NotificationsClient {
-  public static final String CASH_NOTIFICATION_PATH = "/cash";
-
+  public static final String USER_NOTIFICATION_PATH = "/user";
   public static final String NOTIFICATIONS_ERROR_MESSAGE
       = "Ошибка при запросе в микросервис Notifications";
   public static final String REQUEST_NOTIFICATIONS_MESSAGE
@@ -23,17 +22,17 @@ public class NotificationsClientImpl implements NotificationsClient {
   private final WebClient webClient;
 
   @Override
-  public Mono<Void> requestCashNotifications(CashDto cashDto) {
+  public Mono<Void> requestAccountNotifications(UserNotifyDto userNotifyDto) {
     try {
       log.info(REQUEST_NOTIFICATIONS_MESSAGE);
 
       return webClient
           .post()
           .uri(uriBuilder -> uriBuilder
-              .path(CASH_NOTIFICATION_PATH)
+              .path(USER_NOTIFICATION_PATH)
               .build())
           .contentType(MediaType.APPLICATION_JSON)
-          .body(BodyInserters.fromValue(cashDto))
+          .body(BodyInserters.fromValue(userNotifyDto))
           .retrieve()
           .onStatus(HttpStatusCode::isError, clientResponse -> clientResponse
               .bodyToMono(String.class)

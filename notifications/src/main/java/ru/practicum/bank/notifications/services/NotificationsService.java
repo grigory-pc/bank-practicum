@@ -2,6 +2,7 @@ package ru.practicum.bank.notifications.services;
 
 import ru.practicum.bank.notifications.dto.CashDto;
 import ru.practicum.bank.notifications.dto.TransferDto;
+import ru.practicum.bank.notifications.dto.UserNotifyDto;
 
 /**
  * Сервис для отправки уведомлений.
@@ -19,4 +20,10 @@ public interface NotificationsService {
    * @param cashDto - данные по действиям на счёте.
    */
   void cashNotification(CashDto cashDto);
+
+  /**
+   * Уведомление о создании пользователя и счетов.
+   * @param userNotifyDto - данные по новому пользователю и счетам.
+   */
+  void userNotification(UserNotifyDto userNotifyDto);
 }
