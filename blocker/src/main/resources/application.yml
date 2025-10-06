@@ -1,0 +1,12 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: blocker
+  config:
+    import: optional:consul://consul:8500
+  cloud:
+    consul:
+      host: consul
+      port: 8500

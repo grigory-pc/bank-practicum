@@ -1,0 +1,7 @@
+services:
+  exchange-generator-service:
+    build:
+      context: ./exchange-generator
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"

@@ -1,0 +1,7 @@
+services:
+  front-ui-service:
+    build:
+      context: ./front-ui
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"

@@ -1,0 +1,25 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: exchange
+  config:
+    import: optional:consul://consul:8500
+  cloud:
+    consul:
+      host: consul
+      port: 8500
+  datasource:
+    url: jdbc:postgresql://exchange-db:5432/exchange-db
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+hibernate:
+  dialect: org.hibernate.dialect.PostgreSQLDialect
+  show_sql: true

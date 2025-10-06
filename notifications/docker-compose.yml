@@ -1,0 +1,7 @@
+services:
+  notifications-service:
+    build:
+      context: ./notifications
+      dockerfile: Dockerfile
+    ports:
+      - "8086:8086"

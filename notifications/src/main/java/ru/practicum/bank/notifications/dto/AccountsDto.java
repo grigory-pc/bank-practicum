@@ -1,0 +1,12 @@
+package ru.practicum.bank.notifications.dto;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
+
+public record AccountsDto(@JsonProperty(value = "id", required = true) Long id,
+                          @JsonProperty(value = "user_id", required = true) Long userId,
+                          @JsonProperty(value = "currency",
+                                        required = true) @NotNull CurrencyDto currency,
+                          @JsonProperty(value = "value", required = true) @NotNull Double value,
+                          @JsonProperty(value = "isExists", required = true) Boolean isExists) {
+}

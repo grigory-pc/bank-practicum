@@ -1,0 +1,7 @@
+services:
+  transfer-service:
+    build:
+      context: ./transfer
+      dockerfile: Dockerfile
+    ports:
+      - "8087:8087"

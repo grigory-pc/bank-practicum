@@ -1,1 +1,9 @@
 rootProject.name = "bank-practicum"
+include("accounts")
+include("blocker")
+include("cash")
+include("exchange")
+include("exchange-generator")
+include("front-ui")
+include("notifications")
+include("transfer")

@@ -1,0 +1,7 @@
+services:
+  blocker-service:
+    build:
+      context: ./blocker
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"

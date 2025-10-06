@@ -1,0 +1,7 @@
+services:
+  cash-service:
+    build:
+      context: ./cash
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"

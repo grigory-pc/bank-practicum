@@ -1,0 +1,27 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: cash
+  config:
+    import: optional:consul://consul:8500
+  cloud:
+    consul:
+      host: consul
+      port: 8500
+
+client:
+  accounts:
+    base-url: http://accounts/accounts
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000
+  blocker:
+    base-url: http://blocker/blocker
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000
+  notifications:
+    base-url: http://notifications/notifications
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000
+
