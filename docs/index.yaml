@@ -2,15 +2,15 @@ apiVersion: v1
 entries:
   bank-charts:
   - apiVersion: v2
-    created: "2025-10-11T01:21:17.8200399+03:00"
+    created: "2025-10-11T01:59:25.8490076+03:00"
     dependencies:
     - name: front-ui
       repository: file://charts/front-ui
       version: 0.1.0
     description: A Helm charts for bank application
-    digest: f65798cbc38c58aac78f4882d6ddb00ffca3704d3ba15e9ecce4f55ad308eb53
+    digest: 7581cdf05e2d6159b21853513c530d25830d44cf76160976026bc3be03d8c1c1
     name: bank-charts
     urls:
-    - https://github.com/grigory-pc/bank-practicum/tree/feat/sprint_10/add_helm/bank-charts-1.0.0.tgz
-    version: 1.0.0
-generated: "2025-10-11T01:21:17.8179861+03:00"
+    - https://github.com/grigory-pc/bank-practicum/tree/feat/sprint_10/add_helm/bank-charts-1.0.1.tgz
+    version: 1.0.1
+generated: "2025-10-11T01:59:25.8479739+03:00"
