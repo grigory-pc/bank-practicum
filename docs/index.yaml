@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   bank-charts:
   - apiVersion: v2
-    created: "2025-10-10T23:44:40.0958237+03:00"
+    created: "2025-10-11T01:21:17.8200399+03:00"
     dependencies:
     - name: front-ui
       repository: file://charts/front-ui
@@ -13,4 +13,4 @@ entries:
     urls:
     - https://github.com/grigory-pc/bank-practicum/tree/feat/sprint_10/add_helm/bank-charts-1.0.0.tgz
     version: 1.0.0
-generated: "2025-10-10T23:44:40.0947847+03:00"
+generated: "2025-10-11T01:21:17.8179861+03:00"
