@@ -4,9 +4,18 @@ server:
 spring:
   application:
     name: blocker
-  config:
-    import: optional:consul://consul:8500
   cloud:
     consul:
       host: consul
       port: 8500
+      config:
+        enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info,refresh,busrefresh,busshutdown
+  endpoint:
+    health:
+      show-details: always

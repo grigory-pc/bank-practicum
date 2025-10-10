@@ -36,6 +36,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-consul-discovery")
     implementation("org.springframework.cloud:spring-cloud-starter-consul-config")
 
+    implementation("org.springframework.cloud:spring-cloud-starter-config")
+
     compileOnly("org.projectlombok:lombok")
 
     runtimeOnly("org.postgresql:postgresql")

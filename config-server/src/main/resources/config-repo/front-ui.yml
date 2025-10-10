@@ -14,8 +14,7 @@ spring:
       host: consul
       port: 8500
       config:
-        enabled:
-          optional:
+        enabled: false
 
 client:
   accounts:

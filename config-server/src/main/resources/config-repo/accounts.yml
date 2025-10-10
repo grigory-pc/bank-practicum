@@ -1,15 +1,17 @@
 server:
-  port: 8084
+  port: 8081
 
 spring:
   application:
-    name: exchange
+    name: accounts
   cloud:
     consul:
       host: consul
       port: 8500
+      config:
+        enabled: false
   datasource:
-    url: jdbc:postgresql://exchange-db:5432/exchange-db
+    url: jdbc:postgresql://bank-db:5432/bank-db
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver
@@ -17,7 +19,15 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
 hibernate:
   dialect: org.hibernate.dialect.PostgreSQLDialect
   show_sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info,refresh,busrefresh,busshutdown
+  endpoint:
+    health:
+      show-details: always

@@ -4,14 +4,23 @@ services:
     ports:
       - 8500:8500
 
-  front-ui-service:
+  config-server:
     build:
-      context: ./front-ui
+      context: ./config-server
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
-    depends_on:
-      - consul
+      - "8888:8888"
+    volumes:
+      - ./config-server/src/main/resources/config-repo:/config-repo
+
+#  front-ui-service:
+#    build:
+#      context: ./front-ui
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - consul
 
   accounts-service:
     build:
@@ -20,6 +29,7 @@ services:
     ports:
       - "8081:8081"
     depends_on:
+      - config-server
       - consul
       - bank-db
 
@@ -33,68 +43,68 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
 
-  blocker-service:
-    build:
-      context: ./blocker
-      dockerfile: Dockerfile
-    ports:
-      - "8082:8082"
-    depends_on:
-      - consul
-
-  cash-service:
-    build:
-      context: ./cash
-      dockerfile: Dockerfile
-    ports:
-      - "8083:8083"
-    depends_on:
-      - consul
-
-  exchange-service:
-    build:
-      context: ./exchange
-      dockerfile: Dockerfile
-    ports:
-      - "8084:8084"
-    depends_on:
-      - consul
-      - exchange-db
-
-  exchange-db:
-    image: postgres:16
-    container_name: exchange-db
-    ports:
-      - "5434:5432"
-    environment:
-      POSTGRES_DB: "exchange-db"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
-
-  exchange-generator-service:
-    build:
-      context: ./exchange-generator
-      dockerfile: Dockerfile
-    ports:
-      - "8085:8085"
-    depends_on:
-      - consul
-      - exchange-service
-
-  notifications-service:
-    build:
-      context: ./notifications
-      dockerfile: Dockerfile
-    ports:
-      - "8086:8086"
-    depends_on:
-      - consul
-
-  transfer-service:
-    build:
-      context: ./transfer
-      dockerfile: Dockerfile
-    ports:
-      - "8087:8087"
-    depends_on:
-      - consul
+#  blocker-service:
+#    build:
+#      context: ./blocker
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8082:8082"
+#    depends_on:
+#      - consul
+#
+#  cash-service:
+#    build:
+#      context: ./cash
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8083:8083"
+#    depends_on:
+#      - consul
+#
+#  exchange-service:
+#    build:
+#      context: ./exchange
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8084:8084"
+#    depends_on:
+#      - consul
+#      - exchange-db
+#
+#  exchange-db:
+#    image: postgres:16
+#    container_name: exchange-db
+#    ports:
+#      - "5434:5432"
+#    environment:
+#      POSTGRES_DB: "exchange-db"
+#      POSTGRES_USER: "postgres"
+#      POSTGRES_PASSWORD: "postgres"
+#
+#  exchange-generator-service:
+#    build:
+#      context: ./exchange-generator
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8085:8085"
+#    depends_on:
+#      - consul
+#      - exchange-service
+#
+#  notifications-service:
+#    build:
+#      context: ./notifications
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8086:8086"
+#    depends_on:
+#      - consul
+#
+#  transfer-service:
+#    build:
+#      context: ./transfer
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8087:8087"
+#    depends_on:
+#      - consul

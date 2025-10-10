@@ -5,27 +5,38 @@ spring:
   application:
     name: accounts
   config:
-    import: optional:consul://consul:8500
-  cloud:
-    consul:
-      host: consul
-      port: 8500
-  datasource:
-    url: jdbc:postgresql://bank-db:5432/bank-db
-    username: postgres
-    password: postgres
-    driverClassName: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+    import: configserver:http://config-server:8888/accounts/default
 
-hibernate:
-  dialect: org.hibernate.dialect.PostgreSQLDialect
-  show_sql: true
-
-client:
-  notifications:
-    base-url: http://notifications/notifications
-    connect-timeout-ms: 1000
-    response-timeout-ms: 1000
+#server:
+#  port: 8081
+#
+#spring:
+#  application:
+#    name: accounts
+#  cloud:
+#    consul:
+#      host: consul
+#      port: 8500
+#      config:
+#        enabled: false
+#  datasource:
+#    url: jdbc:postgresql://bank-db:5432/bank-db
+#    username: postgres
+#    password: postgres
+#    driverClassName: org.postgresql.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#hibernate:
+#  dialect: org.hibernate.dialect.PostgreSQLDialect
+#  show_sql: true
+#
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: health, info,refresh,busrefresh,busshutdown
+#  endpoint:
+#    health:
+#      show-details: always
