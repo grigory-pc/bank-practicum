@@ -1,7 +1,7 @@
 apiVersion: v2
 name: bank-charts
 description: A Helm charts for bank application
-version: 1.0.0
+version: 1.0.1
 dependencies:
   - name: front-ui
     version: "0.1.0"
