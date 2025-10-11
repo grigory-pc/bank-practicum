@@ -3,6 +3,17 @@ name: bank-charts
 description: A Helm charts for bank application
 version: 1.0.1
 dependencies:
+  # Subchart for front-ui service
   - name: front-ui
     version: "0.1.0"
     repository: "file://charts/front-ui"
+  # Subchart for accounts service
+  - name: accounts
+    version: "0.1.0"
+    repository: "file://charts/accounts"
+  # Subchart for bank DB
+  - name: postgresql
+    version: "14.2.3"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: bank-db
+    condition: bank-db.enabled
