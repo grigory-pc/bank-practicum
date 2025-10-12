@@ -98,3 +98,4 @@ affinity: {}
 config:
   database_url: "jdbc:postgresql://postgres-postgresql.{{ .Release.Namespace }}.svc.cluster.local:5432/bank-db"
   database_username: "postgresql"
+  notifications_url: "http://notifications/notifications"

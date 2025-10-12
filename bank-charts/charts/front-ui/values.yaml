@@ -93,3 +93,9 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+config:
+  accounts_url: "http://accounts/accounts"
+  cash_url: "http://cash/cash"
+  transfer_url: "http://transfer/transfer"
+  exchange_url: "http://exchange/rates"
