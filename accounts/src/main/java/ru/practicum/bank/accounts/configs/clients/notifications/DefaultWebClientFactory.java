@@ -3,8 +3,6 @@ package ru.practicum.bank.accounts.configs.clients.notifications;
 import io.netty.channel.ChannelOption;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction;
-import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
@@ -26,12 +24,10 @@ public class DefaultWebClientFactory {
    * @return Сконфигурированный HTTP-клиент для использования при выполнении запросов.
    * @throws NegativeDurationException Если переданы отрицательные значения таймаутов.
    */
-  public static WebClient getClient(int connectTimeoutMs, long responseTimeoutMs, String baseUrl,
-                                    DeferringLoadBalancerExchangeFilterFunction<LoadBalancedExchangeFilterFunction> exchangeFilterFunction)
+  public static WebClient getClient(int connectTimeoutMs, long responseTimeoutMs, String baseUrl)
       throws NegativeDurationException {
     return configureWebClientBuilder(connectTimeoutMs, responseTimeoutMs)
         .baseUrl(baseUrl)
-        .filter(exchangeFilterFunction)
         .build();
   }
 
@@ -40,7 +36,8 @@ public class DefaultWebClientFactory {
    *
    * @param connectTimeoutMs  Таймаут ожидания подключения в миллисекундах.
    * @param responseTimeoutMs Таймаут ожидания ответа в миллисекундах.
-   * @return Предварительно настроенный {@link org.springframework.web.reactive.function.client.WebClient.Builder}.
+   * @return Предварительно настроенный
+   * {@link org.springframework.web.reactive.function.client.WebClient.Builder}.
    * @throws NegativeDurationException Если переданы отрицательные значения таймаутов.
    */
   private static WebClient.Builder configureWebClientBuilder(int connectTimeoutMs,
