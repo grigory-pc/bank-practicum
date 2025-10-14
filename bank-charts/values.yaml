@@ -34,7 +34,7 @@ accounts:
     port: 8081
   config:
     # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
-    database_url: "jdbc:postgresql://{{ .Release.Name }}-bank-db:5432/bank-db"
+    database_url: "jdbc:postgresql://bank-postgresql:5432/bank-db"
     database_username: "postgresql"
     # database_password_secret: "{{ .Release.Name }}-bank-db-postgresql" # Reference to secret created by DB chart
     # database_password_secret_key: "postgresql-password" # Key within the secret
