@@ -13,7 +13,7 @@ dependencies:
     repository: "file://charts/accounts"
   # Subchart for bank DB
   - name: postgresql
-    version: "14.2.3"
+    version: "latest"
     repository: "https://charts.bitnami.com/bitnami"
     alias: bank-db
     condition: bank-db.enabled

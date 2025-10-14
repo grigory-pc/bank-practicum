@@ -29,7 +29,24 @@ consul kv put config/management/endpoints/web/exposure/include "health,info"
 consul kv put config/management/endpoint/health/show-details "always
 ```
 
-## Генерация курсов валют
+## Генерация курсов валют  
 
 Генерация курсов валют выполняется каждую минуту и первая генерация через минуту после старта микросервиса
 exchange-generator.
+
+
+## Запуск через helm
+
+1. Сборка JAR
+2. Сборка образа каждого сервиса:
+```
+docker build -t front-ui:0.0.1-SNAPSHOT .
+```
+3. Загрузка образа в minikube:
+```
+minikube image load front-ui:0.0.1-SNAPSHOT
+```
+4. Установка через helm
+```
+helm install bank-practicum ./bank-charts/
+```
