@@ -46,7 +46,12 @@ docker build -t front-ui:0.0.1-SNAPSHOT .
 ```
 minikube image load front-ui:0.0.1-SNAPSHOT
 ```
-4. Установка через helm
+4. Загрузка образа postgre в minikube:
+```
+docker pull bitnami/postgresql:latest
+minikube image load bitnami/postgresql:latest
+```
+5. Установка через helm
 ```
 helm install bank-practicum ./bank-charts/
 ```
