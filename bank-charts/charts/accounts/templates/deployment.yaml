@@ -58,7 +58,7 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.config.dbSecretName }}
+                  name: {{ .Release.Name }}-bank-db
                   key: password
       {{- with .Values.nodeSelector }}
       nodeSelector:

@@ -94,9 +94,7 @@ tolerations: []
 
 affinity: {}
 
-
 config:
-  database_url: "jdbc:postgresql://bank-postgresql:5432/bank-db"
+  database_url: "jdbc:postgresql://{{ .Release.Name }}-bank-db:5432/bank-db"
   database_username: "postgresql"
   notifications_url: "http://notifications/notifications"
-  dbSecretName: bank-db-secret
