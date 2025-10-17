@@ -7,6 +7,6 @@ spring:
 
 client:
   exchange:
-    base-url: http://exchange/rates/update
+    base-url: ${CLIENT_EXCHANGE_URL}
     connect-timeout-ms: 1000
     response-timeout-ms: 1000

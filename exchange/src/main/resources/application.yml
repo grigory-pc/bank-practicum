@@ -5,9 +5,9 @@ spring:
   application:
     name: exchange
   datasource:
-    url: jdbc:postgresql://exchange-db:5432/exchange-db
-    username: postgres
-    password: postgres
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driverClassName: org.postgresql.Driver
   jpa:
     hibernate:
