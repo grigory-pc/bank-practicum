@@ -17,3 +17,33 @@ dependencies:
     repository: bitnami
     alias: bank-db
     condition: bank-db.enabled
+  # Subchart for exchange service
+  - name: exchange
+    version: "0.1.0"
+    repository: "file://charts/exchange"
+  # Subchart for exchange DB
+  - name: postgresql
+    version: latest
+    repository: bitnami
+    alias: exchange-db
+    condition: exchange-db.enabled
+  # Subchart for blocker service
+  - name: blocker
+    version: "0.1.0"
+    repository: "file://charts/blocker"
+  # Subchart for cash service
+  - name: cash
+    version: "0.1.0"
+    repository: "file://charts/cash"
+  # Subchart for exchange-generator service
+  - name: exchange-generator
+    version: "0.1.0"
+    repository: "file://charts/exchange-generator"
+  # Subchart for notifications service
+  - name: notifications
+    version: "0.1.0"
+    repository: "file://charts/notifications"
+  # Subchart for cash service
+  - name: transfer
+    version: "0.1.0"
+    repository: "file://charts/transfer"
