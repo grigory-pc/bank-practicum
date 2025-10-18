@@ -56,16 +56,6 @@ service:
   port: 8081
 
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations: {}
-  hosts:
-    - host: accounts.bank.practicum.local # значение по умолчанию, переопределяется при деплое в prod
-      paths:
-        - path: /
-          pathType: Prefix
-  tls: []
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

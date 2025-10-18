@@ -57,7 +57,25 @@ minikube image load front-ui:0.0.1-SNAPSHOT
 docker pull bitnami/postgresql:latest
 minikube image load bitnami/postgresql:latest
 ```
-5. Установка через helm
+5. Запуск ingress
+```
+minikube addons enable ingress
+```
+6. Включение туннеля для ingress (в отдельном окне)
+```
+minikube tunnel
+```
+7. Установка через helm
 ```
 helm install bank-practicum ./bank-charts/
+```
+8. Удаление
+```
+helm uninstall bank-practicum
+```
+
+
+PS: eval $(minikube docker-env) для Windows (power shell) 
+```
+minikube docker-env | Invoke-Expression
 ```

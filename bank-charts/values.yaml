@@ -32,10 +32,11 @@ accounts:
   service:
     type: ClusterIP
     port: 8081
-  config:
+    #  config:
     # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
-    database_url: "jdbc:postgresql://bank-postgresql:5432/bank-db"
-    database_username: postgresql
+    #    database_url: "jdbc:postgresql://bank-postgresql:5432/bank-db"
+    database_username: "postgresql"
+    database_password: "postgresql"
     # database_password_secret: "{{ .Release.Name }}-bank-db-postgresql" # Reference to secret created by DB chart
     # database_password_secret_key: "postgresql-password" # Key within the secret
 
@@ -48,10 +49,10 @@ bank-db:
   # Override values from the official postgresql chart
   auth:
     database: bank-db
-    username: postgresql
+    username: "postgresql"
     # Use existingSecret or provide password (less secure for production)
     # existingSecret: "{{ .Release.Name }}-bank-db-postgresql" # Name of the secret to use/create
-#    password: "changeM3Bank" # Example: Not recommended for production
+    password: "postgresql" # Example: Not recommended for production
   primary:
     persistence:
       enabled: true
@@ -68,10 +69,11 @@ exchange:
   service:
     type: ClusterIP
     port: 8084
-  config:
+    #  config:
     # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
-    database_url: "jdbc:postgresql://exchange-postgresql:5432/exchange-db"
-    database_username: postgresql
+    #    database_url: "jdbc:postgresql://exchange-postgresql:5432/exchange-db"
+    database_username: "postgresql"
+    database_password: "postgresql"
     # database_password_secret: "{{ .Release.Name }}-exchange-db-postgresql" # Reference to secret created by DB chart
     # database_password_secret_key: "postgresql-password" # Key within the secret
 
@@ -84,10 +86,10 @@ exchange-db:
   # Override values from the official postgresql chart
   auth:
     database: exchange-db
-    username: postgresql
+    username: "postgresql"
     # Use existingSecret or provide password (less secure for production)
     # existingSecret: "{{ .Release.Name }}-exchange-db-postgresql" # Name of the secret to use/create
-#    password: "changeM3Bank" # Example: Not recommended for production
+    password: "postgresql" # Example: Not recommended for production
   primary:
     persistence:
       enabled: true
@@ -104,15 +106,6 @@ blocker:
   service:
     type: ClusterIP
     port: 8082
-  ingress:
-    enabled: true
-    className: "nginx"
-    hosts:
-      - host: blocker.bank.practicum.local
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-
 
 # Configuration for the cash service subchart
 cash:
@@ -125,14 +118,6 @@ cash:
   service:
     type: ClusterIP
     port: 8083
-  ingress:
-    enabled: true
-    className: "nginx"
-    hosts:
-      - host: blocker.bank.practicum.local
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
 
 # Configuration for the exchange-generator service subchart
 exchange-generator:
@@ -145,14 +130,6 @@ exchange-generator:
   service:
     type: ClusterIP
     port: 8085
-  ingress:
-    enabled: true
-    className: "nginx"
-    hosts:
-      - host: exchange-generator.bank.practicum.local
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
 
 # Configuration for the notifications service subchart
 notifications:
@@ -165,14 +142,6 @@ notifications:
   service:
     type: ClusterIP
     port: 8086
-  ingress:
-    enabled: true
-    className: "nginx"
-    hosts:
-      - host: notifications.bank.practicum.local
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
 
 # Configuration for the transfer service subchart
 transfer:
@@ -185,11 +154,3 @@ transfer:
   service:
     type: ClusterIP
     port: 8087
-  ingress:
-    enabled: true
-    className: "nginx"
-    hosts:
-      - host: transfer.bank.practicum.local
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
