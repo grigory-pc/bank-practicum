@@ -10,7 +10,6 @@ data:
   {{- range $key, $value := .Values.config }}
   {{ $key }}: {{ $value | quote }}
   {{- end }}
-  {{- end }}
 
   #URL accounts service
   CLIENT_ACCOUNTS_URL: {{ .Values.config.accounts_url | quote }}
