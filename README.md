@@ -29,6 +29,12 @@ consul kv put config/management/endpoints/web/exposure/include "health,info"
 consul kv put config/management/endpoint/health/show-details "always
 ```
 
+### Запуск контейнера Jenkins
+
+```
+docker run -d --name jenkins -p 8180:8080 -p 50000:50000 --restart=on-failure -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk17 
+```
+
 ## Генерация курсов валют  
 
 Генерация курсов валют выполняется каждую минуту и первая генерация через минуту после старта микросервиса
