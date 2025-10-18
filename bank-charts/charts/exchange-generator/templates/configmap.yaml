@@ -10,7 +10,6 @@ data:
   {{- range $key, $value := .Values.config }}
   {{ $key }}: {{ $value | quote }}
   {{- end }}
-  {{- end }}
 
   #URL exchange service
   CLIENT_EXCHANGE_URL: {{ .Values.config.exchange_url | quote }}
