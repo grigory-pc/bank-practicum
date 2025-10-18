@@ -43,7 +43,7 @@ dependencies:
   - name: notifications
     version: "0.1.0"
     repository: "file://charts/notifications"
-  # Subchart for cash service
+  # Subchart for transfer service
   - name: transfer
     version: "0.1.0"
     repository: "file://charts/transfer"
