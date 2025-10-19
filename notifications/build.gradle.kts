@@ -40,6 +40,6 @@ dependencies {
     testImplementation("com.h2database:h2")
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+tasks.jar {
+    archiveFileName.set("notifications.jar")
 }

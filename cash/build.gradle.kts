@@ -40,3 +40,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("com.h2database:h2")
 }
+
+tasks.jar {
+    archiveFileName.set("cash.jar")
+}
