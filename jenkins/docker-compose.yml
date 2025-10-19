@@ -1,6 +1,7 @@
 services:
   jenkins:
-    build: ../ci-cd
+    image: jenkins/jenkins:lts
+    build: ../jenkins
     container_name: jenkins
     user: root
     env_file:
@@ -8,12 +9,8 @@ services:
     environment:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true
     ports:
-      - "8080:8080"
+      - "8180:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${KUBECONFIG_PATH}:/root/.kube/config
-
-volumes:
-  jenkins_home:
