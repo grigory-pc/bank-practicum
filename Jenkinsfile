@@ -6,7 +6,7 @@ pipeline {
   }
 
   stages {
-    stage('build') {
+    stage('build jar') {
       steps {
         sh './gradle front-ui:clean front-ui:build'
         sh './gradle accounts:clean accounts:build'
@@ -19,7 +19,7 @@ pipeline {
       }
     }
 
-    stage('build') {
+    stage('build image') {
       steps {
         sh '''
           eval $(minikube docker-env)
