@@ -90,7 +90,7 @@ pipeline {
     stage('Helm Deploy to TEST') {
       steps {
         sh """
-          helm upgrade --install accounts bank-charts/charts/accounts \
+          helm upgrade accounts bank-charts/charts/accounts \
             --namespace test --create-namespace \
             --set image.repository=${DOCKER_REGISTRY}/accounts \
             --set image.tag=${IMAGE_TAG} \
@@ -99,7 +99,7 @@ pipeline {
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-          helm upgrade --install blocker bank-charts/charts/blocker \
+          helm upgrade blocker bank-charts/charts/blocker \
             --namespace test --create-namespace \
             --set image.repository=${DOCKER_REGISTRY}/blocker \
             --set image.tag=${IMAGE_TAG} \
@@ -108,7 +108,7 @@ pipeline {
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-          helm upgrade --install cash bank-charts/charts/cash \
+          helm upgrade cash bank-charts/charts/cash \
             --namespace test --create-namespace \
             --set image.repository=${DOCKER_REGISTRY}/cash \
             --set image.tag=${IMAGE_TAG} \
@@ -117,7 +117,7 @@ pipeline {
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-          helm upgrade --install exchange bank-charts/charts/exchange \
+          helm upgrade exchange bank-charts/charts/exchange \
             --namespace test --create-namespace \
             --set image.repository=${DOCKER_REGISTRY}/exchange \
             --set image.tag=${IMAGE_TAG} \
@@ -126,7 +126,7 @@ pipeline {
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-          helm upgrade --install exchange-generator bank-charts/charts/exchange-generator \
+          helm upgrade exchange-generator bank-charts/charts/exchange-generator \
             --namespace test --create-namespace \
             --set image.repository=${DOCKER_REGISTRY}/exchange-generator \
             --set image.tag=${IMAGE_TAG} \
@@ -135,7 +135,7 @@ pipeline {
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-          helm upgrade --install front-ui bank-charts/charts/front-ui \
+          helm upgrade front-ui bank-charts/charts/front-ui \
             --namespace test --create-namespace \
             --set image.repository=${DOCKER_REGISTRY}/front-ui \
             --set image.tag=${IMAGE_TAG} \
@@ -144,7 +144,7 @@ pipeline {
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-          helm upgrade --install notifications bank-charts/charts/notifications \
+          helm upgrade notifications bank-charts/charts/notifications \
             --namespace test --create-namespace \
             --set image.repository=${DOCKER_REGISTRY}/notifications \
             --set image.tag=${IMAGE_TAG} \
@@ -153,7 +153,7 @@ pipeline {
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
-          helm upgrade --install transfer bank-charts/charts/transfer \
+          helm upgrade transfer bank-charts/charts/transfer \
             --namespace test --create-namespace \
             --set image.repository=${DOCKER_REGISTRY}/transfer \
             --set image.tag=${IMAGE_TAG} \
