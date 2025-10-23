@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "front-ui.fullname" . }}
+  labels:
+    {{- include "front-ui.labels" . | nindent 4 }}
+data:
+  # Example: Generic key-value pairs from .Values.config
+  # Note: We process database_url separately below using tpl
+  {{- range $key, $value := .Values.config }}
+  {{- if ne $key "database_url" }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  {{- end }}
+
+  #URL accounts service
+  CLIENT_ACCOUNTS_URL: {{ .Values.config.accounts_url | quote }}
+  #URL cash service
+  CLIENT_CASH_URL: {{ .Values.config.cash_url | quote }}
+  #URL transfer service
+  CLIENT_TRANSFER_URL: {{ .Values.config.transfer_url | quote }}
+  #URL exchange service
+  CLIENT_EXCHANGE_URL: {{ .Values.config.exchange_url | quote }}

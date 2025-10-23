@@ -4,24 +4,18 @@ server:
 spring:
   application:
     name: cash
-  config:
-    import: optional:consul://consul:8500
-  cloud:
-    consul:
-      host: consul
-      port: 8500
 
 client:
   accounts:
-    base-url: http://accounts/accounts
+    base-url: ${CLIENT_ACCOUNTS_URL}
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   blocker:
-    base-url: http://blocker/blocker
+    base-url: ${CLIENT_BLOCKER_URL}
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   notifications:
-    base-url: http://notifications/notifications
+    base-url: ${CLIENT_NOTIFICATIONS_URL}
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
 

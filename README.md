@@ -29,7 +29,53 @@ consul kv put config/management/endpoints/web/exposure/include "health,info"
 consul kv put config/management/endpoint/health/show-details "always
 ```
 
-## Генерация курсов валют
+### Запуск контейнера Jenkins
+
+```
+docker run -d --name jenkins -p 8180:8080 -p 50000:50000 --restart=on-failure -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts-jdk17 
+```
+
+## Генерация курсов валют  
 
 Генерация курсов валют выполняется каждую минуту и первая генерация через минуту после старта микросервиса
 exchange-generator.
+
+
+## Запуск через helm
+
+1. Сборка JAR
+2. Сборка образа каждого сервиса:
+```
+docker build -t front-ui:0.0.1-SNAPSHOT .
+```
+3. Загрузка образа в minikube:
+```
+minikube image load front-ui:0.0.1-SNAPSHOT
+```
+4. Загрузка образа postgre в minikube:
+```
+docker pull bitnami/postgresql:latest
+minikube image load bitnami/postgresql:latest
+```
+5. Запуск ingress
+```
+minikube addons enable ingress
+```
+6. Включение туннеля для ingress (в отдельном окне)
+```
+minikube tunnel
+```
+7. Установка через helm
+```
+helm install bank-practicum ./bank-charts/
+```
+8. Удаление
+```
+helm uninstall bank-practicum
+```
+
+
+PS: eval $(minikube docker-env) для Windows (power shell) 
+```
+minikube docker-env | Invoke-Expression
+```

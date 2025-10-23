@@ -1,0 +1,173 @@
+pipeline {
+  agent any
+
+  environment {
+    DOCKER_REGISTRY = credentials('DOCKER_REGISTRY')
+    DB_PASSWORD     = credentials('DB_PASSWORD')
+    GITHUB_USERNAME = credentials('GITHUB_USERNAME')
+    DB_NAME         = 'bank-db'
+    DB_USER         = 'postgresql'
+    IMAGE_TAG       = "${env.BUILD_NUMBER}"
+  }
+
+  stages {
+    stage('build') {
+      steps {
+        sh './gradle front-ui:clean front-ui:build'
+        sh './gradle accounts:clean accounts:build'
+        sh './gradle blocker:clean blocker:build'
+        sh './gradle cash:clean cash:build'
+        sh './gradle exchange:clean exchange:build'
+        sh './gradle exchange-generator:clean exchange-generator:build'
+        sh './gradle notifications:clean notifications:build'
+        sh './gradle transfer:clean transfer:build'
+      }
+    }
+
+    stage('build-image') {
+      steps {
+        sh '''
+          eval $(minikube docker-env)
+
+          docker build --no-cache -t accounts:latest -f accounts/Dockerfile .
+          docker build --no-cache -t blocker:latest -f blocker/Dockerfile .
+          docker build --no-cache -t cash:latest -f cash/Dockerfile .
+          docker build --no-cache -t exchange:latest -f exchange/Dockerfile .
+          docker build --no-cache -t exchange-generator:latest -f exchange-generator/Dockerfile .
+          docker build --no-cache -t front-ui:latest -f front-ui/Dockerfile .
+          docker build --no-cache -t notifications:latest -f notifications/Dockerfile .
+          docker build --no-cache -t transfer:latest -f transfer/Dockerfile .
+        '''
+      }
+    }
+
+    stage('Push Docker Images') {
+      steps {
+        withCredentials([string(credentialsId: 'GHCR_TOKEN', variable: 'GHCR_TOKEN')]) {
+          sh """
+          echo \$GHCR_TOKEN | docker login ghcr.io -u ${GITHUB_USERNAME} --password-stdin
+          docker push /accounts:latest
+          docker push /blocker:latest
+          docker push /cash:latest
+          docker push /exchange:latest
+          docker push /exchange-generator:latest
+          docker push /front-ui:latest
+          docker push /notifications:latest
+          docker push /transfer:latest
+          """
+        }
+      }
+    }
+
+    stage('Install PostgreSQL to TEST') {
+      steps {
+        sh """
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo update
+          helm upgrade --install postgres bitnami/postgresql \
+            --namespace test --create-namespace \
+            --set auth.database=${DB_NAME} \
+            --set auth.username=${DB_USER} \
+            --set auth.password=${DB_PASSWORD}
+        """
+      }
+    }
+
+    stage('Create DB Secrets for TEST') {
+      steps {
+        sh """
+          kubectl create secret generic bank-db \
+            --from-literal=password=${DB_PASSWORD} \
+            -n test --dry-run=client -o yaml | kubectl apply -f -
+
+          kubectl create secret generic exchange-db \
+            --from-literal=password=${DB_PASSWORD} \
+            -n test --dry-run=client -o yaml | kubectl apply -f -
+        """
+      }
+    }
+
+    stage('Helm Deploy to TEST') {
+      steps {
+        sh """
+          helm upgrade accounts bank-charts/charts/accounts \
+            --namespace test --create-namespace \
+            --set image.repository=${DOCKER_REGISTRY}/accounts \
+            --set image.tag=${IMAGE_TAG} \
+            --set ingress.enabled=true \
+            --set ingress.hosts[0].host=bank.test.local \
+            --set ingress.hosts[0].paths[0].path="/" \
+            --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+          helm upgrade blocker bank-charts/charts/blocker \
+            --namespace test --create-namespace \
+            --set image.repository=${DOCKER_REGISTRY}/blocker \
+            --set image.tag=${IMAGE_TAG} \
+            --set ingress.enabled=true \
+            --set ingress.hosts[0].host=bank.test.local \
+            --set ingress.hosts[0].paths[0].path="/" \
+            --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+          helm upgrade cash bank-charts/charts/cash \
+            --namespace test --create-namespace \
+            --set image.repository=${DOCKER_REGISTRY}/cash \
+            --set image.tag=${IMAGE_TAG} \
+            --set ingress.enabled=true \
+            --set ingress.hosts[0].host=bank.test.local \
+            --set ingress.hosts[0].paths[0].path="/" \
+            --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+          helm upgrade exchange bank-charts/charts/exchange \
+            --namespace test --create-namespace \
+            --set image.repository=${DOCKER_REGISTRY}/exchange \
+            --set image.tag=${IMAGE_TAG} \
+            --set ingress.enabled=true \
+            --set ingress.hosts[0].host=bank.test.local \
+            --set ingress.hosts[0].paths[0].path="/" \
+            --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+          helm upgrade exchange-generator bank-charts/charts/exchange-generator \
+            --namespace test --create-namespace \
+            --set image.repository=${DOCKER_REGISTRY}/exchange-generator \
+            --set image.tag=${IMAGE_TAG} \
+            --set ingress.enabled=true \
+            --set ingress.hosts[0].host=bank.test.local \
+            --set ingress.hosts[0].paths[0].path="/" \
+            --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+          helm upgrade front-ui bank-charts/charts/front-ui \
+            --namespace test --create-namespace \
+            --set image.repository=${DOCKER_REGISTRY}/front-ui \
+            --set image.tag=${IMAGE_TAG} \
+            --set ingress.enabled=true \
+            --set ingress.hosts[0].host=bank.test.local \
+            --set ingress.hosts[0].paths[0].path="/" \
+            --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+          helm upgrade notifications bank-charts/charts/notifications \
+            --namespace test --create-namespace \
+            --set image.repository=${DOCKER_REGISTRY}/notifications \
+            --set image.tag=${IMAGE_TAG} \
+            --set ingress.enabled=true \
+            --set ingress.hosts[0].host=bank.test.local \
+            --set ingress.hosts[0].paths[0].path="/" \
+            --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+
+          helm upgrade transfer bank-charts/charts/transfer \
+            --namespace test --create-namespace \
+            --set image.repository=${DOCKER_REGISTRY}/transfer \
+            --set image.tag=${IMAGE_TAG} \
+            --set ingress.enabled=true \
+            --set ingress.hosts[0].host=bank.test.local \
+            --set ingress.hosts[0].paths[0].path="/" \
+            --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
+        """
+      }
+    }
+    stage('Manual Approval for PROD') {
+      steps {
+        input message: 'Deploy to PROD environment?', ok: 'Yes, deploy'
+      }
+    }
+  }
+}

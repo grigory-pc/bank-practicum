@@ -32,10 +32,6 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2025.0.0"))
-    implementation("org.springframework.cloud:spring-cloud-starter-consul-discovery")
-    implementation("org.springframework.cloud:spring-cloud-starter-consul-config")
-
     compileOnly("org.projectlombok:lombok")
 
     runtimeOnly("org.postgresql:postgresql")
@@ -46,4 +42,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("com.h2database:h2")
+}
+
+tasks.jar {
+    archiveFileName.set("accounts.jar")
 }

@@ -1,8 +1,6 @@
 package ru.practicum.bank.front.ui.configs.clients.transfer;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cloud.client.loadbalancer.reactive.DeferringLoadBalancerExchangeFilterFunction;
-import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -16,11 +14,10 @@ public class TransferClientBinding {
   public static final String TRANSFER_WEB_CLIENT = "TransferWebClient";
 
   @Bean(TRANSFER_WEB_CLIENT)
-  public WebClient getTransferWebClient(TransferClientProps props,
-                                        DeferringLoadBalancerExchangeFilterFunction<LoadBalancedExchangeFilterFunction> exchangeFilterFunction)
+  public WebClient getTransferWebClient(TransferClientProps props)
       throws NegativeDurationException {
     return DefaultWebClientFactory.getClient(props.connectTimeoutMs(), props.responseTimeoutMs(),
-                                             props.baseUrl(), exchangeFilterFunction);
+                                             props.baseUrl());
   }
 
   @Bean

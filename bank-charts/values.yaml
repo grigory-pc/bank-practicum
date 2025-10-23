@@ -1,0 +1,156 @@
+global:
+  domain: bank.practicum.local
+
+# Configuration for the front-ui service subchart
+front-ui:
+  replicaCount: 1
+  image:
+    repository: front-ui
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: front-ui.bank.practicum.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+# Configuration for the accounts service subchart
+accounts:
+  replicaCount: 1
+  image:
+    repository: accounts
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8081
+    #  config:
+    # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
+    #    database_url: "jdbc:postgresql://bank-postgresql:5432/bank-db"
+    database_username: "postgresql"
+    database_password: "postgresql"
+    # database_password_secret: "{{ .Release.Name }}-bank-db-postgresql" # Reference to secret created by DB chart
+    # database_password_secret_key: "postgresql-password" # Key within the secret
+
+
+# Configuration for the bank-db (PostgreSQL dependency)
+# Values here are prefixed according to the Bitnami PostgreSQL chart's structure
+# Check the Bitnami chart's values.yaml for all available options
+bank-db:
+  enabled: true
+  # Override values from the official postgresql chart
+  auth:
+    database: bank-db
+    username: "postgresql"
+    # Use existingSecret or provide password (less secure for production)
+    # existingSecret: "{{ .Release.Name }}-bank-db-postgresql" # Name of the secret to use/create
+    password: "postgresql" # Example: Not recommended for production
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+# Configuration for the exchange service subchart
+exchange:
+  replicaCount: 1
+  image:
+    repository: exchange
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8084
+    #  config:
+    # --- CORRECTED DB URL --- Using '<ReleaseName>-<Alias>' service name convention
+    #    database_url: "jdbc:postgresql://exchange-postgresql:5432/exchange-db"
+    database_username: "postgresql"
+    database_password: "postgresql"
+    # database_password_secret: "{{ .Release.Name }}-exchange-db-postgresql" # Reference to secret created by DB chart
+    # database_password_secret_key: "postgresql-password" # Key within the secret
+
+
+# Configuration for the exchange-db (PostgreSQL dependency)
+# Values here are prefixed according to the Bitnami PostgreSQL chart's structure
+# Check the Bitnami chart's values.yaml for all available options
+exchange-db:
+  enabled: true
+  # Override values from the official postgresql chart
+  auth:
+    database: exchange-db
+    username: "postgresql"
+    # Use existingSecret or provide password (less secure for production)
+    # existingSecret: "{{ .Release.Name }}-exchange-db-postgresql" # Name of the secret to use/create
+    password: "postgresql" # Example: Not recommended for production
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
+
+# Configuration for the blocker service subchart
+blocker:
+  replicaCount: 1
+  image:
+    repository: blocker
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8082
+
+# Configuration for the cash service subchart
+cash:
+  replicaCount: 1
+  image:
+    repository: blocker
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8083
+
+# Configuration for the exchange-generator service subchart
+exchange-generator:
+  replicaCount: 1
+  image:
+    repository: exchange-generator
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8085
+
+# Configuration for the notifications service subchart
+notifications:
+  replicaCount: 1
+  image:
+    repository: blocker
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8086
+
+# Configuration for the transfer service subchart
+transfer:
+  replicaCount: 1
+  image:
+    repository: blocker
+    tag: "0.0.1-SNAPSHOT"
+    pullPolicy: IfNotPresent
+    # -----------------------------
+  service:
+    type: ClusterIP
+    port: 8087
