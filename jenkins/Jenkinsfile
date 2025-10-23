@@ -24,7 +24,7 @@ pipeline {
       }
     }
 
-    stage('build') {
+    stage('build-image') {
       steps {
         sh '''
           eval $(minikube docker-env)
@@ -32,7 +32,7 @@ pipeline {
           docker build --no-cache -t accounts:latest -f accounts/Dockerfile .
           docker build --no-cache -t blocker:latest -f blocker/Dockerfile .
           docker build --no-cache -t cash:latest -f cash/Dockerfile .
-          docker build --no-cache -t exchange:latest -f /exchange/Dockerfile .
+          docker build --no-cache -t exchange:latest -f exchange/Dockerfile .
           docker build --no-cache -t exchange-generator:latest -f exchange-generator/Dockerfile .
           docker build --no-cache -t front-ui:latest -f front-ui/Dockerfile .
           docker build --no-cache -t notifications:latest -f notifications/Dockerfile .
@@ -95,7 +95,7 @@ pipeline {
             --set image.repository=${DOCKER_REGISTRY}/accounts \
             --set image.tag=${IMAGE_TAG} \
             --set ingress.enabled=true \
-            --set ingress.hosts[0].host=customer.test.local \
+            --set ingress.hosts[0].host=bank.test.local \
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
@@ -104,7 +104,7 @@ pipeline {
             --set image.repository=${DOCKER_REGISTRY}/blocker \
             --set image.tag=${IMAGE_TAG} \
             --set ingress.enabled=true \
-            --set ingress.hosts[0].host=customer.test.local \
+            --set ingress.hosts[0].host=bank.test.local \
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
@@ -113,7 +113,7 @@ pipeline {
             --set image.repository=${DOCKER_REGISTRY}/cash \
             --set image.tag=${IMAGE_TAG} \
             --set ingress.enabled=true \
-            --set ingress.hosts[0].host=customer.test.local \
+            --set ingress.hosts[0].host=bank.test.local \
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
@@ -122,7 +122,7 @@ pipeline {
             --set image.repository=${DOCKER_REGISTRY}/exchange \
             --set image.tag=${IMAGE_TAG} \
             --set ingress.enabled=true \
-            --set ingress.hosts[0].host=customer.test.local \
+            --set ingress.hosts[0].host=bank.test.local \
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
@@ -131,7 +131,7 @@ pipeline {
             --set image.repository=${DOCKER_REGISTRY}/exchange-generator \
             --set image.tag=${IMAGE_TAG} \
             --set ingress.enabled=true \
-            --set ingress.hosts[0].host=customer.test.local \
+            --set ingress.hosts[0].host=bank.test.local \
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
@@ -140,7 +140,7 @@ pipeline {
             --set image.repository=${DOCKER_REGISTRY}/front-ui \
             --set image.tag=${IMAGE_TAG} \
             --set ingress.enabled=true \
-            --set ingress.hosts[0].host=customer.test.local \
+            --set ingress.hosts[0].host=bank.test.local \
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
@@ -149,7 +149,7 @@ pipeline {
             --set image.repository=${DOCKER_REGISTRY}/notifications \
             --set image.tag=${IMAGE_TAG} \
             --set ingress.enabled=true \
-            --set ingress.hosts[0].host=customer.test.local \
+            --set ingress.hosts[0].host=bank.test.local \
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
 
@@ -158,7 +158,7 @@ pipeline {
             --set image.repository=${DOCKER_REGISTRY}/transfer \
             --set image.tag=${IMAGE_TAG} \
             --set ingress.enabled=true \
-            --set ingress.hosts[0].host=customer.test.local \
+            --set ingress.hosts[0].host=bank.test.local \
             --set ingress.hosts[0].paths[0].path="/" \
             --set ingress.hosts[0].paths[0].pathType="ImplementationSpecific"
         """
