@@ -1,0 +1,12 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: exchange-generator
+
+client:
+  exchange:
+    base-url: http://exchange/rates/update
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000

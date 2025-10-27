@@ -1,0 +1,33 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: accounts
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bank
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+hibernate:
+  dialect: org.hibernate.dialect.PostgreSQLDialect
+  show_sql: true
+
+client:
+  notifications:
+    base-url: http://localhost:8086/notifications
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always

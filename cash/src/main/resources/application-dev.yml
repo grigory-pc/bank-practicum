@@ -1,0 +1,31 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: cash
+
+client:
+  accounts:
+    base-url: http://localhost:8081/accounts
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000
+  blocker:
+    base-url: http://localhost:8082/blocker
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000
+  notifications:
+    base-url: http://localhost:8086/notifications
+    connect-timeout-ms: 1000
+    response-timeout-ms: 1000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+
+
