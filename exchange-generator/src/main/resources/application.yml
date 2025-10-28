@@ -2,8 +2,15 @@ server:
   port: 8085
 
 spring:
+  profiles:
+    active: dev
   application:
     name: exchange-generator
+  kafka:
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 client:
   exchange:

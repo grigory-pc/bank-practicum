@@ -2,8 +2,15 @@ server:
   port: 8083
 
 spring:
+  profiles:
+    active: dev
   application:
     name: cash
+  kafka:
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 client:
   accounts:
