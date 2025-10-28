@@ -10,7 +10,21 @@ spring:
     producer:
       bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer
+      buffer-memory: 125829120
+      client-id: ${KAFKA_CLIENT_ID}
+      acks: all
+      batch-size: 1
+      retries: 3
+      properties:
+        linger.ms: 1
+        max.request.size: 125829120
+    properties:
+      buffer.memory: 125829120
+      linger.ms: 1
+      max.partition.fetch.bytes: 125829120
+      max.request.size: 125829120
+      session.timeout.ms: 60000
 
 client:
   accounts:
