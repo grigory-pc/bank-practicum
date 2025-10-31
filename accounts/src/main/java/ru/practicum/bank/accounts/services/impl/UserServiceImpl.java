@@ -21,6 +21,7 @@ import ru.practicum.bank.accounts.repository.AccountRepository;
 import ru.practicum.bank.accounts.repository.CurrencyRepository;
 import ru.practicum.bank.accounts.repository.UserRepository;
 import ru.practicum.bank.accounts.services.CheckService;
+import ru.practicum.bank.accounts.services.KafkaService;
 import ru.practicum.bank.accounts.services.UserService;
 
 @Slf4j
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
   private final CurrencyRepository currencyRepository;
   private final CurrencyMapper currencyMapper;
   private final NotificationsClient notificationsClient;
+  private final KafkaService kafkaService;
 
   @Override
   public void addUser(UserDto userDto) throws PasswordException {
@@ -145,6 +147,8 @@ public class UserServiceImpl implements UserService {
                                   .name(savedUser.getName())
                                   .accounts(accountMapper.toDto(newAccounts))
                                   .build();
+
+    kafkaService.sendMessage(userNotify);
 
     notificationsClient.requestAccountNotifications(userNotify).block();
   }

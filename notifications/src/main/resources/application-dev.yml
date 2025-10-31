@@ -9,7 +9,7 @@ spring:
       bootstrap-servers: localhost:9092
       group-id: notifications-consumer
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       auto-offset-reset: latest
       enable-auto-commit: false
       max-poll-records: 10
