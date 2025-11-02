@@ -42,13 +42,7 @@ hibernate:
 
 kafka-topics:
   out:
-    - ${KAFKA_TOPIC_NOTIFICATIONS}
-
-client:
-  notifications:
-    base-url: ${CLIENT_NOTIFICATIONS_URL}
-    connect-timeout-ms: 1000
-    response-timeout-ms: 1000
+    - ${KAFKA_TOPIC_OUT_NOTIFICATIONS}
 
 management:
   endpoints:

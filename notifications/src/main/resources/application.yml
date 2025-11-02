@@ -2,6 +2,8 @@ server:
   port: 8086
 
 spring:
+  profiles:
+    active: dev
   application:
     name: notifications
   kafka:
@@ -28,6 +30,10 @@ spring:
       max.partition.fetch.bytes: 125829120
       max.request.size: 125829120
       session.timeout.ms: 60000
+
+kafka-topics:
+  in:
+    - ${KAFKA_TOPIC_IN_NOTIFICATIONS}
 
 management:
   endpoints:

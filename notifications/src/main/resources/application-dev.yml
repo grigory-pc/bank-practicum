@@ -14,7 +14,7 @@ spring:
       enable-auto-commit: false
       max-poll-records: 10
     listener:
-      client-id: notifications-consumer
+      client-id: notifications-consumer-client
       ack-mode: manual_immediate
       async-acks: false
       auto-startup: true
@@ -28,6 +28,10 @@ spring:
       max.partition.fetch.bytes: 125829120
       max.request.size: 125829120
       session.timeout.ms: 60000
+
+kafka-topics:
+  in:
+    - notifications
 
 management:
   endpoints:

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.bank.transfer.clients.exchange.ExchangeClient;
 import ru.practicum.bank.transfer.clients.exchange.ExchangeClientImpl;
-import ru.practicum.bank.transfer.configs.DefaultWebClientFactory;
+import ru.practicum.bank.transfer.configs.clients.DefaultWebClientFactory;
 import ru.practicum.bank.transfer.exceptions.NegativeDurationException;
 
 @Configuration

@@ -1,4 +1,4 @@
-package ru.practicum.bank.transfer.services;
+package ru.practicum.bank.transfer.services.impl;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 import ru.practicum.bank.transfer.clients.accounts.AccountsClient;
 import ru.practicum.bank.transfer.clients.blocker.BlockerClient;
 import ru.practicum.bank.transfer.clients.exchange.ExchangeClient;
-import ru.practicum.bank.transfer.clients.notifications.NotificationsClient;
 import ru.practicum.bank.transfer.dto.AccountsDto;
 import ru.practicum.bank.transfer.dto.TransferDto;
 import ru.practicum.bank.transfer.enums.Currency;
 import ru.practicum.bank.transfer.enums.CurrencyExchange;
 import ru.practicum.bank.transfer.exceptions.BlockerException;
+import ru.practicum.bank.transfer.services.KafkaService;
+import ru.practicum.bank.transfer.services.TransferService;
 
 @Slf4j
 @Service
@@ -21,8 +22,8 @@ public class TransferServiceImpl implements TransferService {
   public static final boolean IS_EXISTS_TRUE = true;
   private final AccountsClient accountsClient;
   private final ExchangeClient exchangeClient;
-  private final NotificationsClient notificationsClient;
   private final BlockerClient blockerClient;
+  private final KafkaService kafkaService;
 
   @Override
   public void transferToOtherAccount(TransferDto transferDto) {
@@ -65,7 +66,7 @@ public class TransferServiceImpl implements TransferService {
 
     accountsClient.updateAccount(List.of(updatedAccountFrom, updatedAccountTo)).subscribe();
 
-    notificationsClient.requestTransferNotifications(transferDto).block();
+    kafkaService.sendMessage(transferDto);
   }
 
   private void blockOperation() {

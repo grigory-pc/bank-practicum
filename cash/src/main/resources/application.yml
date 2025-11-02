@@ -26,6 +26,10 @@ spring:
       max.request.size: 125829120
       session.timeout.ms: 60000
 
+kafka-topics:
+  out:
+    - ${KAFKA_TOPIC_OUT_NOTIFICATIONS}
+
 client:
   accounts:
     base-url: ${CLIENT_ACCOUNTS_URL}
@@ -35,8 +39,3 @@ client:
     base-url: ${CLIENT_BLOCKER_URL}
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
-  notifications:
-    base-url: ${CLIENT_NOTIFICATIONS_URL}
-    connect-timeout-ms: 1000
-    response-timeout-ms: 1000
-

@@ -24,6 +24,10 @@ spring:
       max.request.size: 125829120
       session.timeout.ms: 60000
 
+kafka-topics:
+  out:
+    - notifications
+
 client:
   accounts:
     base-url: http://localhost:8081/accounts
@@ -35,10 +39,6 @@ client:
     response-timeout-ms: 1000
   exchange:
     base-url: http://localhost:8084/rates
-    connect-timeout-ms: 1000
-    response-timeout-ms: 1000
-  notifications:
-    base-url: http://localhost:8086/notifications
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
 

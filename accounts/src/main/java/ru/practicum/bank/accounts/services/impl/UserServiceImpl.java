@@ -5,7 +5,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.practicum.bank.accounts.clients.notifications.NotificationsClient;
 import ru.practicum.bank.accounts.dto.UserAuthDto;
 import ru.practicum.bank.accounts.dto.UserDto;
 import ru.practicum.bank.accounts.dto.UserFullDto;
@@ -38,7 +37,6 @@ public class UserServiceImpl implements UserService {
   private final AccountMapper accountMapper;
   private final CurrencyRepository currencyRepository;
   private final CurrencyMapper currencyMapper;
-  private final NotificationsClient notificationsClient;
   private final KafkaService kafkaService;
 
   @Override
@@ -149,7 +147,5 @@ public class UserServiceImpl implements UserService {
                                   .build();
 
     kafkaService.sendMessage(userNotify);
-
-    notificationsClient.requestAccountNotifications(userNotify).block();
   }
 }

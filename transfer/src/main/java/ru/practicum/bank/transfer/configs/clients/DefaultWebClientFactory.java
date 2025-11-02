@@ -1,4 +1,4 @@
-package ru.practicum.bank.accounts.configs.clients.notifications;
+package ru.practicum.bank.transfer.configs.clients;
 
 import io.netty.channel.ChannelOption;
 import java.time.Duration;
@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
-import ru.practicum.bank.accounts.exceptions.NegativeDurationException;
+import ru.practicum.bank.transfer.exceptions.NegativeDurationException;
 
 /**
  * Фабрика настраиваемых web-клиентов для выполнения запросов в сторонние или свои же сервисы.
@@ -36,9 +36,8 @@ public class DefaultWebClientFactory {
    *
    * @param connectTimeoutMs  Таймаут ожидания подключения в миллисекундах.
    * @param responseTimeoutMs Таймаут ожидания ответа в миллисекундах.
-   * @return Предварительно настроенный
-   * {@link org.springframework.web.reactive.function.client.WebClient.Builder}.
-   * @throws NegativeDurationException Если переданы отрицательные значения таймаутов.
+   * @return Предварительно настроенный {@link WebClient.Builder}.
+   * @throws ru.practicum.bank.transfer.exceptions.NegativeDurationException Если переданы отрицательные значения таймаутов.
    */
   private static WebClient.Builder configureWebClientBuilder(int connectTimeoutMs,
                                                              long responseTimeoutMs)

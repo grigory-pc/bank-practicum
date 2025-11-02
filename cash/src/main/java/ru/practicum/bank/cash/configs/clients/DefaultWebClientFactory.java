@@ -1,4 +1,4 @@
-package ru.practicum.bank.cash.configs;
+package ru.practicum.bank.cash.configs.clients;
 
 import io.netty.channel.ChannelOption;
 import java.time.Duration;

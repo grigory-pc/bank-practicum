@@ -1,14 +1,15 @@
-package ru.practicum.bank.cash.services;
+package ru.practicum.bank.cash.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.bank.cash.clients.accounts.AccountsClient;
 import ru.practicum.bank.cash.clients.blocker.BlockerClient;
-import ru.practicum.bank.cash.clients.notifications.NotificationsClient;
 import ru.practicum.bank.cash.dto.AccountsDto;
 import ru.practicum.bank.cash.dto.CashDto;
 import ru.practicum.bank.cash.enums.Action;
+import ru.practicum.bank.cash.services.CashService;
+import ru.practicum.bank.cash.services.KafkaService;
 
 @Slf4j
 @Service
@@ -16,8 +17,8 @@ import ru.practicum.bank.cash.enums.Action;
 public class CashServiceImpl implements CashService {
   public static final boolean IS_CAN_GET = true;
   private final AccountsClient accountsClient;
-  private final NotificationsClient notificationsClient;
   private final BlockerClient blockerClient;
+  private final KafkaService kafkaService;
 
   @Override
   public void requestCashOperation(CashDto cashDto) {
@@ -37,7 +38,7 @@ public class CashServiceImpl implements CashService {
       case PUT -> accountsClient.updateAccount(requestPutCash(cashDto, account)).block();
     }
 
-    notificationsClient.requestCashNotifications(cashDto).block();
+    kafkaService.sendMessage(cashDto);
   }
 
   private AccountsDto requestGetCash(CashDto cashDto, AccountsDto account) {
