@@ -1,4 +1,4 @@
-package ru.practicum.bank.exchange.generator.service;
+package ru.practicum.bank.exchange.generator.service.impl;
 
 import java.util.List;
 import java.util.Random;
@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.bank.exchange.generator.dto.RateDto;
 import ru.practicum.bank.exchange.generator.enums.CurrencyExchange;
+import ru.practicum.bank.exchange.generator.service.RateGeneratorService;
 
 @Slf4j
 @Service

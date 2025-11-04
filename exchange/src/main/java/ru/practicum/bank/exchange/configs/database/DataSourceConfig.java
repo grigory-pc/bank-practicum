@@ -1,4 +1,4 @@
-package ru.practicum.bank.exchange.configs;
+package ru.practicum.bank.exchange.configs.database;
 
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;

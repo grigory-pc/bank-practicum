@@ -26,8 +26,6 @@ spring:
       max.request.size: 125829120
       session.timeout.ms: 60000
 
-client:
-  exchange:
-    base-url: ${CLIENT_EXCHANGE_URL}
-    connect-timeout-ms: 1000
-    response-timeout-ms: 1000
+kafka-topics:
+  out:
+    - ${KAFKA_TOPIC_OUT_RATE}

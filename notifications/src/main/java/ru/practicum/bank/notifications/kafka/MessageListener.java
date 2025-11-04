@@ -34,7 +34,7 @@ public class MessageListener {
   private final NotificationsService notificationsService;
 
   /**
-   * Прослушивает входные топики на наличие данных, при присутсвии данных - считывает и
+   * Прослушивает входные топики на наличие данных, при присутствии данных - считывает и
    * обрабатывает.
    *
    * @param kafkaRecord - входящий рекорд данных.
