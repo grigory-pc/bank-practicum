@@ -97,4 +97,3 @@ affinity: {}
 config:
   accounts_url: "http://accounts/accounts"
   blocker_url: "http://blocker/blocker"
-  notifications_url: "http://notifications/notifications"

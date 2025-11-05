@@ -15,5 +15,3 @@ data:
   CLIENT_ACCOUNTS_URL: {{ .Values.config.accounts_url | quote }}
   #URL blocker service
   CLIENT_BLOCKER_URL: {{ .Values.config.blocker_url | quote }}
-  #URL notifications service
-  CLIENT_NOTIFICATIONS_URL: {{ .Values.config.notifications_url | quote }}

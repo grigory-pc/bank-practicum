@@ -1,6 +1,17 @@
 global:
   domain: bank.practicum.local
 
+# Configuration for the kafka subchart
+kafka:
+  enabled: true
+  replicaCount: 2
+  persistence:
+    size: 20Gi
+  auth:
+    enabled: true
+    clientUsers: ["admin"]
+    clientPasswords: ["password"]
+
 # Configuration for the front-ui service subchart
 front-ui:
   replicaCount: 1

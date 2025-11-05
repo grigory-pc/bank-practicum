@@ -93,6 +93,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-config:
-  exchange_url: "http://exchange/rates/update"

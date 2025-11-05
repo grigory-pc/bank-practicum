@@ -23,7 +23,3 @@ data:
 
   # Example: Include other config defined in values.yaml
   # OTHER_CONFIG_PARAM: {{ .Values.config.some_other_config | quote }}
-
-  #URL notifications service
-  CLIENT_NOTIFICATIONS_URL: {{ .Values.config.notifications_url | quote }}
-
