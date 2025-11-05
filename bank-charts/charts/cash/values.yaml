@@ -94,6 +94,9 @@ tolerations: []
 
 affinity: {}
 
+kafka:
+  bootstrapServers: ""
+
 config:
   accounts_url: "http://accounts/accounts"
   blocker_url: "http://blocker/blocker"

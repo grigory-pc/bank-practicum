@@ -81,6 +81,9 @@ tolerations: []
 
 affinity: {}
 
+kafka:
+  bootstrapServers: ""
+
 config:
   database_url: "jdbc:postgresql://{{ .Release.Name }}-exchange-db:5432/exchange-db"
   database_username: "postgresql"

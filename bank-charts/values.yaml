@@ -4,13 +4,11 @@ global:
 # Configuration for the kafka subchart
 kafka:
   enabled: true
-  replicaCount: 2
+  replicaCount: 1
   persistence:
     size: 20Gi
   auth:
-    enabled: true
-    clientUsers: ["admin"]
-    clientPasswords: ["password"]
+    enabled: false
 
 # Configuration for the front-ui service subchart
 front-ui:
@@ -50,7 +48,8 @@ accounts:
     database_password: "postgresql"
     # database_password_secret: "{{ .Release.Name }}-bank-db-postgresql" # Reference to secret created by DB chart
     # database_password_secret_key: "postgresql-password" # Key within the secret
-
+  kafka:
+    bootstrapServers: "kafka-headless.default.svc.cluster.local:9092"
 
 # Configuration for the bank-db (PostgreSQL dependency)
 # Values here are prefixed according to the Bitnami PostgreSQL chart's structure
@@ -87,7 +86,8 @@ exchange:
     database_password: "postgresql"
     # database_password_secret: "{{ .Release.Name }}-exchange-db-postgresql" # Reference to secret created by DB chart
     # database_password_secret_key: "postgresql-password" # Key within the secret
-
+  kafka:
+    bootstrapServers: "kafka-headless.default.svc.cluster.local:9092"
 
 # Configuration for the exchange-db (PostgreSQL dependency)
 # Values here are prefixed according to the Bitnami PostgreSQL chart's structure
@@ -129,6 +129,8 @@ cash:
   service:
     type: ClusterIP
     port: 8083
+  kafka:
+    bootstrapServers: "kafka-headless.default.svc.cluster.local:9092"
 
 # Configuration for the exchange-generator service subchart
 exchange-generator:
@@ -141,6 +143,8 @@ exchange-generator:
   service:
     type: ClusterIP
     port: 8085
+  kafka:
+    bootstrapServers: "kafka-headless.default.svc.cluster.local:9092"
 
 # Configuration for the notifications service subchart
 notifications:
@@ -153,6 +157,8 @@ notifications:
   service:
     type: ClusterIP
     port: 8086
+  kafka:
+    bootstrapServers: "kafka-headless.default.svc.cluster.local:9092"
 
 # Configuration for the transfer service subchart
 transfer:
@@ -165,3 +171,5 @@ transfer:
   service:
     type: ClusterIP
     port: 8087
+  kafka:
+    bootstrapServers: "kafka-headless.default.svc.cluster.local:9092"
