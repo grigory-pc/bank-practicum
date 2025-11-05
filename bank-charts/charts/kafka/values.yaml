@@ -1059,44 +1059,51 @@ controller:
   ## Enable persistence using Persistent Volume Claims
   ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
   ##
+#  persistence:
+#    ## @param controller.persistence.enabled Enable Kafka data persistence using PVC
+#    ##
+#    enabled: true
+#    ## @param controller.persistence.existingClaim A manually managed Persistent Volume and Claim
+#    ## If defined, PVC must be created manually before volume will be bound
+#    ## The value is evaluated as a template
+#    ##
+#    existingClaim: ""
+#    ## @param controller.persistence.storageClass PVC Storage Class for Kafka data volume
+#    ## If defined, storageClassName: <storageClass>
+#    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+#    ## If undefined (the default) or set to null, no storageClassName spec is
+#    ## set, choosing the default provisioner.
+#    ##
+#    storageClass: ""
+#    ## @param controller.persistence.accessModes Persistent Volume Access Modes
+#    ##
+#    accessModes:
+#      - ReadWriteOnce
+#    ## @param controller.persistence.size PVC Storage Request for Kafka data volume
+#    ##
+#    size: 8Gi
+#    ## @param controller.persistence.annotations Annotations for the PVC
+#    ##
+#    annotations: {}
+#    ## @param controller.persistence.labels Labels for the PVC
+#    ##
+#    labels: {}
+#    ## @param controller.persistence.selector Selector to match an existing Persistent Volume for Kafka data PVC. If set, the PVC can't have a PV dynamically provisioned for it
+#    ## selector:
+#    ##   matchLabels:
+#    ##     app: my-app
+#    ##
+#    selector: {}
+#    ## @param controller.persistence.mountPath Mount path of the Kafka data volume
+#    ##
+#    mountPath: /bitnami/kafka
   persistence:
-    ## @param controller.persistence.enabled Enable Kafka data persistence using PVC
-    ##
     enabled: true
-    ## @param controller.persistence.existingClaim A manually managed Persistent Volume and Claim
-    ## If defined, PVC must be created manually before volume will be bound
-    ## The value is evaluated as a template
-    ##
-    existingClaim: ""
-    ## @param controller.persistence.storageClass PVC Storage Class for Kafka data volume
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ## set, choosing the default provisioner.
-    ##
-    storageClass: ""
-    ## @param controller.persistence.accessModes Persistent Volume Access Modes
-    ##
+    storageClass: "standard"
     accessModes:
-      - ReadWriteOnce
-    ## @param controller.persistence.size PVC Storage Request for Kafka data volume
-    ##
-    size: 8Gi
-    ## @param controller.persistence.annotations Annotations for the PVC
-    ##
-    annotations: {}
-    ## @param controller.persistence.labels Labels for the PVC
-    ##
-    labels: {}
-    ## @param controller.persistence.selector Selector to match an existing Persistent Volume for Kafka data PVC. If set, the PVC can't have a PV dynamically provisioned for it
-    ## selector:
-    ##   matchLabels:
-    ##     app: my-app
-    ##
-    selector: {}
-    ## @param controller.persistence.mountPath Mount path of the Kafka data volume
-    ##
-    mountPath: /bitnami/kafka
+      - ReadWriteMany
+    size: 50Gi
+    dataDir: "/bitnami/kafka/data"
   ## Log Persistence parameters
   ##
   logPersistence:
