@@ -73,6 +73,24 @@ pipeline {
       }
     }
 
+    stage('Install Kafka to TEST') {
+      steps {
+        sh """
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo update
+
+          helm upgrade --install kafka bitnami/kafka \\
+            --namespace test \\
+            --create-namespace \\
+            --set auth.enabled=false \\
+            --set persistence.enabled=true \\
+            --set persistence.size=10Gi \\
+            --set replicaCount=1 \\
+            --set service.port=9092 \\
+        """
+      }
+    }
+
     stage('Create DB Secrets for TEST') {
       steps {
         sh """
