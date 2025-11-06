@@ -96,6 +96,8 @@ affinity: {}
 
 kafka:
   bootstrapServers: ""
+  clientId: "transfer"
+  topicOutNotifications: "notifications"
 
 config:
   accounts_url: "http://accounts/accounts"

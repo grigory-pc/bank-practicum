@@ -15,3 +15,7 @@ data:
   CLIENT_ACCOUNTS_URL: {{ .Values.config.accounts_url | quote }}
   #URL blocker service
   CLIENT_BLOCKER_URL: {{ .Values.config.blocker_url | quote }}
+
+  KAFKA_BOOTSTRAP_SERVERS: {{ .Values.config.kafka.bootstrapServers | quote }}
+  KAFKA_CLIENT_ID: {{ .Values.config.kafka.clientId | quote }}
+  KAFKA_TOPIC_OUT_NOTIFICATIONS: {{ .Values.config.kafka.topicOutNotifications | quote }}

@@ -2,8 +2,8 @@ server:
   port: 8084
 
 spring:
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
   application:
     name: exchange
   datasource:
@@ -43,7 +43,7 @@ spring:
 
 kafka-topics:
   in:
-    - ${KAFKA_TOPIC_OUT_RATE}
+    - ${KAFKA_TOPIC_IN_RATE}
 
 hibernate:
   dialect: org.hibernate.dialect.PostgreSQLDialect

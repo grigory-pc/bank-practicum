@@ -7,8 +7,8 @@ server:
       force: true
 
 spring:
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
   application:
     name: front-ui
 

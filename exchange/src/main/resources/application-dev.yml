@@ -16,7 +16,7 @@ spring:
   kafka:
     consumer:
       bootstrap-servers: localhost:9092
-      group-id: rate-consumer
+      group-id: exchange-consumer
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       auto-offset-reset: latest
@@ -24,7 +24,7 @@ spring:
       auto-commit-interval: 5000
       max-poll-records: 10
     listener:
-      client-id: rate-consumer
+      client-id: exchange-consumer
       ack-mode: manual_immediate
       async-acks: false
       auto-startup: true

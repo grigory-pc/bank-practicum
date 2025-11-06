@@ -4,3 +4,22 @@ metadata:
   name: {{ include "notifications.fullname" . }}
   labels:
     {{- include "notifications.labels" . | nindent 4 }}
+
+data:
+  # Example: Generic key-value pairs from .Values.config
+  # Note: We process database_url separately below using tpl
+  {{- range $key, $value := .Values.config }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
+
+  #URL accounts service
+  CLIENT_ACCOUNTS_URL: {{ .Values.config.accounts_url | quote }}
+  #URL blocker service
+  CLIENT_BLOCKER_URL: {{ .Values.config.blocker_url | quote }}
+  #URL exchange service
+  CLIENT_EXCHANGE_URL: {{ .Values.config.exchange_url | quote }}
+
+  KAFKA_BOOTSTRAP_SERVERS: {{ .Values.config.kafka.bootstrapServers | quote }}
+  KAFKA_GROUP_ID: {{ .Values.config.kafka.groupId | quote }}
+  KAFKA_CLIENT_ID: {{ .Values.config.kafka.clientId | quote }}
+  KAFKA_TOPIC_IN_NOTIFICATIONS: {{ .Values.config.kafka.topicInNotifications | quote }}

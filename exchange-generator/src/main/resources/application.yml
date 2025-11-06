@@ -2,8 +2,8 @@ server:
   port: 8085
 
 spring:
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
   application:
     name: exchange-generator
   kafka:

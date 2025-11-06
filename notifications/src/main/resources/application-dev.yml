@@ -15,7 +15,7 @@ spring:
       auto-commit-interval: 5000
       max-poll-records: 10
     listener:
-      client-id: notifications-consumer-client
+      client-id: notifications
       ack-mode: manual_immediate
       async-acks: false
       auto-startup: true

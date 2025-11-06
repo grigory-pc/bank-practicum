@@ -23,3 +23,6 @@ data:
 
   # Example: Include other config defined in values.yaml
   # OTHER_CONFIG_PARAM: {{ .Values.config.some_other_config | quote }}
+  KAFKA_BOOTSTRAP_SERVERS: {{ .Values.config.kafka.bootstrapServers | quote }}
+  KAFKA_CLIENT_ID: {{ .Values.config.kafka.clientId | quote }}
+  KAFKA_TOPIC_OUT_NOTIFICATIONS: {{ .Values.config.kafka.topicOutNotifications | quote }}

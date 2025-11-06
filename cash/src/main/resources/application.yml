@@ -2,8 +2,8 @@ server:
   port: 8083
 
 spring:
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
   application:
     name: cash
   kafka:

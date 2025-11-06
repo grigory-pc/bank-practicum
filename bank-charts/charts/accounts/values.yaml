@@ -85,6 +85,8 @@ affinity: {}
 
 kafka:
   bootstrapServers: ""
+  clientId: "accounts"
+  topicOutNotifications: "notifications"
 
 config:
   database_url: "jdbc:postgresql://{{ .Release.Name }}-bank-db:5432/bank-db"

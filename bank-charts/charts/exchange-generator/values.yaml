@@ -96,3 +96,5 @@ affinity: {}
 
 kafka:
   bootstrapServers: ""
+  clientId: "exchange-generator"
+  topicOutRate: "rate"

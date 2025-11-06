@@ -10,7 +10,7 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer 
       buffer-memory: 125829120
-      client-id: "notifications-producer"
+      client-id: "transfer"
       acks: 0
       batch-size: 1
       retries: 0
