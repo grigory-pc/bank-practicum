@@ -1,0 +1,48 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: exchange
+  datasource:
+    url: jdbc:postgresql://localhost:5432/exchange
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: exchange-consumer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 5000
+      max-poll-records: 10
+    listener:
+      client-id: exchange-consumer
+      ack-mode: manual_immediate
+      async-acks: false
+      auto-startup: true
+      concurrency: 1
+      immediate-stop: true
+      missing-topics-fatal: true
+      type: single
+    properties:
+      buffer.memory: 125829120
+      linger.ms: 1
+      max.partition.fetch.bytes: 125829120
+      max.request.size: 125829120
+      session.timeout.ms: 60000
+
+kafka-topics:
+  in:
+    - rate
+
+hibernate:
+  dialect: org.hibernate.dialect.PostgreSQLDialect
+  show_sql: true

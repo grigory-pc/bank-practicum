@@ -16,11 +16,13 @@ public class RateServiceImpl implements RateService {
   private final RateMapper rateMapper;
 
   @Override
-  public void saveRate(RateDto rateDto) {
-    var rateForUpdate = rateRepository.findByTitle(rateDto.title());
-    rateForUpdate.setValue(rateDto.value());
+  public void updateRates(List<RateDto> rates) {
+    for (RateDto rate : rates) {
+      var rateForUpdate = rateRepository.findByTitle(rate.title());
+      rateForUpdate.setValue(rate.value());
 
-    rateRepository.save(rateForUpdate);
+      rateRepository.save(rateForUpdate);
+    }
   }
 
   @Override

@@ -60,6 +60,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-bank-db
                   key: password
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: {{ .Values.kafka.bootstrapServers | quote }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

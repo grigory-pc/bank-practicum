@@ -81,3 +81,9 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+kafka:
+  bootstrapServers: ""
+  groupId: "notifications-consumer"
+  clientId: "notifications"
+  topicInNotifications: "notifications"

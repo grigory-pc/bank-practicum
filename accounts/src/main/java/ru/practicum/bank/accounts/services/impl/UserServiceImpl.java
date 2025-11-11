@@ -5,7 +5,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.practicum.bank.accounts.clients.notifications.NotificationsClient;
 import ru.practicum.bank.accounts.dto.UserAuthDto;
 import ru.practicum.bank.accounts.dto.UserDto;
 import ru.practicum.bank.accounts.dto.UserFullDto;
@@ -21,6 +20,7 @@ import ru.practicum.bank.accounts.repository.AccountRepository;
 import ru.practicum.bank.accounts.repository.CurrencyRepository;
 import ru.practicum.bank.accounts.repository.UserRepository;
 import ru.practicum.bank.accounts.services.CheckService;
+import ru.practicum.bank.accounts.services.KafkaService;
 import ru.practicum.bank.accounts.services.UserService;
 
 @Slf4j
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
   private final AccountMapper accountMapper;
   private final CurrencyRepository currencyRepository;
   private final CurrencyMapper currencyMapper;
-  private final NotificationsClient notificationsClient;
+  private final KafkaService kafkaService;
 
   @Override
   public void addUser(UserDto userDto) throws PasswordException {
@@ -146,6 +146,6 @@ public class UserServiceImpl implements UserService {
                                   .accounts(accountMapper.toDto(newAccounts))
                                   .build();
 
-    notificationsClient.requestAccountNotifications(userNotify).block();
+    kafkaService.sendMessage(userNotify);
   }
 }

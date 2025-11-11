@@ -2,8 +2,34 @@ server:
   port: 8087
 
 spring:
+#  profiles:
+#    active: dev
   application:
     name: transfer
+  kafka:
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer 
+      buffer-memory: 125829120
+      client-id: ${KAFKA_CLIENT_ID}
+      acks: 0
+      batch-size: 1
+      retries: 0
+      properties:
+        linger.ms: 1
+        max.request.size: 125829120
+    properties:
+      buffer.memory: 125829120
+      linger.ms: 1
+      max.partition.fetch.bytes: 125829120
+      max.request.size: 125829120
+      session.timeout.ms: 60000
+      enable.idempotence: false
+
+kafka-topics:
+  out:
+    - ${KAFKA_TOPIC_OUT_NOTIFICATIONS}
 
 client:
   accounts:
@@ -12,10 +38,6 @@ client:
     response-timeout-ms: 1000
   blocker:
     base-url: ${CLIENT_BLOCKER_URL}
-    connect-timeout-ms: 1000
-    response-timeout-ms: 1000
-  notifications:
-    base-url: ${CLIENT_NOTIFICATIONS_URL}
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
   exchange:

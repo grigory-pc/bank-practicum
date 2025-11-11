@@ -9,11 +9,11 @@ import ru.practicum.bank.exchange.dto.RateDto;
 public interface RateService {
 
   /**
-   * Метод для сохранения курса валюты.
+   * Метод для сохранения курса валют.
    *
-   * @param rateDto - данные курса валюты.
+   * @param rates - данные курсов валюты.
    */
-  void saveRate(RateDto rateDto);
+  void updateRates(List<RateDto> rates);
 
   /**
    * Метод для получения курса валюты.
