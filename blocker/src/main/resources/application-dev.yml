@@ -2,8 +2,6 @@ server:
   port: 8082
 
 spring:
-  #  profiles:
-  #    active: dev
   application:
     name: blocker
 
@@ -17,7 +15,7 @@ management:
       show-details: always
   zipkin:
     tracing:
-      endpoint: ${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT}
+      endpoint: localhost:9411
   tracing:
     sampling:
       probability: 1

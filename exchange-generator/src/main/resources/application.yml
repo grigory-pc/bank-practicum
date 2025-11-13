@@ -30,3 +30,18 @@ spring:
 kafka-topics:
   out:
     - ${KAFKA_TOPIC_OUT_RATE}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+  zipkin:
+    tracing:
+      endpoint: ${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT}
+  tracing:
+    sampling:
+      probability: 1

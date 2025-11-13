@@ -51,4 +51,10 @@ management:
   endpoint:
     health:
       show-details: always
+  zipkin:
+    tracing:
+      endpoint: localhost:9411
+  tracing:
+    sampling:
+      probability: 1
 

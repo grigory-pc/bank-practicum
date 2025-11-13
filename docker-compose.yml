@@ -106,6 +106,13 @@ services:
     volumes:
       - kafka_data:/bitnami/kafka
 
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - monitoring-network
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
     container_name: elasticsearch
@@ -131,5 +138,7 @@ services:
       - elastic-network
 
 networks:
+  monitoring-network:
+    driver: bridge
   elastic-network:
     driver: bridge

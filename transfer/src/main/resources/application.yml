@@ -45,3 +45,17 @@ client:
     connect-timeout-ms: 1000
     response-timeout-ms: 1000
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+  zipkin:
+    tracing:
+      endpoint: ${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT}
+  tracing:
+    sampling:
+      probability: 1

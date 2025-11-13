@@ -54,6 +54,9 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "blocker.fullname" . }}
+          env:
+            - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+              value: {{ .Values.zipkin.endpoint }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -173,3 +173,6 @@ transfer:
     port: 8087
   kafka:
     bootstrapServers: "kafka-headless.default.svc.cluster.local:9092"
+
+zipkin:
+  endpoint: http://zipkin.bank.practicum.svc.cluster.local:9411/api/v2/spans
