@@ -176,3 +176,44 @@ transfer:
 
 zipkin:
   endpoint: http://zipkin.bank.practicum.svc.cluster.local:9411/api/v2/spans
+
+prometheus:
+  enabled: true
+  service:
+    type: ClusterIP
+  prometheus:
+    resources:
+      requests:
+        memory: 512Mi
+        cpu: 500m
+
+grafana:
+  enabled: true
+  admin:
+    password: "password"
+  persistence:
+    enabled: true
+  service:
+    type: ClusterIP
+
+elasticsearch:
+  enabled: true
+  elasticsearch:
+    replicas: 3
+    resources:
+      requests:
+        memory: 2Gi
+        cpu: 1
+
+kibana:
+  enabled: true
+  service:
+    type: ClusterIP
+
+logstash:
+  enabled: true
+  logstash:
+    resources:
+      requests:
+        memory: 1Gi
+        cpu: 500m

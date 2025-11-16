@@ -143,13 +143,14 @@ services:
     networks:
       - monitoring-network
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
-    container_name: elasticsearch
-    environment:
-      - discovery.type=single-node
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.0
+    container_name: logstash
     ports:
-      - "9200:9200"
+      - "5000:5000"
+      - "9600:9600"
+    environment:
+      - LS_JAVA_OPTS=-Xmx512m -Xms256m
     networks:
       - elastic-network
 
