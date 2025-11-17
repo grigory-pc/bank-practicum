@@ -69,14 +69,14 @@ public class CashServiceImpl implements CashService {
     if (Boolean.FALSE.equals(account.isExists())) {
       log.warn("Аккаунт пользователя не активен");
 
-      var isOperationBlocked = blockerClient.requestBlockOperation().block();
+      var isOperationBlocked = blockerClient.requestBlockOperation(cashDto.login()).block();
 
       return Boolean.FALSE.equals(isOperationBlocked);
     } else if (account.value() < cashDto.value()) {
       log.warn("На счёте недостаточно средств для снятия. На текущем счёте: {}",
                account.value());
 
-      var isOperationBlocked = blockerClient.requestBlockOperation().block();
+      var isOperationBlocked = blockerClient.requestBlockOperation(cashDto.login()).block();
 
       return Boolean.FALSE.equals(isOperationBlocked);
     } else {

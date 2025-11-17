@@ -1,5 +1,7 @@
 package ru.practicum.bank.transfer.clients.blocker;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
@@ -14,9 +16,10 @@ public class BlockerClientImpl implements BlockerClient {
   public static final String REQUEST_BLOCKER_MESSAGE = "Отправлен запрос в микросервис Blocker";
   public static final String REQUEST_SUCCESS = "Запрос обработан успешно";
   private final WebClient webClient;
+  private final MeterRegistry meterRegistry;
 
   @Override
-  public Mono<Boolean> requestBlockOperation() {
+  public Mono<Boolean> requestBlockOperation(String login) {
     try {
       log.info(REQUEST_BLOCKER_MESSAGE);
 
@@ -27,7 +30,10 @@ public class BlockerClientImpl implements BlockerClient {
               .bodyToMono(String.class)
               .flatMap(error -> Mono.error(new WebClientHttpException(error))))
           .bodyToMono(Boolean.class)
-          .doOnSuccess(v -> log.info(REQUEST_SUCCESS))
+          .doOnSuccess(v -> {
+            meterRegistry.counter("block_operation", Tags.of("login", login)).increment();
+            log.info(REQUEST_SUCCESS);
+          })
           .doOnError(WebClientHttpException.class, ex -> log.error(BLOCKER_ERROR_MESSAGE, ex));
     } catch (WebClientHttpException e) {
       log.error(BLOCKER_ERROR_MESSAGE, e);

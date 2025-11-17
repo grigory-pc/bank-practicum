@@ -9,8 +9,9 @@ public interface BlockerClient {
 
   /**
    * Метод для запроса блокировки.
+   * @param login - логин пользователя, для которого заблокирована операция.
    *
    * @return возвращает результата блокировки (true или false).
    */
-  Mono<Boolean> requestBlockOperation();
+  Mono<Boolean> requestBlockOperation(String login);
 }

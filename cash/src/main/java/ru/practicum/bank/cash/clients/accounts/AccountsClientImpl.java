@@ -1,5 +1,7 @@
 package ru.practicum.bank.cash.clients.accounts;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
@@ -18,6 +20,7 @@ public class AccountsClientImpl implements AccountsClient {
   public static final String REQUEST_ACCOUNTS_MESSAGE = "Отправлен запрос в микросервис Accounts";
   public static final String REQUEST_SUCCESS = "Запрос обработан успешно";
   private final WebClient webClient;
+  private final MeterRegistry meterRegistry;
 
   @Override
   public Mono<AccountsDto> requestGetAccount(String login, String currency) {
@@ -60,7 +63,11 @@ public class AccountsClientImpl implements AccountsClient {
               .flatMap(error -> Mono.error(new WebClientHttpException(error))))
           .bodyToMono(Void.class)
           .doOnSuccess(v -> log.info(REQUEST_SUCCESS))
-          .doOnError(WebClientHttpException.class, ex -> log.error(ACCOUNT_ERROR_MESSAGE, ex));
+          .doOnError(WebClientHttpException.class, ex -> {
+            meterRegistry.counter("cash_error", Tags.of(accountsDto.userId().toString()))
+                         .increment();
+            log.error(ACCOUNT_ERROR_MESSAGE, ex);
+          });
     } catch (WebClientHttpException e) {
       log.error(ACCOUNT_ERROR_MESSAGE, e);
       throw e;

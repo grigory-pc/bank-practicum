@@ -35,7 +35,7 @@ public class TransferServiceImpl implements TransferService {
       log.warn("Получен запрос на перевод средств на свой аккаунт в той же валюте: {}",
                transferDto.fromCurrency());
 
-      blockOperation();
+      blockOperation(transferDto.login());
 
       return;
     }
@@ -47,7 +47,7 @@ public class TransferServiceImpl implements TransferService {
       log.warn("На счёте недостаточно средств для снятия. На текущем счёте: {}",
                fromAccount.value());
 
-      blockOperation();
+      blockOperation(transferDto.login());
 
       return;
     }
@@ -69,10 +69,10 @@ public class TransferServiceImpl implements TransferService {
     kafkaService.sendMessage(transferDto);
   }
 
-  private void blockOperation() {
+  private void blockOperation(String login) {
     log.info("Отправляется запрос в сервис блокировки");
 
-    var isOperationBlocked = blockerClient.requestBlockOperation().block();
+    var isOperationBlocked = blockerClient.requestBlockOperation(login).block();
 
     if (Boolean.TRUE.equals(isOperationBlocked)) {
       log.info("Операция заблокирована");

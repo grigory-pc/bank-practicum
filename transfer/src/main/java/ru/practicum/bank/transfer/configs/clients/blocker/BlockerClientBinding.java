@@ -1,5 +1,6 @@
 package ru.practicum.bank.transfer.configs.clients.blocker;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,8 @@ public class BlockerClientBinding {
   }
 
   @Bean
-  public BlockerClient blockerClient(@Qualifier(BLOCKER_WEB_CLIENT) WebClient webClient) {
-    return new BlockerClientImpl(webClient);
+  public BlockerClient blockerClient(@Qualifier(BLOCKER_WEB_CLIENT) WebClient webClient,
+                                     MeterRegistry meterRegistry) {
+    return new BlockerClientImpl(webClient, meterRegistry);
   }
 }
