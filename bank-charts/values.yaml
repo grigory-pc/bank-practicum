@@ -1,6 +1,27 @@
 global:
   domain: bank.practicum.local
+  kafka:
+    bootstrapServers: "kafka-headless.default.svc.cluster.local:9092"
+    topic: "apache-logs"
+    groupId: "logstash-group"
+    autoOffsetReset: "earliest"
 
+  elasticsearch:
+    hosts:
+      - "http://{{ .Release.Name }}-elasticsearch:9200"
+    indexPrefix: "apache-logs-%{+YYYY.MM.dd}"
+
+  logstash:
+    image:
+      repository: docker.elastic.co/logstash/logstash
+      tag: 8.11.1
+    resources:
+      requests:
+        memory: "512Mi"
+        cpu: "500m"
+      limits:
+        memory: "1Gi"
+        cpu: "1"
 # Configuration for the kafka subchart
 kafka:
   enabled: true
@@ -29,6 +50,8 @@ front-ui:
         paths:
           - path: /
             pathType: ImplementationSpecific
+  kafka:
+    bootstrapServers: "kafka-headless.default.svc.cluster.local:9092"
 
 # Configuration for the accounts service subchart
 accounts:
@@ -117,7 +140,8 @@ blocker:
   service:
     type: ClusterIP
     port: 8082
-
+  kafka:
+    bootstrapServers: "kafka-headless.default.svc.cluster.local:9092"
 # Configuration for the cash service subchart
 cash:
   replicaCount: 1
@@ -199,7 +223,7 @@ grafana:
 elasticsearch:
   enabled: true
   elasticsearch:
-    replicas: 3
+    replicas: 1
     resources:
       requests:
         memory: 2Gi

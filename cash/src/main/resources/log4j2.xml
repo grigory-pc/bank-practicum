@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Kafka name="Kafka" topic="bank-logs">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level: %msg%n"/>
+            <Property name="bootstrap.servers">${KAFKA_BOOTSTRAP_SERVERS}</Property>
+        </Kafka>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Kafka"/>
+        </Root>
+        <Logger name="org.apache.kafka" level="INFO" >
+            <AppenderRef ref="Console"/>
+        </Logger>
+    </Loggers>
+</Configuration>

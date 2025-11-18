@@ -11,6 +11,6 @@ data:
   {{ $key }}: {{ $value | quote }}
   {{- end }}
 
-  KAFKA_BOOTSTRAP_SERVERS: { { .Values.config.kafka.bootstrapServers | quote } }
-  KAFKA_CLIENT_ID: { { .Values.config.kafka.clientId | quote } }
-  KAFKA_TOPIC_OUT_RATE: { { .Values.config.kafka.topicOutRate | quote } }
+  KAFKA_BOOTSTRAP_SERVERS: {{ .Values.config.kafka.bootstrapServers | quote }}
+  KAFKA_CLIENT_ID: {{ .Values.config.kafka.clientId | quote }}
+  KAFKA_TOPIC_OUT_RATE: {{ .Values.config.kafka.topicOutRate | quote }}
