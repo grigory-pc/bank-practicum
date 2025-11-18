@@ -1,6 +1,7 @@
 package ru.practicum.bank.exchange.generator.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class KafkaServiceImpl implements KafkaService {
       = "Сообщение не доставлено в топик %s: {%s}";
   private final KafkaTemplate<String, String> kafkaTemplate;
   private final KafkaConfig kafkaConfig;
+  private final MeterRegistry meterRegistry;
 
   @Override
   public void sendMessage(List<RateDto> rates) {
@@ -33,6 +35,7 @@ public class KafkaServiceImpl implements KafkaService {
 
         log.info("В кафка отправлено сообщение с keyId = {}", keyId);
       } catch (Exception e) {
+        meterRegistry.counter("update_rate_error").increment();
         throw new KafkaException(MESSAGE_NOT_DELIVERED_FORMAT.formatted(topic, e.getMessage()));
       }
     }
