@@ -1,0 +1,34 @@
+image:
+  repository: grafana/grafana
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 3000
+
+admin:
+  password: "admin"
+
+global:
+  namespace: monitoring
+  imagePullSecrets:
+    - name: regsecret
+  replicas: 1
+  resources:
+    limits:
+      cpu: 200m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+dashboards:
+  provided:
+    http-metrics:
+      gnetId: null
+      revision: 1
+      path: dashboards/http-metrics.json
+    jvm-metrics:
+      gnetId: null
+      revision: 1
+      path: dashboards/jvm-metrics.json
