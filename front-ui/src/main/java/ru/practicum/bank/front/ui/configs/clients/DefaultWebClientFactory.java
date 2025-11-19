@@ -1,5 +1,6 @@
 package ru.practicum.bank.front.ui.configs.clients;
 
+import io.micrometer.observation.ObservationRegistry;
 import io.netty.channel.ChannelOption;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -24,11 +25,13 @@ public class DefaultWebClientFactory {
    * @return Сконфигурированный HTTP-клиент для использования при выполнении запросов.
    * @throws NegativeDurationException Если переданы отрицательные значения таймаутов.
    */
-  public static WebClient getClient(int connectTimeoutMs, long responseTimeoutMs, String baseUrl)
+  public static WebClient getClient(int connectTimeoutMs, long responseTimeoutMs, String baseUrl,
+                                    ObservationRegistry observationRegistry)
       throws NegativeDurationException {
 
     return configureWebClientBuilder(connectTimeoutMs, responseTimeoutMs)
         .baseUrl(baseUrl)
+        .observationRegistry(observationRegistry)
         .build();
   }
 

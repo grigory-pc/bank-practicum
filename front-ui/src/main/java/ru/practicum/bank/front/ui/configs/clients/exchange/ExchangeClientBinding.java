@@ -1,5 +1,6 @@
 package ru.practicum.bank.front.ui.configs.clients.exchange;
 
+import io.micrometer.observation.ObservationRegistry;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +15,11 @@ public class ExchangeClientBinding {
   public static final String EXCHANGE_GENERATOR_WEB_CLIENT = "ExchangeGeneratorWebClient";
 
   @Bean(EXCHANGE_GENERATOR_WEB_CLIENT)
-  public WebClient getExchangeGeneratorWebClient(ExchangeClientProps props)
+  public WebClient getExchangeGeneratorWebClient(ExchangeClientProps props,
+                                                 ObservationRegistry observationRegistry)
       throws NegativeDurationException {
     return DefaultWebClientFactory.getClient(props.connectTimeoutMs(), props.responseTimeoutMs(),
-                                             props.baseUrl());
+                                             props.baseUrl(), observationRegistry);
   }
 
   @Bean

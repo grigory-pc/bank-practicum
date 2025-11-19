@@ -1,5 +1,6 @@
 package ru.practicum.bank.front.ui.configs.clients.transfer;
 
+import io.micrometer.observation.ObservationRegistry;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +15,11 @@ public class TransferClientBinding {
   public static final String TRANSFER_WEB_CLIENT = "TransferWebClient";
 
   @Bean(TRANSFER_WEB_CLIENT)
-  public WebClient getTransferWebClient(TransferClientProps props)
+  public WebClient getTransferWebClient(TransferClientProps props,
+                                        ObservationRegistry observationRegistry)
       throws NegativeDurationException {
     return DefaultWebClientFactory.getClient(props.connectTimeoutMs(), props.responseTimeoutMs(),
-                                             props.baseUrl());
+                                             props.baseUrl(), observationRegistry);
   }
 
   @Bean
