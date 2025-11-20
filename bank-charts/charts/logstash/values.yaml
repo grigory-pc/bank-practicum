@@ -1,0 +1,20 @@
+logstash:
+  kafka:
+    bootstrap_servers: {{ .Values.global.kafka.bootstrapServers | quote }}
+    topics: ["logs-topic"]
+    group_id: "logstash-group"
+
+  elasticsearch:
+    hosts: ["http://elasticsearch-client:9200"]
+    index: "logs-%{+YYYY.MM.dd}"
+
+  filters:
+    grok_patterns:
+      - "%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:level} %{DATA:logger} %{GREEDYDATA:message}"
+    fields:
+      - duration
+      - user_id
+      - account_number
+    masking:
+      account_number: true
+      password: true

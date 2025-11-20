@@ -21,3 +21,5 @@ data:
   CLIENT_TRANSFER_URL: {{ .Values.config.transfer_url | quote }}
   #URL exchange service
   CLIENT_EXCHANGE_URL: {{ .Values.config.exchange_url | quote }}
+
+  KAFKA_BOOTSTRAP_SERVERS: {{ .Values.config.kafka.bootstrapServers | quote }}

@@ -1,0 +1,74 @@
+server:
+  global:
+    scrape_interval: 30s
+    evaluation_interval: 30s
+    scrape_timeout: 10s
+
+  scrape_configs:
+    - job_name: 'prometheus'
+      static_configs:
+        - targets: ['http://localhost:9090']
+
+    - job_name: 'front-ui'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['front-ui.bank.practicum.local:8080']
+          labels:
+            application: 'front-ui'
+
+    - job_name: 'accounts'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['accounts.bank.practicum.local:8081']
+          labels:
+            application: 'accounts'
+
+    - job_name: 'blocker'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['blocker.bank.practicum.local:8082']
+          labels:
+            application: 'blocker'
+
+    - job_name: 'cash'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['cash.bank.practicum.local:8083']
+          labels:
+            application: 'cash'
+
+    - job_name: 'exchange'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['exchange.bank.practicum.local:8084']
+          labels:
+            application: 'exchange'
+
+    - job_name: 'exchange-generator'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['exchange-generator.bank.practicum.local:8085']
+          labels:
+            application: 'exchange-generator'
+
+    - job_name: 'notifications'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['notifications.bank.practicum.local:8086']
+          labels:
+            application: 'notifications'
+
+    - job_name: 'transfer'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['transfer.bank.practicum.local:8087']
+          labels:
+            application: 'transfer'

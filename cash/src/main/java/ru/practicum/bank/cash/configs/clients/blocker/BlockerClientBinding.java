@@ -1,5 +1,7 @@
 package ru.practicum.bank.cash.configs.clients.blocker;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.observation.ObservationRegistry;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,14 +16,16 @@ public class BlockerClientBinding {
   public static final String BLOCKER_WEB_CLIENT = "BlockerWebClient";
 
   @Bean(BLOCKER_WEB_CLIENT)
-  public WebClient getBlockerWebClient(BlockerClientProps props)
+  public WebClient getBlockerWebClient(BlockerClientProps props,
+                                       ObservationRegistry observationRegistry)
       throws NegativeDurationException {
     return DefaultWebClientFactory.getClient(props.connectTimeoutMs(), props.responseTimeoutMs(),
-                                             props.baseUrl());
+                                             props.baseUrl(), observationRegistry);
   }
 
   @Bean
-  public BlockerClient blockerClient(@Qualifier(BLOCKER_WEB_CLIENT) WebClient webClient) {
-    return new BlockerClientImpl(webClient);
+  public BlockerClient blockerClient(@Qualifier(BLOCKER_WEB_CLIENT) WebClient webClient,
+                                     MeterRegistry meterRegistry) {
+    return new BlockerClientImpl(webClient, meterRegistry);
   }
 }

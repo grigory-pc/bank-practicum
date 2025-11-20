@@ -1,5 +1,6 @@
 package ru.practicum.bank.front.ui.configs.clients.accounts;
 
+import io.micrometer.observation.ObservationRegistry;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +16,11 @@ public class AccountsClientBinding {
 
 
   @Bean(ACCOUNTS_WEB_CLIENT)
-  public WebClient getAccountsWebClient(AccountsClientProps props)
+  public WebClient getAccountsWebClient(AccountsClientProps props,
+                                        ObservationRegistry observationRegistry)
       throws NegativeDurationException {
     return DefaultWebClientFactory.getClient(props.connectTimeoutMs(), props.responseTimeoutMs(),
-                                             props.baseUrl());
+                                             props.baseUrl(), observationRegistry);
   }
 
   @Bean

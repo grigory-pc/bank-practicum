@@ -1,0 +1,7 @@
+storageType: mem
+cassandra:
+  enabled: false
+service:
+  type: NodePort
+  nodePorts:
+    http: 30000

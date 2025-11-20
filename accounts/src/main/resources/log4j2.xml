@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Kafka name="Kafka" topic="bank-logs">
+            <JsonTemplateLayout>
+                <EventTemplateUri>classpath:log4j-event.json.ftl</EventTemplateUri>
+            </JsonTemplateLayout>
+            <Property name="bootstrap.servers">${KAFKA_BOOTSTRAP_SERVERS}</Property>
+        </Kafka>
+
+        <Console name="Console">
+            <JsonTemplateLayout>
+                <EventTemplateUri>classpath:log4j-event.json.ftl</EventTemplateUri>
+            </JsonTemplateLayout>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Kafka"/>
+        </Root>
+
+        <Logger name="org.apache.kafka" level="INFO">
+            <AppenderRef ref="Console"/>
+        </Logger>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,27 @@
+{
+  "annotations": {},
+  "editable": true,
+  "gnetId": null,
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Memory Usage",
+      "targets": [
+        {
+          "expr": "jvm_memory_used_bytes / jvm_memory_max_bytes * 100",
+          "legendFormat": "Memory Usage (%)"
+        }
+      ]
+    },
+    {
+      "type": "graph",
+      "title": "CPU Usage",
+      "targets": [
+        {
+          "expr": "100 - (avg by (instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[1m])) * 100)",
+          "legendFormat": "CPU Usage (%)"
+        }
+      ]
+    }
+  ]
+}

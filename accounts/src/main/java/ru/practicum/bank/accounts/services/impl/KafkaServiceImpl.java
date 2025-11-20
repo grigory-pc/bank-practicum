@@ -1,6 +1,8 @@
 package ru.practicum.bank.accounts.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ public class KafkaServiceImpl implements KafkaService {
   private static final String USER_NOTIFICATION = "user_notification_";
   private final KafkaTemplate<String, String> kafkaTemplate;
   private final KafkaConfig kafkaConfig;
+  private final MeterRegistry meterRegistry;
 
   @Override
   public void sendMessage(UserNotifyDto userNotifyDto) {
@@ -35,6 +38,7 @@ public class KafkaServiceImpl implements KafkaService {
 
         log.info("В кафка отправлено сообщение с keyId = {}", keyId);
       } catch (Exception e) {
+        meterRegistry.counter("notification_error", Tags.of(userNotifyDto.getLogin())).increment();
         throw new KafkaException(MESSAGE_NOT_DELIVERED_FORMAT.formatted(topic, e.getMessage()));
       }
     }

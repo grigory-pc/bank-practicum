@@ -1,5 +1,7 @@
 package ru.practicum.bank.transfer.clients.accounts;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ public class AccountsClientImpl implements AccountsClient {
   public static final String REQUEST_ACCOUNTS_MESSAGE = "Отправлен запрос в микросервис Accounts";
   public static final String REQUEST_SUCCESS = "Запрос обработан успешно";
   private final WebClient webClient;
+  private final MeterRegistry meterRegistry;
 
   @Override
   public Mono<AccountsDto> requestGetAccount(String login, String currency) {
@@ -64,11 +67,17 @@ public class AccountsClientImpl implements AccountsClient {
                      .bodyToMono(Void.class)
                      .doOnSuccess(v -> log.info("Успешно обновлен аккаунт: {}", account))
                      .doOnError(WebClientHttpException.class,
-                                ex -> log.error(ACCOUNT_ERROR_MESSAGE, ex))
+                                ex -> {
+                                  meterRegistry.counter("transfer_error", Tags.of("login",
+                                                                                  account.userId()
+                                                                                         .toString()))
+                                               .increment();
+                                  log.error(ACCOUNT_ERROR_MESSAGE, ex);
+                                })
                  )
                  .doOnComplete(() -> log.info("Все аккаунты успешно обновлены"))
-                 .doOnError(WebClientHttpException.class,
-                            ex -> log.error(ACCOUNT_ERROR_MESSAGE, ex));
+                 .doOnError(WebClientHttpException.class, ex ->
+                     log.error(ACCOUNT_ERROR_MESSAGE, ex));
     } catch (WebClientHttpException e) {
       log.error(ACCOUNT_ERROR_MESSAGE, e);
       throw e;

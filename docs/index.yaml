@@ -12,5 +12,5 @@ entries:
     name: bank-charts
     urls:
     - https://github.com/grigory-pc/bank-practicum/tree/feat/sprint_10/add_helm/docs/bank-charts-1.0.1.tgz
-    version: 1.0.1
+    version: 1.0.0
 generated: "2025-10-14T01:39:29.7193112+03:00"

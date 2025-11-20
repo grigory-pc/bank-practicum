@@ -99,3 +99,6 @@ config:
   cash_url: "http://cash/cash"
   transfer_url: "http://transfer/transfer"
   exchange_url: "http://exchange/rates"
+
+kafka:
+  bootstrapServers: ""

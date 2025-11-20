@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-logstash-config
+  labels:
+    app: logstash
+data:
+  logstash.conf: |
+    input {
+      kafka {
+        bootstrap_servers => "{{ .Values.global.kafka.bootstrapServers }}"
+        topics => ["{{ .Values.global.kafka.topic }}"]
+        group_id => "{{ .Values.global.kafka.groupId }}"
+        auto_offset_reset => "{{ .Values.global.kafka.autoOffsetReset }}"
+      }
+    }
+    
+    filter {
+      grok {
+        match => { "message" => "%{COMMONAPACHELOG}" }
+      }
+    
+      mutate {
+        gsub => [
+          "password", "(\d{4})\d{4}", "\1****",
+        ]
+      }
+    
+      date {
+        match => [ "timestamp", "dd/MMM/yyyy:HH:mm:ss Z" ]
+      }
+    }
+    
+    output {
+      elasticsearch {
+        hosts => [ "{{ .Values.global.elasticsearch.hosts }}" ]
+        index => "{{ .Values.global.elasticsearch.indexPrefix }}"
+        document_type => "_doc"
+      }
+    }
