@@ -24,6 +24,10 @@ repositories {
     mavenCentral()
 }
 
+configurations.all {
+    exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+}
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
